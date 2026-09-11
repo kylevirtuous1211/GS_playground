@@ -38,6 +38,8 @@ export CUDA_HOME="$_GSP_PREFIX"
 export CPATH="$_GSP_PREFIX/targets/x86_64-linux/include${CPATH:+:$CPATH}"
 export LIBRARY_PATH="$_GSP_PREFIX/targets/x86_64-linux/lib${LIBRARY_PATH:+:$LIBRARY_PATH}"
 export PIP_CONFIG_FILE="$_GSP_ROOT/tools/setup/pip.conf"
-export PYTHONPATH="$_GSP_ROOT/third_party/clones/puffin/Puffin-World${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONPATH="$_GSP_ROOT/third_party/clones/puffin/Puffin-World:$_GSP_ROOT/third_party/clones/trellis2${PYTHONPATH:+:$PYTHONPATH}"
+# TRELLIS.2 sparse backends: spconv wheel is installed; flex_gemm is not built
+export SPARSE_CONV_BACKEND="${SPARSE_CONV_BACKEND:-spconv}"
 # machine-local settings (untracked); currently just GS_PLAYGROUND_DATA
 [ -f "$_GSP_ROOT/.env.local" ] && . "$_GSP_ROOT/.env.local"
