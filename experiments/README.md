@@ -16,6 +16,8 @@ It is not allowed to be the place a model or a dataset is defined.
 | E01 | `puffin-world-repro` | does Stage I alignment train at the 1.5B size on one 48GB card? | not yet run |
 | E02 | `puffin-world-repro` | do the released Pro weights run end-to-end locally? | **pass** (prereg criterion 1 mis-calibrated; see LOG) |
 | E03 | `puffin-gsvoxel` | does the fitting-free voxelizer hold on indoor scenes? | **pass**: 34.51 dB / 0.987 SSIM over 12 scenes |
+| E04 | `puffin-gsvoxel` | can the two-branch sparse VAE represent this data at all? | **pass**: overfit IoU 1.0, 31.37 dB vs bars 0.95 / 25 |
+| E05a | `puffin-gsvoxel` | does held-out recon improve from N=3 to N=10 scenes? | running |
 
 ## Studies
 
