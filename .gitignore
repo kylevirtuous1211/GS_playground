@@ -28,3 +28,4 @@ __pycache__/
 # Editors / OS
 .DS_Store
 *.swp
+envs/

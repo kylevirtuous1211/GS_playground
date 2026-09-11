@@ -1,7 +1,13 @@
 # GS_playground
 
 Camera-centric 3D world generation.
-Two threads: reproduce **Puffin-World** training from scratch, then ask whether its native-3D-world-state formulation buys anything when the appearance stream is 3D Gaussian Splatting rather than a multi-view diffusion transformer.
+Two threads.
+Reproduce **Puffin-World** training from scratch, then ask whether its world-state conditioning can be carried into a **GS-Voxel**-style structured 3DGS latent: `text/image -> spatial latent -> persistent 3DGS`.
+
+The second thread exists because the two methods fail in complementary places.
+Puffin-World has no persistent 3D representation - its "world" is a point cloud fused from per-view depth by a scale-gauge solver at inference.
+GS-Voxel has the representation and essentially no camera conditioning.
+The design record, including the three gaps that have to be closed first, is in [`experiments/puffin-gsvoxel/`](experiments/puffin-gsvoxel/README.md).
 
 ## The finding
 

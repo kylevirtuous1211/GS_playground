@@ -20,3 +20,4 @@ It is not allowed to be the place a model or a dataset is defined.
 | study | question |
 |---|---|
 | [`puffin-world-repro`](puffin-world-repro/) | Can Puffin-World be trained from scratch here, and does the four-stage recipe hold at the 1.5B size? |
+| [`puffin-gsvoxel`](puffin-gsvoxel/) | Can Puffin-World's world-state conditioning be carried into a GS-Voxel-style structured 3DGS latent? Design record; no runners until the reproduce lands. |
