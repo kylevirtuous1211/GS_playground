@@ -14,6 +14,7 @@ It is not allowed to be the place a model or a dataset is defined.
 |---|---|---|---|
 | E00 | - | repository layout | done, see `LOG.md` |
 | E01 | `puffin-world-repro` | does Stage I alignment train at the 1.5B size on one 48GB card? | not yet run |
+| E02 | `puffin-world-repro` | do the released Pro weights run end-to-end locally? | **pass** (prereg criterion 1 mis-calibrated; see LOG) |
 
 ## Studies
 
