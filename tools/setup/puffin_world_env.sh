@@ -61,8 +61,15 @@ pip install -r "$REQ"
 # 4. flash-attn, compiled against the torch above (slow: tens of minutes)
 MAX_JOBS="${MAX_JOBS:-16}" pip install flash-attn==2.8.3 --no-build-isolation
 
-# 5. this repo's library, so runners can `import gs_playground`
+# 5. mmengine's lazy-import config parser calls pkg_resources, removed in
+# setuptools>=81; upstream's own train.py cannot load a config without it.
+pip install "setuptools<81"
+
+# 6. this repo's library, so runners can `import gs_playground`
 pip install -e "$ROOT"
+
+# compat fixes to site-packages (upstream's pins are mutually incompatible)
+bash "$ROOT/tools/setup/fix_env_compat.sh"
 
 # upstream's own sanity check
 cd "$UP" && PYTHONPATH=./:${PYTHONPATH:-} python -c \
