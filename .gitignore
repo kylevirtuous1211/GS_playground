@@ -1,0 +1,30 @@
+# Anchored root-level exclusions, so committed results survive.
+/*.png
+/*.csv
+/*.json
+!results/
+!results/**
+
+# Whole trees, by prefix -- contents ignored, the README that explains them kept.
+outputs/*
+!outputs/README.md
+data/*
+!data/README.md
+third_party/clones/*
+!third_party/clones/README.md
+
+debug*
+scratch*
+work_dirs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Editors / OS
+.DS_Store
+*.swp

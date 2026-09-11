@@ -1,0 +1,20 @@
+[project]
+name = "gs-playground"
+version = "0.0.0"
+description = "Camera-centric 3D world generation: Puffin-World from scratch, and its world-state idea carried into 3DGS."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+# The heavy stack (torch/deepspeed/flash-attn) is NOT declared here: it is
+# pinned by third_party/clones/puffin/Puffin-World/requirements.txt and built
+# by tools/setup/puffin_world_env.sh, because flash-attn must compile against
+# an already-installed torch. Only repo-local analysis deps go here.
+report = ["pandas>=2.0", "matplotlib>=3.8"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
