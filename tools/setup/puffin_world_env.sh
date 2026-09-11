@@ -47,7 +47,16 @@ pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 \
     --index-url https://download.pytorch.org/whl/cu126
 
 # 3. upstream's pinned deps (transformers/deepspeed/xtuner/diffusers/...)
-pip install -r "$UP/requirements.txt"
+#
+# requirements.txt is a pip freeze taken on the authors' internal cluster and
+# pins petrel-oss-sdk, their object-store SDK, which exists on no public index.
+# Drop it here rather than patching upstream; src/aoss_client/ supplies a
+# filesystem-backed stand-in for the import that needs it.
+REQ="$PREFIX/requirements.local.txt"
+grep -vE '^(petrel-oss-sdk|aoss-client)\b' "$UP/requirements.txt" > "$REQ"
+echo "== dropped from requirements.txt:"
+grep -nE '^(petrel-oss-sdk|aoss-client)\b' "$UP/requirements.txt" || echo "   (none)"
+pip install -r "$REQ"
 
 # 4. flash-attn, compiled against the torch above (slow: tens of minutes)
 MAX_JOBS="${MAX_JOBS:-16}" pip install flash-attn==2.8.3 --no-build-isolation
