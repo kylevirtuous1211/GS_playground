@@ -21,9 +21,16 @@ _GSP_PREFIX="$_GSP_ROOT/envs/puffin-world-$_GSP_SHA-py310-cu126"
     return 1 2>/dev/null || exit 1
 }
 
+# Both the micromamba shell hook and cuda-toolkit's activate.d scripts read
+# variables unguarded (MAMBA_ROOT_PREFIX, NVCC_PREPEND_FLAGS), so activation
+# dies under a caller's `set -u`. Suspend nounset for the activation only and
+# restore the caller's setting after.
 export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+case $- in *u*) _GSP_HAD_NOUNSET=1;; *) _GSP_HAD_NOUNSET=0;; esac
+set +u
 eval "$(micromamba shell hook --shell bash)"
 micromamba activate "$_GSP_PREFIX"
+[ "$_GSP_HAD_NOUNSET" = 1 ] && set -u
 
 export CUDA_HOME="$_GSP_PREFIX"
 export PIP_CONFIG_FILE="$_GSP_ROOT/tools/setup/pip.conf"
