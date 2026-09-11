@@ -33,6 +33,10 @@ micromamba activate "$_GSP_PREFIX"
 [ "$_GSP_HAD_NOUNSET" = 1 ] && set -u
 
 export CUDA_HOME="$_GSP_PREFIX"
+# conda's cuda-toolkit keeps headers/libs under targets/; nvcc knows, but the
+# host compiler steps of torch JIT extensions (gsplat) do not
+export CPATH="$_GSP_PREFIX/targets/x86_64-linux/include${CPATH:+:$CPATH}"
+export LIBRARY_PATH="$_GSP_PREFIX/targets/x86_64-linux/lib${LIBRARY_PATH:+:$LIBRARY_PATH}"
 export PIP_CONFIG_FILE="$_GSP_ROOT/tools/setup/pip.conf"
 export PYTHONPATH="$_GSP_ROOT/third_party/clones/puffin/Puffin-World${PYTHONPATH:+:$PYTHONPATH}"
 # machine-local settings (untracked); currently just GS_PLAYGROUND_DATA
