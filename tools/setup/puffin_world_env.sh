@@ -68,6 +68,13 @@ pip install "setuptools<81"
 # 6. this repo's library, so runners can `import gs_playground`
 pip install -e "$ROOT"
 
+# gsplat's example trainer (DL3DV reconstruction) needs these beyond the lib
+pip install gsplat plyfile spconv-cu126 tyro nerfview splines tensorboard
+# gsplat examples need rmbrualla's pycolmap (SceneManager API), NOT the
+# official COLMAP bindings that share the name on PyPI
+pip install "git+https://github.com/rmbrualla/pycolmap@cc7ea4b7301720ac29287dbe450952511b32125e"
+# fused-ssim's setup.py imports torch, so build isolation must be off
+pip install --no-build-isolation "git+https://github.com/rahul-goel/fused-ssim@328dc9836f513d00c4b5bc38fe30478b4435cbb5"
 # compat fixes to site-packages (upstream's pins are mutually incompatible)
 bash "$ROOT/tools/setup/fix_env_compat.sh"
 

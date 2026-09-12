@@ -39,3 +39,13 @@ PY
 else
     echo "already patched: $F"
 fi
+
+# -- 2. rmbrualla/pycolmap (gsplat's data parser) predates numpy 2:
+#       np.uint64(-1) raises OverflowError there instead of wrapping.
+F="$SITE/pycolmap/scene_manager.py"
+if [ -f "$F" ] && grep -q "np.uint64(-1)" "$F"; then
+    sed -i 's/np.uint64(-1)/np.uint64(0xFFFFFFFFFFFFFFFF)/' "$F"
+    echo "patched $F (numpy 2 uint64 overflow)"
+else
+    echo "already patched or absent: $F"
+fi

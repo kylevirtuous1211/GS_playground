@@ -19,7 +19,7 @@ Each patch is one commit with a one-line reason, and it appears in the table bel
 
 | patch | applies to | why |
 |---|---|---|
-| _(none yet)_ | | |
+| `gsplat_datasets_pkg.patch` | gsplat v1.5.3 | adds `examples/datasets/__init__.py`: as a namespace package it loses to the installed HF `datasets` package (regular packages beat namespace packages regardless of sys.path order), so `from datasets.colmap import ...` imports the wrong module |
 
 Regenerate a patch after editing a clone:
 
