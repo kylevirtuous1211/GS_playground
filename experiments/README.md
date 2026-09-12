@@ -18,8 +18,8 @@ It is not allowed to be the place a model or a dataset is defined.
 | E03 | `puffin-gsvoxel` | does the fitting-free voxelizer hold on indoor scenes? | **pass**: 34.51 dB / 0.987 SSIM over 12 scenes |
 | E04 | `puffin-gsvoxel` | can the two-branch sparse VAE represent this data at all? | **pass**: overfit IoU 1.0, 31.37 dB vs bars 0.95 / 25 |
 | E05a | `puffin-gsvoxel` | does held-out recon improve from N=3 to N=10 scenes? | **yes**: +1.36 dB held-out (bar +0.5) |
-| E04b | `puffin-gsvoxel` | chamfer vs ordered direct loss | running |
-| E06 | `puffin-gsvoxel` | what do the latents linearly encode? | queued |
+| E04b | `puffin-gsvoxel` | chamfer vs ordered direct loss | **negative**: ordered wins by 0.78 dB, stays default |
+| E06 | `puffin-gsvoxel` | what do the latents linearly encode? | **done**: occupancy strongly, colour partly; factorisation clean; gravity + semantics not linearly present |
 
 ## Studies
 
