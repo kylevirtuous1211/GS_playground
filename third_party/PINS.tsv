@@ -2,3 +2,4 @@ name	url	commit	subdir	notes
 puffin	https://github.com/kylevirtuous1211/Puffin_KYLE.git	c6d9ae5e63bc79d5d01554235b7c1d3772c327c8	Puffin-World	fork of KangLiao929/Puffin; Puffin-World is the subproject we train
 trellis2	https://github.com/microsoft/TRELLIS.2.git	75fbf0183001ed9876c8dbb35de6b68552ee08bd	o-voxel	GS-Voxel has no code; o-voxel is its serialisation layer, and the sparse VAE architecture is the reference
 gsplat	https://github.com/nerfstudio-project/gsplat.git	937e29912570c372bed6747a5c9bf85fed877bae	examples	pinned to v1.5.3 to match the installed wheel; HEAD examples use gsplat.losses which the wheel lacks
+trellis	https://github.com/microsoft/TRELLIS.git	442aa1e1afb9014e80681d3bf604e8d728a86ee7	.	E07 stress test: the only public learned 3D generator that emits 3DGS; object-level by its own README
