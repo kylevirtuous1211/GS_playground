@@ -9,6 +9,7 @@ A row belongs here only when the demo opens and shows a **comparison**: the meth
 |---|---|---|---|---|
 | E07 scene gap | TRELLIS run on ten real DL3DV rooms, three conditioning modes, each generation beside the photo it came from | `python -m http.server -d outputs/puffin-gsvoxel/e07_scene_gap/viewer` | `gs_playground.gsvoxel.e07_viewer_assets` (assets only; its `index.html` was hand-written and is **not** reproducible) | `LOG.md` E07 |
 | E08b WorldGrow | six generated worlds from 3 m to 9 m of floor, orbiting together, beside a real DL3DV interior rendered from its own cameras | `python -m http.server -d outputs/sota-gs/e08b_worldgrow/viewer` | `gs_playground.sota.e08b_demo` | `LOG.md` E08b |
+| E08c WorldSculpt | a Marble living room taken apart into 13 object meshes, each view beside the frame it came from; the room's walls and floor are visibly absent | `python -m http.server -d outputs/sota-gs/e08c_worldsculpt/viewer` | `gs_playground.sota.e08c_demo` | `LOG.md` E08c |
 
 ## Rebuilding a viewer
 

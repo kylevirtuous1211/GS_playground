@@ -1,0 +1,23 @@
+diff --git a/pixal3d/pipelines/pixal3d_image_to_3d.py b/pixal3d/pipelines/pixal3d_image_to_3d.py
+index 7129482..ae69c00 100755
+--- a/pixal3d/pipelines/pixal3d_image_to_3d.py
++++ b/pixal3d/pipelines/pixal3d_image_to_3d.py
+@@ -120,7 +120,17 @@ class Pixal3DImageTo3DPipeline(Pipeline):
+         pipeline.image_cond_model_shape_1024 = None
+         pipeline.image_cond_model_tex_1024 = None
+ 
+-        pipeline.rembg_model = getattr(rembg, args['rembg_model']['name'])(**args['rembg_model']['args'])
++        # GS_playground: the background remover is briaai/RMBG-2.0, a gated
++        # HuggingFace repo. The scene pipeline never calls it -- crops already
++        # carry alpha from the dataset's instance masks -- so a missing model
++        # must not stop the pipeline from loading. Anything that does call it
++        # fails loudly on the None instead.
++        try:
++            pipeline.rembg_model = getattr(rembg, args['rembg_model']['name'])(**args['rembg_model']['args'])
++        except Exception as exc:  # noqa: BLE001
++            print(f'[pixal3d] rembg unavailable ({type(exc).__name__}); '
++                  f'background removal disabled')
++            pipeline.rembg_model = None
+         
+         pipeline.low_vram = args.get('low_vram', True)
+         pipeline.default_pipeline_type = args.get('default_pipeline_type', '1024_cascade')
