@@ -62,6 +62,40 @@ echo "== natten 0.21.0 (compiles, slow)"
 NATTEN_CUDA_ARCH="$ARCH" NATTEN_N_WORKERS="${NATTEN_N_WORKERS:-8}" \
     python -m pip install "natten==0.21.0" --no-build-isolation
 
+# WorldSculpt's README lists none of these, because it says "follow the
+# TRELLIS.2 installation guide" and they live there. The vendored `pixal3d`
+# package imports all of them: cumesh and o_voxel at module load, nvdiffrast
+# for rendering. Missing cumesh is what the first run here died on, three
+# stages into the pipeline.
+export TORCH_CUDA_ARCH_LIST="${TORCH_CUDA_ARCH_LIST:-$ARCH}"
+export MAX_JOBS="${MAX_JOBS:-16}"
+
+EXT="${EXT_DIR:-/tmp/gs_playground_ext}"
+mkdir -p "$EXT"
+echo "== cumesh (compiles CUDA)"
+[ -d "$EXT/CuMesh/.git" ] || git clone --recursive \
+    https://github.com/JeffreyXiang/CuMesh.git "$EXT/CuMesh"
+python -m pip install --no-build-isolation "$EXT/CuMesh"
+
+# o_voxel's C++ sources include <Eigen/Dense>, and neither the base env nor
+# the build requirements provide it. Eigen is header-only, so fetching the
+# release and putting it on CPATH is enough; installing it into the base env
+# would mutate an env other studies depend on.
+echo "== Eigen headers for o_voxel"
+[ -d "$EXT/eigen-3.4.0" ] || {
+    curl -sSL -o "$EXT/eigen.tar.gz" \
+        "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz"
+    tar xzf "$EXT/eigen.tar.gz" -C "$EXT"
+}
+export CPATH="$EXT/eigen-3.4.0:${CPATH:-}"
+
+echo "== o_voxel, from the pinned TRELLIS.2 clone (pulls flex_gemm too)"
+python -m pip install --no-build-isolation "$ROOT/third_party/clones/trellis2/o-voxel"
+
+echo "== nvdiffrast"
+python -m pip install --no-build-isolation \
+    "nvdiffrast @ git+https://github.com/NVlabs/nvdiffrast.git"
+
 python - <<'PY'
 import torch, natten, transformers, utils3d
 print("torch", torch.__version__, "| natten", natten.__version__,
