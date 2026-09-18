@@ -3,7 +3,8 @@
 **Tracked index of every demo this repository can show.**
 The viewers themselves live under `outputs/` and are untracked; what is tracked is the row below and the builder script that regenerates the viewer from a run.
 
-A row belongs here only when the demo opens and shows a **comparison**: the method's output beside ground truth, a baseline, or the input it was conditioned on.
+A row belongs here when the demo opens and shows the method's output clearly.
+Showing the result on its own is enough; a **comparison** is owed only when the demo implies a judgement, and then what it sits beside has to be a real counterpart rather than something borrowed to fill the frame.
 
 | demo | what it shows | open it | built by | log entry |
 |---|---|---|---|---|
