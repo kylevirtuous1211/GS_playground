@@ -1,7 +1,8 @@
 # outputs/
 
 Untracked.
-One directory per run: `outputs/<study>/<arm>/`.
+One directory per method, named after its paper: `outputs/<method>/`, with one subdirectory per run when a method has several.
+Retired studies keep their `<study>/<arm>/` runs under `outputs/archive/`.
 Semantic slugs only - never a uuid, never a bare timestamp, because the deliverable is a comparison table and a table cannot be built from `output/a3f9c21b04`.
 
 Every run directory carries its own provenance, written by `tools/stamp_provenance.sh` before training starts:

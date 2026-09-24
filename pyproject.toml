@@ -1,7 +1,7 @@
 [project]
 name = "gs-playground"
 version = "0.0.0"
-description = "Camera-centric 3D world generation: Puffin-World from scratch, and its world-state idea carried into 3DGS."
+description = "State-of-the-art Gaussian splatting methods run on our own data, each with a demo."
 requires-python = ">=3.10"
 dependencies = []
 

@@ -1,13 +1,10 @@
 # GS_playground
 
-Camera-centric 3D world generation.
-Two threads.
-Reproduce **Puffin-World** training from scratch, then ask whether its world-state conditioning can be carried into a **GS-Voxel**-style structured 3DGS latent: `text/image -> spatial latent -> persistent 3DGS`.
+State-of-the-art Gaussian splatting methods, each run here on our own data and each with a demo a person can open.
+Breadth is the point; `CLAUDE.md` says what "done" means for a method, and `results/DEMOS.md` lists the demos.
 
-The second thread exists because the two methods fail in complementary places.
-Puffin-World has no persistent 3D representation - its "world" is a point cloud fused from per-view depth by a scale-gauge solver at inference.
-GS-Voxel has the representation and essentially no camera conditioning.
-The design record, including the three gaps that have to be closed first, is in [`experiments/puffin-gsvoxel/`](experiments/puffin-gsvoxel/README.md).
+Methods so far: [`worldgrow`](experiments/worldgrow/README.md), [`worldsculpt`](experiments/worldsculpt/README.md).
+The earlier Puffin-World reproduction and the Puffin x GS-Voxel latent study are archived in [`experiments/archive/`](experiments/archive/).
 
 ## The finding
 
@@ -20,9 +17,10 @@ When it has one, it goes here, with its scope and the single command that reprod
 | | |
 |---|---|
 | `LOG.md` | numbered, append-only. The record of what was run and what it settled. |
-| `experiments/<study>/` | one directory per question; `run_E##_*.sh` is the runner for log entry `E##`. |
-| `results/` | tracked. Every number quoted anywhere else in this repo comes from here. |
-| `src/gs_playground/` | the installed library. Runners import from it; it never imports from them. |
+| `experiments/<method>/` | one directory per method, named after its paper; `run_E##_*.sh` is the runner for log entry `E##`. |
+| `results/` | tracked. Every number quoted anywhere else in this repo comes from here, per method in `results/<method>/`. |
+| `src/gs_playground/` | the installed library: `<method>/` per method plus shared `gs/`, `viewer.py`, `datasets/`. Runners import from it; it never imports from them. |
+| `*/archive/` | retired studies, same layout underneath. |
 | `third_party/` | `PINS.tsv` + `patches/`. `clones/` is untracked and rebuildable. |
 | `outputs/`, `data/` | untracked. Large, regenerable, and stamped with their provenance. |
 
@@ -32,7 +30,8 @@ When it has one, it goes here, with its scope and the single command that reprod
 bash tools/setup/clone_upstream.sh          # third_party/clones/ at pinned commits
 bash tools/setup/puffin_world_env.sh        # the puffin-world env (python 3.10, torch 2.7 cu126)
 micromamba activate puffin-world
-bash experiments/puffin-world-repro/run_E01_stage1_alignment.sh
+bash tools/setup/worldgrow_env.sh           # an overlay env on top of it
+bash experiments/worldgrow/run_E08b_worldgrow.sh
 python results/collect.py                   # outputs/ -> results/tables/
 ```
 
@@ -41,8 +40,8 @@ Run it before quoting a number.
 
 ## Hardware
 
-One RTX 6000 Ada, 48 GB.
-That constraint is why the 1.5B Puffin-World arm is the primary one; see `experiments/puffin-world-repro/README.md`.
+One RTX 6000 Ada, 48 GB, so a method has to run on one GPU to be tried here first.
+Big jobs go to the nano4 Slurm cluster.
 
 ## Upstream and licence
 
