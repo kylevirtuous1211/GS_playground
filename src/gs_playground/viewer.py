@@ -156,7 +156,14 @@ for (const panel of manifest.panels) {
   const stage = card.querySelector(".stage");
 
   if (panel.image) {
-    stage.innerHTML = `<img src="${panel.image}" alt="" style="width:100%;height:100%;object-fit:cover">`;
+    // Stills are sheets of several views; cropping them to 4:3 hid half the
+    // views. Show the whole sheet, and give a wide one the whole row.
+    stage.style.aspectRatio = "auto";
+    stage.innerHTML = `<img src="${panel.image}" alt="" style="width:100%;height:auto;display:block">`;
+    stage.querySelector("img").onload = (event) => {
+      const img = event.target;
+      if (img.naturalWidth > 2 * img.naturalHeight) card.style.gridColumn = "1 / -1";
+    };
     continue;
   }
   const renderer = new THREE.WebGLRenderer({ antialias: false });
