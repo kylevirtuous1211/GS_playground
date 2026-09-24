@@ -11,6 +11,7 @@ Showing the result on its own is enough; a **comparison** is owed only when the 
 | E07 scene gap | TRELLIS run on ten real DL3DV rooms, three conditioning modes, each generation beside the photo it came from | `python -m http.server -d outputs/archive/puffin-gsvoxel/e07_scene_gap/viewer` | `gs_playground.archive.gsvoxel.e07_viewer_assets` (assets only; its `index.html` was hand-written and is **not** reproducible) | `LOG.md` E07 |
 | E08b WorldGrow | six generated worlds from 3 m to 9 m of floor, orbiting together, beside a real DL3DV interior rendered from its own cameras | `python -m http.server -d outputs/worldgrow/viewer` | `gs_playground.worldgrow.demo` | `LOG.md` E08b |
 | E08c WorldSculpt | a Marble living room taken apart into 13 object meshes, each view beside the frame it came from; the room's walls and floor are visibly absent | `python -m http.server -d outputs/worldsculpt/viewer` | `gs_playground.worldsculpt.demo` | `LOG.md` E08c |
+| E08d WorldGrow prompts | eight prompt/guidance arms at four fixed seeds, each seed's column comparable down the page, plus one orbitable splat per arm; IoU and CLIP counts against the released setting | `python -m http.server -d outputs/worldgrow/e08d_prompts/viewer` | `gs_playground.worldgrow.prompt_probe` | `LOG.md` E08d |
 
 ## Rebuilding a viewer
 

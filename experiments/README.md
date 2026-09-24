@@ -25,6 +25,7 @@ It is not allowed to be the place a model or a dataset is defined.
 | E06 | `puffin-gsvoxel` | what do the latents linearly encode? | **done**: occupancy strongly, colour partly; factorisation clean; gravity + semantics not linearly present |
 | E08b | `worldgrow` | do WorldGrow's released weights run here? | **yes**: six worlds, 3 m to 9 m, peak VRAM flat at 9.5-11.6 GB |
 | E08c | `worldsculpt` | does WorldSculpt run here on the authors' data? | **yes**: 13/13 objects in 8.5 min; no room shell, by design |
+| E08d | `worldgrow` | does WorldGrow follow a text prompt or guidance? | **no**: output changes (IoU 0.62-0.84 vs 0.999 repeat), room type does not (CLIP 0-1/16) |
 
 ## Methods
 
