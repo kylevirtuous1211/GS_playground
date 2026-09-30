@@ -1,0 +1,1943 @@
+{
+ "entry": "E08f",
+ "stage": "B",
+ "prereg": "experiments/worldsculpt/PREREG_E08f.md",
+ "objects": [
+  6,
+  9,
+  18,
+  20,
+  21,
+  22,
+  56,
+  67,
+  74,
+  222
+ ],
+ "tau_of_box_diagonal": 0.02,
+ "configs": [
+  {
+   "name": "default_s42",
+   "case": "base",
+   "seed": 42
+  },
+  {
+   "name": "default_s0",
+   "case": "base",
+   "seed": 0
+  },
+  {
+   "name": "default_s1",
+   "case": "base",
+   "seed": 1
+  },
+  {
+   "name": "views12",
+   "case": "base",
+   "max_views": 12
+  },
+  {
+   "name": "views6",
+   "case": "base",
+   "max_views": 6
+  },
+  {
+   "name": "views3",
+   "case": "base",
+   "max_views": 3
+  },
+  {
+   "name": "views1",
+   "case": "base",
+   "max_views": 1
+  },
+  {
+   "name": "fps",
+   "case": "base",
+   "view_select": "fps"
+  },
+  {
+   "name": "erode4",
+   "case": "erode4"
+  },
+  {
+   "name": "dilate4",
+   "case": "dilate4"
+  },
+  {
+   "name": "nofit",
+   "case": "nofit"
+  }
+ ],
+ "results": {
+  "default_s42": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.3409090909090909,
+    "completeness_posthoc_voxel_tau": 0.4803030303030303,
+    "accuracy_like": 0.2217,
+    "silhouette_recall": 0.9952460015741631,
+    "silhouette_iou": 0.4870167289205113,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 11146,
+    "components_1pct": 0,
+    "faces": 74980,
+    "vertices": 1960243
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.2144927536231884,
+    "completeness_posthoc_voxel_tau": 0.3710144927536232,
+    "accuracy_like": 0.2189,
+    "silhouette_recall": 0.9681579726746534,
+    "silhouette_iou": 0.7978291104043842,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 4019,
+    "components_1pct": 0,
+    "faces": 27022,
+    "vertices": 691753
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.2995991983967936,
+    "completeness_posthoc_voxel_tau": 0.41382765531062127,
+    "accuracy_like": 0.3832,
+    "silhouette_recall": 0.9923996077091742,
+    "silhouette_iou": 0.6834442690820925,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 11315,
+    "components_1pct": 0,
+    "faces": 75482,
+    "vertices": 2015781
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.34347275031685676,
+    "completeness_posthoc_voxel_tau": 0.5348542458808618,
+    "accuracy_like": 0.2707,
+    "silhouette_recall": 0.999133197892673,
+    "silhouette_iou": 0.7760971020051708,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 9807,
+    "components_1pct": 0,
+    "faces": 64624,
+    "vertices": 1739105
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.31511254019292606,
+    "completeness_posthoc_voxel_tau": 0.752411575562701,
+    "accuracy_like": 0.1504,
+    "silhouette_recall": 0.9887524145289188,
+    "silhouette_iou": 0.921361841080151,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 5580,
+    "components_1pct": 0,
+    "faces": 37690,
+    "vertices": 966022
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.33889104303993794,
+    "completeness_posthoc_voxel_tau": 0.33889104303993794,
+    "accuracy_like": 0.1773,
+    "silhouette_recall": 0.9867507613092881,
+    "silhouette_iou": 0.8969815443238274,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 17391,
+    "components_1pct": 0,
+    "faces": 116810,
+    "vertices": 2808286
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.33098591549295775,
+    "completeness_posthoc_voxel_tau": 0.6971830985915493,
+    "accuracy_like": 0.1193,
+    "silhouette_recall": 0.9969735074367337,
+    "silhouette_iou": 0.4609755589623813,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 6852,
+    "components_1pct": 0,
+    "faces": 45972,
+    "vertices": 1106815
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.4941621962764279,
+    "completeness_posthoc_voxel_tau": 0.4941621962764279,
+    "accuracy_like": 0.3082,
+    "silhouette_recall": 0.8895496863998318,
+    "silhouette_iou": 0.7088840612969631,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 9654,
+    "components_1pct": 0,
+    "faces": 64846,
+    "vertices": 1813297
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.3426791277258567,
+    "completeness_posthoc_voxel_tau": 0.6199376947040498,
+    "accuracy_like": 0.1364,
+    "silhouette_recall": 0.9984717226342112,
+    "silhouette_iou": 0.47044410035477524,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 8069,
+    "components_1pct": 0,
+    "faces": 54120,
+    "vertices": 1298563
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.08829787234042553,
+    "completeness_posthoc_voxel_tau": 0.09787234042553192,
+    "accuracy_like": 0.1721,
+    "silhouette_recall": 0.9915206910689797,
+    "silhouette_iou": 0.7786081159626586,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 4767,
+    "components_1pct": 0,
+    "faces": 32096,
+    "vertices": 791954
+   }
+  },
+  "default_s0": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.33636363636363636,
+    "completeness_posthoc_voxel_tau": 0.4666666666666667,
+    "accuracy_like": 0.2032,
+    "silhouette_recall": 0.9959375385679556,
+    "silhouette_iou": 0.3988161806972611,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 26989,
+    "components_1pct": 0,
+    "faces": 197798,
+    "vertices": 1804849
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.2463768115942029,
+    "completeness_posthoc_voxel_tau": 0.37971014492753624,
+    "accuracy_like": 0.2268,
+    "silhouette_recall": 0.9729892512257983,
+    "silhouette_iou": 0.7669336390032164,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 10708,
+    "components_1pct": 0,
+    "faces": 78108,
+    "vertices": 682594
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.34168336673346694,
+    "completeness_posthoc_voxel_tau": 0.44488977955911824,
+    "accuracy_like": 0.3254,
+    "silhouette_recall": 0.9971786834181494,
+    "silhouette_iou": 0.5160660550458716,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 30975,
+    "components_1pct": 0,
+    "faces": 223646,
+    "vertices": 2047059
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.34474017743979724,
+    "completeness_posthoc_voxel_tau": 0.5285171102661597,
+    "accuracy_like": 0.3094,
+    "silhouette_recall": 0.9928769678850298,
+    "silhouette_iou": 0.800738265530042,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 30001,
+    "components_1pct": 0,
+    "faces": 220452,
+    "vertices": 1874826
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.4115755627009646,
+    "completeness_posthoc_voxel_tau": 0.7845659163987139,
+    "accuracy_like": 0.1316,
+    "silhouette_recall": 0.9989287939513114,
+    "silhouette_iou": 0.7738952364429463,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 22822,
+    "components_1pct": 0,
+    "faces": 166612,
+    "vertices": 1473493
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.48623497479643274,
+    "completeness_posthoc_voxel_tau": 0.48623497479643274,
+    "accuracy_like": 0.2053,
+    "silhouette_recall": 0.9910730547450706,
+    "silhouette_iou": 0.8845316052142815,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 68495,
+    "components_1pct": 0,
+    "faces": 492994,
+    "vertices": 4330918
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.3274647887323944,
+    "completeness_posthoc_voxel_tau": 0.704225352112676,
+    "accuracy_like": 0.1256,
+    "silhouette_recall": 0.9987573099415205,
+    "silhouette_iou": 0.4777388093324028,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 22209,
+    "components_1pct": 0,
+    "faces": 162896,
+    "vertices": 1391962
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.7472388766172294,
+    "completeness_posthoc_voxel_tau": 0.7472388766172294,
+    "accuracy_like": 0.379,
+    "silhouette_recall": 0.909906372122385,
+    "silhouette_iou": 0.7112801051911157,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 42454,
+    "components_1pct": 0,
+    "faces": 311010,
+    "vertices": 2608131
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.3364485981308411,
+    "completeness_posthoc_voxel_tau": 0.6043613707165109,
+    "accuracy_like": 0.1524,
+    "silhouette_recall": 0.998318540087625,
+    "silhouette_iou": 0.6494106228277635,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 14322,
+    "components_1pct": 0,
+    "faces": 105510,
+    "vertices": 875963
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.1127659574468085,
+    "completeness_posthoc_voxel_tau": 0.12127659574468085,
+    "accuracy_like": 0.2027,
+    "silhouette_recall": 0.9904840293421129,
+    "silhouette_iou": 0.8163174395764305,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 12442,
+    "components_1pct": 0,
+    "faces": 90288,
+    "vertices": 807663
+   }
+  },
+  "default_s1": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.3333333333333333,
+    "completeness_posthoc_voxel_tau": 0.4863636363636364,
+    "accuracy_like": 0.2263,
+    "silhouette_recall": 0.9952982523199763,
+    "silhouette_iou": 0.44944660555692,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 18443,
+    "components_1pct": 0,
+    "faces": 129156,
+    "vertices": 2043865
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.25507246376811593,
+    "completeness_posthoc_voxel_tau": 0.4,
+    "accuracy_like": 0.2603,
+    "silhouette_recall": 0.9743258644939135,
+    "silhouette_iou": 0.781370504887454,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 6950,
+    "components_1pct": 0,
+    "faces": 48536,
+    "vertices": 762650
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.35671342685370744,
+    "completeness_posthoc_voxel_tau": 0.48096192384769537,
+    "accuracy_like": 0.287,
+    "silhouette_recall": 0.9978349765318244,
+    "silhouette_iou": 0.5083184713815446,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 30385,
+    "components_1pct": 0,
+    "faces": 213278,
+    "vertices": 3380689
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.36628643852978454,
+    "completeness_posthoc_voxel_tau": 0.5551330798479087,
+    "accuracy_like": 0.2906,
+    "silhouette_recall": 0.9993231173486807,
+    "silhouette_iou": 0.744229235475693,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 25430,
+    "components_1pct": 0,
+    "faces": 178380,
+    "vertices": 2904688
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.42443729903536975,
+    "completeness_posthoc_voxel_tau": 0.8038585209003215,
+    "accuracy_like": 0.1368,
+    "silhouette_recall": 0.9893242248581324,
+    "silhouette_iou": 0.9076497797890264,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 16048,
+    "components_1pct": 0,
+    "faces": 111506,
+    "vertices": 1769041
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.6746801085692129,
+    "completeness_posthoc_voxel_tau": 0.6746801085692129,
+    "accuracy_like": 0.2732,
+    "silhouette_recall": 0.9894131592375255,
+    "silhouette_iou": 0.8968775115058683,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 53003,
+    "components_1pct": 0,
+    "faces": 369686,
+    "vertices": 6009963
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.3732394366197183,
+    "completeness_posthoc_voxel_tau": 0.7077464788732394,
+    "accuracy_like": 0.1216,
+    "silhouette_recall": 0.9982150694434613,
+    "silhouette_iou": 0.4845770842188354,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 18599,
+    "components_1pct": 0,
+    "faces": 131130,
+    "vertices": 1992153
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.4941621962764279,
+    "completeness_posthoc_voxel_tau": 0.4941621962764279,
+    "accuracy_like": 0.2694,
+    "silhouette_recall": 0.8668412522337654,
+    "silhouette_iou": 0.6863672283398774,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 19752,
+    "components_1pct": 0,
+    "faces": 142718,
+    "vertices": 2005286
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.35514018691588783,
+    "completeness_posthoc_voxel_tau": 0.6697819314641744,
+    "accuracy_like": 0.1579,
+    "silhouette_recall": 0.997575485802609,
+    "silhouette_iou": 0.6211816265600179,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 11089,
+    "components_1pct": 0,
+    "faces": 77252,
+    "vertices": 1230529
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.10851063829787234,
+    "completeness_posthoc_voxel_tau": 0.11595744680851064,
+    "accuracy_like": 0.1674,
+    "silhouette_recall": 0.9866454300416565,
+    "silhouette_iou": 0.8364652649263036,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 8720,
+    "components_1pct": 0,
+    "faces": 61498,
+    "vertices": 981684
+   }
+  },
+  "views12": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.3303030303030303,
+    "completeness_posthoc_voxel_tau": 0.4681818181818182,
+    "accuracy_like": 0.2303,
+    "silhouette_recall": 0.9924613473214772,
+    "silhouette_iou": 0.4721967430719497,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 15292,
+    "components_1pct": 0,
+    "faces": 104678,
+    "vertices": 1857310
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.21159420289855072,
+    "completeness_posthoc_voxel_tau": 0.3739130434782609,
+    "accuracy_like": 0.2073,
+    "silhouette_recall": 0.9611691751405123,
+    "silhouette_iou": 0.8037764822781569,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 6560,
+    "components_1pct": 0,
+    "faces": 44884,
+    "vertices": 738152
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.26152304609218435,
+    "completeness_posthoc_voxel_tau": 0.35070140280561124,
+    "accuracy_like": 0.325,
+    "silhouette_recall": 0.932753369862351,
+    "silhouette_iou": 0.6529732291218258,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 13671,
+    "components_1pct": 0,
+    "faces": 93894,
+    "vertices": 1556692
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.3257287705956908,
+    "completeness_posthoc_voxel_tau": 0.5183776932826363,
+    "accuracy_like": 0.2778,
+    "silhouette_recall": 0.999064811070358,
+    "silhouette_iou": 0.7736302767418184,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 12556,
+    "components_1pct": 0,
+    "faces": 85496,
+    "vertices": 1614739
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.33762057877813506,
+    "completeness_posthoc_voxel_tau": 0.752411575562701,
+    "accuracy_like": 0.1357,
+    "silhouette_recall": 0.9924070578222014,
+    "silhouette_iou": 0.9214448252612653,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 8031,
+    "components_1pct": 0,
+    "faces": 55368,
+    "vertices": 965746
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.32648313299728576,
+    "completeness_posthoc_voxel_tau": 0.32648313299728576,
+    "accuracy_like": 0.1155,
+    "silhouette_recall": 0.9856917781344118,
+    "silhouette_iou": 0.896828851054946,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 28758,
+    "components_1pct": 0,
+    "faces": 195776,
+    "vertices": 3365647
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.3380281690140845,
+    "completeness_posthoc_voxel_tau": 0.6830985915492958,
+    "accuracy_like": 0.1169,
+    "silhouette_recall": 0.9931712011147661,
+    "silhouette_iou": 0.4579747106173928,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 10005,
+    "components_1pct": 0,
+    "faces": 69154,
+    "vertices": 1147674
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.4275796781319028,
+    "completeness_posthoc_voxel_tau": 0.4275796781319028,
+    "accuracy_like": 0.2314,
+    "silhouette_recall": 0.9234650397648239,
+    "silhouette_iou": 0.740254420628194,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 16277,
+    "components_1pct": 0,
+    "faces": 112710,
+    "vertices": 1824731
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.34579439252336447,
+    "completeness_posthoc_voxel_tau": 0.7071651090342679,
+    "accuracy_like": 0.1142,
+    "silhouette_recall": 0.9993519041840517,
+    "silhouette_iou": 0.33705978068021897,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 13128,
+    "components_1pct": 0,
+    "faces": 90340,
+    "vertices": 1580882
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.35638297872340424,
+    "completeness_posthoc_voxel_tau": 0.3946808510638298,
+    "accuracy_like": 0.2204,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.40330030481099954,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 19726,
+    "components_1pct": 0,
+    "faces": 136284,
+    "vertices": 2297414
+   }
+  },
+  "views6": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.3621212121212121,
+    "completeness_posthoc_voxel_tau": 0.4954545454545455,
+    "accuracy_like": 0.2271,
+    "silhouette_recall": 0.9996357713711926,
+    "silhouette_iou": 0.4768363376199815,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 32156,
+    "components_1pct": 0,
+    "faces": 238686,
+    "vertices": 1958647
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.2956521739130435,
+    "completeness_posthoc_voxel_tau": 0.4028985507246377,
+    "accuracy_like": 0.2532,
+    "silhouette_recall": 0.9453212061619142,
+    "silhouette_iou": 0.7635087779116374,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 11062,
+    "components_1pct": 0,
+    "faces": 82190,
+    "vertices": 682931
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.28857715430861725,
+    "completeness_posthoc_voxel_tau": 0.3997995991983968,
+    "accuracy_like": 0.3599,
+    "silhouette_recall": 0.9974513760108354,
+    "silhouette_iou": 0.7005401813865222,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 19940,
+    "components_1pct": 0,
+    "faces": 146514,
+    "vertices": 1256396
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.33840304182509506,
+    "completeness_posthoc_voxel_tau": 0.5183776932826363,
+    "accuracy_like": 0.2725,
+    "silhouette_recall": 0.9913272156406585,
+    "silhouette_iou": 0.7745113557386212,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 24947,
+    "components_1pct": 0,
+    "faces": 184448,
+    "vertices": 1528856
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.3762057877813505,
+    "completeness_posthoc_voxel_tau": 0.7781350482315113,
+    "accuracy_like": 0.1728,
+    "silhouette_recall": 0.9948362347712341,
+    "silhouette_iou": 0.9135897910622353,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 15126,
+    "components_1pct": 0,
+    "faces": 111596,
+    "vertices": 963022
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.35556417215975183,
+    "completeness_posthoc_voxel_tau": 0.35556417215975183,
+    "accuracy_like": 0.2019,
+    "silhouette_recall": 0.9774893964838518,
+    "silhouette_iou": 0.8897929454927888,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 38095,
+    "components_1pct": 0,
+    "faces": 285066,
+    "vertices": 2409626
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.3485915492957746,
+    "completeness_posthoc_voxel_tau": 0.6936619718309859,
+    "accuracy_like": 0.1098,
+    "silhouette_recall": 0.9978886560735696,
+    "silhouette_iou": 0.3944426569949399,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 20840,
+    "components_1pct": 0,
+    "faces": 155984,
+    "vertices": 1271076
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.37393499526664564,
+    "completeness_posthoc_voxel_tau": 0.37393499526664564,
+    "accuracy_like": 0.1923,
+    "silhouette_recall": 0.9181141924889973,
+    "silhouette_iou": 0.7372321259735501,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 29217,
+    "components_1pct": 0,
+    "faces": 215010,
+    "vertices": 1712337
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.32710280373831774,
+    "completeness_posthoc_voxel_tau": 0.616822429906542,
+    "accuracy_like": 0.0522,
+    "silhouette_recall": 0.9994326624299685,
+    "silhouette_iou": 0.19803631299259689,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 52232,
+    "components_1pct": 0,
+    "faces": 384084,
+    "vertices": 3357109
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.46595744680851064,
+    "completeness_posthoc_voxel_tau": 0.5212765957446809,
+    "accuracy_like": 0.25,
+    "silhouette_recall": 0.9924921117872436,
+    "silhouette_iou": 0.4219125636672326,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 26683,
+    "components_1pct": 0,
+    "faces": 198152,
+    "vertices": 1660732
+   }
+  },
+  "views3": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.3409090909090909,
+    "completeness_posthoc_voxel_tau": 0.4818181818181818,
+    "accuracy_like": 0.2309,
+    "silhouette_recall": 0.999498578068466,
+    "silhouette_iou": 0.47969742707348123,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 25445,
+    "components_1pct": 0,
+    "faces": 179776,
+    "vertices": 2001575
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.28695652173913044,
+    "completeness_posthoc_voxel_tau": 0.4289855072463768,
+    "accuracy_like": 0.2646,
+    "silhouette_recall": 0.956876707742163,
+    "silhouette_iou": 0.7125265541250558,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 8689,
+    "components_1pct": 0,
+    "faces": 61144,
+    "vertices": 679105
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.17835671342685372,
+    "completeness_posthoc_voxel_tau": 0.25551102204408815,
+    "accuracy_like": 0.2125,
+    "silhouette_recall": 0.6914444103518582,
+    "silhouette_iou": 0.36798021533511777,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 13729,
+    "components_1pct": 0,
+    "faces": 96772,
+    "vertices": 1125773
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.3726235741444867,
+    "completeness_posthoc_voxel_tau": 0.5373891001267427,
+    "accuracy_like": 0.3158,
+    "silhouette_recall": 0.9999008919722497,
+    "silhouette_iou": 0.7557159794582877,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 25843,
+    "components_1pct": 0,
+    "faces": 183250,
+    "vertices": 1987555
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.3890675241157556,
+    "completeness_posthoc_voxel_tau": 0.7781350482315113,
+    "accuracy_like": 0.1541,
+    "silhouette_recall": 0.989619594528131,
+    "silhouette_iou": 0.8904480542566688,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 13103,
+    "components_1pct": 0,
+    "faces": 93134,
+    "vertices": 1010341
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.35944164404808066,
+    "completeness_posthoc_voxel_tau": 0.35944164404808066,
+    "accuracy_like": 0.1782,
+    "silhouette_recall": 0.9789298957843855,
+    "silhouette_iou": 0.8811665903548718,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 42931,
+    "components_1pct": 0,
+    "faces": 303756,
+    "vertices": 3565594
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.3415492957746479,
+    "completeness_posthoc_voxel_tau": 0.6936619718309859,
+    "accuracy_like": 0.0578,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.26737491270870556,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 27522,
+    "components_1pct": 0,
+    "faces": 193366,
+    "vertices": 2224918
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.37298832439255286,
+    "completeness_posthoc_voxel_tau": 0.37298832439255286,
+    "accuracy_like": 0.3234,
+    "silhouette_recall": 0.8377896201775615,
+    "silhouette_iou": 0.5991255426894833,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 17951,
+    "components_1pct": 0,
+    "faces": 128622,
+    "vertices": 1383101
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.367601246105919,
+    "completeness_posthoc_voxel_tau": 0.6479750778816199,
+    "accuracy_like": 0.1356,
+    "silhouette_recall": 0.996414314882375,
+    "silhouette_iou": 0.5601349003631116,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 16470,
+    "components_1pct": 0,
+    "faces": 116610,
+    "vertices": 1286482
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.13191489361702127,
+    "completeness_posthoc_voxel_tau": 0.1425531914893617,
+    "accuracy_like": 0.1602,
+    "silhouette_recall": 0.9979160234640321,
+    "silhouette_iou": 0.5926544767863553,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 16004,
+    "components_1pct": 0,
+    "faces": 112438,
+    "vertices": 1284946
+   }
+  },
+  "views1": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.2015151515151515,
+    "completeness_posthoc_voxel_tau": 0.3106060606060606,
+    "accuracy_like": 0.1465,
+    "silhouette_recall": 0.6001266115511361,
+    "silhouette_iou": 0.18808837299331366,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 18571,
+    "components_1pct": 0,
+    "faces": 132890,
+    "vertices": 1362885
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.43478260869565216,
+    "completeness_posthoc_voxel_tau": 0.6550724637681159,
+    "accuracy_like": 0.2012,
+    "silhouette_recall": 0.91795204524326,
+    "silhouette_iou": 0.40498106670963585,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 24280,
+    "components_1pct": 0,
+    "faces": 172068,
+    "vertices": 1928366
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.250501002004008,
+    "completeness_posthoc_voxel_tau": 0.343687374749499,
+    "accuracy_like": 0.2809,
+    "silhouette_recall": 0.9194317725106705,
+    "silhouette_iou": 0.6309107423163324,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 29339,
+    "components_1pct": 0,
+    "faces": 209296,
+    "vertices": 2234067
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.17490494296577946,
+    "completeness_posthoc_voxel_tau": 0.320659062103929,
+    "accuracy_like": 0.1051,
+    "silhouette_recall": 0.8281297290942774,
+    "silhouette_iou": 0.4580939992856846,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 35908,
+    "components_1pct": 0,
+    "faces": 258608,
+    "vertices": 2600710
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.4115755627009646,
+    "completeness_posthoc_voxel_tau": 0.8681672025723473,
+    "accuracy_like": 0.1418,
+    "silhouette_recall": 0.9826407537155113,
+    "silhouette_iou": 0.7880474768624253,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 18826,
+    "components_1pct": 0,
+    "faces": 135366,
+    "vertices": 1293356
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.18805738658394727,
+    "completeness_posthoc_voxel_tau": 0.18805738658394727,
+    "accuracy_like": 0.3269,
+    "silhouette_recall": 0.9570193245148448,
+    "silhouette_iou": 0.8967071357066448,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 19067,
+    "components_1pct": 0,
+    "faces": 136602,
+    "vertices": 1475204
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.29225352112676056,
+    "completeness_posthoc_voxel_tau": 0.5809859154929577,
+    "accuracy_like": 0.0271,
+    "silhouette_recall": 0.9991488554400618,
+    "silhouette_iou": 0.1810421326580854,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 53949,
+    "components_1pct": 0,
+    "faces": 387720,
+    "vertices": 3940452
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.17986746607762702,
+    "completeness_posthoc_voxel_tau": 0.17986746607762702,
+    "accuracy_like": 0.1715,
+    "silhouette_recall": 0.593680377903933,
+    "silhouette_iou": 0.4456228108205661,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 20291,
+    "components_1pct": 0,
+    "faces": 145676,
+    "vertices": 1416953
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.308411214953271,
+    "completeness_posthoc_voxel_tau": 0.6137071651090342,
+    "accuracy_like": 0.1,
+    "silhouette_recall": 0.9810696541567543,
+    "silhouette_iou": 0.4385933593948861,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 26302,
+    "components_1pct": 0,
+    "faces": 187602,
+    "vertices": 1918820
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.3468085106382979,
+    "completeness_posthoc_voxel_tau": 0.37446808510638296,
+    "accuracy_like": 0.1749,
+    "silhouette_recall": 0.6952466052015217,
+    "silhouette_iou": 0.2685027841879215,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 31231,
+    "components_1pct": 0,
+    "faces": 220388,
+    "vertices": 2370641
+   }
+  },
+  "fps": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.3515151515151515,
+    "completeness_posthoc_voxel_tau": 0.4803030303030303,
+    "accuracy_like": 0.2212,
+    "silhouette_recall": 0.9979887987958382,
+    "silhouette_iou": 0.4765578220621235,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 25051,
+    "components_1pct": 0,
+    "faces": 180596,
+    "vertices": 2003526
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.22028985507246376,
+    "completeness_posthoc_voxel_tau": 0.3826086956521739,
+    "accuracy_like": 0.2172,
+    "silhouette_recall": 0.9795413230678266,
+    "silhouette_iou": 0.7755744199207697,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 9489,
+    "components_1pct": 0,
+    "faces": 69140,
+    "vertices": 746401
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.30060120240480964,
+    "completeness_posthoc_voxel_tau": 0.4248496993987976,
+    "accuracy_like": 0.3292,
+    "silhouette_recall": 0.9970482858106042,
+    "silhouette_iou": 0.6384118811143382,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 26444,
+    "components_1pct": 0,
+    "faces": 194436,
+    "vertices": 2115154
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.35868187579214195,
+    "completeness_posthoc_voxel_tau": 0.5449936628643853,
+    "accuracy_like": 0.2937,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.7599824278048228,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 21700,
+    "components_1pct": 0,
+    "faces": 157268,
+    "vertices": 1786119
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.3858520900321543,
+    "completeness_posthoc_voxel_tau": 0.8070739549839229,
+    "accuracy_like": 0.1418,
+    "silhouette_recall": 0.9976170885283276,
+    "silhouette_iou": 0.9016279153684728,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 13415,
+    "components_1pct": 0,
+    "faces": 96684,
+    "vertices": 1059246
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.3788290034897247,
+    "completeness_posthoc_voxel_tau": 0.3788290034897247,
+    "accuracy_like": 0.4146,
+    "silhouette_recall": 0.9946751070790617,
+    "silhouette_iou": 0.93978006273218,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 24426,
+    "components_1pct": 0,
+    "faces": 179160,
+    "vertices": 1871227
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.3415492957746479,
+    "completeness_posthoc_voxel_tau": 0.7077464788732394,
+    "accuracy_like": 0.1233,
+    "silhouette_recall": 0.9997163925127623,
+    "silhouette_iou": 0.4625631533310083,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 19363,
+    "components_1pct": 0,
+    "faces": 142482,
+    "vertices": 1494002
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.6797096875986115,
+    "completeness_posthoc_voxel_tau": 0.6797096875986115,
+    "accuracy_like": 0.3222,
+    "silhouette_recall": 0.9554806269600982,
+    "silhouette_iou": 0.7202595008966932,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 29023,
+    "components_1pct": 0,
+    "faces": 213794,
+    "vertices": 2226989
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.3862928348909657,
+    "completeness_posthoc_voxel_tau": 0.6510903426791277,
+    "accuracy_like": 0.145,
+    "silhouette_recall": 0.9991916477314233,
+    "silhouette_iou": 0.6270861412003528,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 15389,
+    "components_1pct": 0,
+    "faces": 110696,
+    "vertices": 1253084
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.0925531914893617,
+    "completeness_posthoc_voxel_tau": 0.10319148936170212,
+    "accuracy_like": 0.1519,
+    "silhouette_recall": 0.9976044037235378,
+    "silhouette_iou": 0.7816430155285363,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 10365,
+    "components_1pct": 0,
+    "faces": 75640,
+    "vertices": 833805
+   }
+  },
+  "erode4": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.25757575757575757,
+    "completeness_posthoc_voxel_tau": 0.38636363636363635,
+    "accuracy_like": 0.1929,
+    "silhouette_recall": 0.9240017712063455,
+    "silhouette_iou": 0.4589845696352668,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 19837,
+    "components_1pct": 0,
+    "faces": 138744,
+    "vertices": 1330047
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.2,
+    "completeness_posthoc_voxel_tau": 0.30144927536231886,
+    "accuracy_like": 0.2552,
+    "silhouette_recall": 0.8386886020028861,
+    "silhouette_iou": 0.815604499414978,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 6598,
+    "components_1pct": 0,
+    "faces": 46120,
+    "vertices": 415929
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.23046092184368738,
+    "completeness_posthoc_voxel_tau": 0.33867735470941884,
+    "accuracy_like": 0.3481,
+    "silhouette_recall": 0.9219081557821593,
+    "silhouette_iou": 0.6126771127859596,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 16843,
+    "components_1pct": 0,
+    "faces": 116816,
+    "vertices": 1059933
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.2864385297845374,
+    "completeness_posthoc_voxel_tau": 0.4423320659062104,
+    "accuracy_like": 0.2618,
+    "silhouette_recall": 0.950010303763001,
+    "silhouette_iou": 0.776980913176609,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 17542,
+    "components_1pct": 0,
+    "faces": 121222,
+    "vertices": 1142877
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.33762057877813506,
+    "completeness_posthoc_voxel_tau": 0.7041800643086816,
+    "accuracy_like": 0.0903,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.4533956501191092,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 17091,
+    "components_1pct": 0,
+    "faces": 117786,
+    "vertices": 1174951
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.33229934082977897,
+    "completeness_posthoc_voxel_tau": 0.33229934082977897,
+    "accuracy_like": 0.1756,
+    "silhouette_recall": 0.9497339096468196,
+    "silhouette_iou": 0.8960301139081346,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 30229,
+    "components_1pct": 0,
+    "faces": 214814,
+    "vertices": 1795649
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.31338028169014087,
+    "completeness_posthoc_voxel_tau": 0.6338028169014085,
+    "accuracy_like": 0.1251,
+    "silhouette_recall": 0.8910632585531346,
+    "silhouette_iou": 0.5050966749334068,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 11221,
+    "components_1pct": 0,
+    "faces": 78488,
+    "vertices": 714337
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.493531082360366,
+    "completeness_posthoc_voxel_tau": 0.493531082360366,
+    "accuracy_like": 0.2716,
+    "silhouette_recall": 0.8646472187084169,
+    "silhouette_iou": 0.6982800872556671,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 25581,
+    "components_1pct": 0,
+    "faces": 178762,
+    "vertices": 1602384
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.2585669781931464,
+    "completeness_posthoc_voxel_tau": 0.5015576323987538,
+    "accuracy_like": 0.1268,
+    "silhouette_recall": 0.8862891591171465,
+    "silhouette_iou": 0.4656674902935612,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 12482,
+    "components_1pct": 0,
+    "faces": 86816,
+    "vertices": 806791
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.5765957446808511,
+    "completeness_posthoc_voxel_tau": 0.6223404255319149,
+    "accuracy_like": 0.3564,
+    "silhouette_recall": 0.9086686645242273,
+    "silhouette_iou": 0.5312723185962622,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 17182,
+    "components_1pct": 0,
+    "faces": 118686,
+    "vertices": 1145010
+   }
+  },
+  "dilate4": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.49393939393939396,
+    "completeness_posthoc_voxel_tau": 0.6272727272727273,
+    "accuracy_like": 0.2463,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.41713535659824696,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 51860,
+    "components_1pct": 0,
+    "faces": 386198,
+    "vertices": 2881634
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.3072463768115942,
+    "completeness_posthoc_voxel_tau": 0.41739130434782606,
+    "accuracy_like": 0.2014,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.6448659535339523,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 19668,
+    "components_1pct": 0,
+    "faces": 145282,
+    "vertices": 1107515
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.4258517034068136,
+    "completeness_posthoc_voxel_tau": 0.5290581162324649,
+    "accuracy_like": 0.3331,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.534998892451571,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 58924,
+    "components_1pct": 0,
+    "faces": 433602,
+    "vertices": 3279118
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.40811153358681873,
+    "completeness_posthoc_voxel_tau": 0.6197718631178707,
+    "accuracy_like": 0.3384,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.7425802432456894,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 40408,
+    "components_1pct": 0,
+    "faces": 298556,
+    "vertices": 2334604
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.4212218649517685,
+    "completeness_posthoc_voxel_tau": 0.8327974276527331,
+    "accuracy_like": 0.1481,
+    "silhouette_recall": 0.9994885337848345,
+    "silhouette_iou": 0.8452518318773279,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 21978,
+    "components_1pct": 0,
+    "faces": 162558,
+    "vertices": 1280542
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.36952307095773557,
+    "completeness_posthoc_voxel_tau": 0.36952307095773557,
+    "accuracy_like": 0.1379,
+    "silhouette_recall": 0.9925989420099696,
+    "silhouette_iou": 0.8408911266739496,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 73837,
+    "components_1pct": 0,
+    "faces": 538248,
+    "vertices": 4179064
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.397887323943662,
+    "completeness_posthoc_voxel_tau": 0.7429577464788732,
+    "accuracy_like": 0.1147,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.4289605983308155,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 30781,
+    "components_1pct": 0,
+    "faces": 227944,
+    "vertices": 1641163
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.7109498264436731,
+    "completeness_posthoc_voxel_tau": 0.7109498264436731,
+    "accuracy_like": 0.3955,
+    "silhouette_recall": 0.9693194199010496,
+    "silhouette_iou": 0.6769090435510052,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 38617,
+    "components_1pct": 0,
+    "faces": 279046,
+    "vertices": 2399988
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.3894080996884735,
+    "completeness_posthoc_voxel_tau": 0.6292834890965732,
+    "accuracy_like": 0.1204,
+    "silhouette_recall": 0.9969915130231197,
+    "silhouette_iou": 0.454556594969985,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 31255,
+    "components_1pct": 0,
+    "faces": 232260,
+    "vertices": 1726367
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.14574468085106382,
+    "completeness_posthoc_voxel_tau": 0.1574468085106383,
+    "accuracy_like": 0.176,
+    "silhouette_recall": 1.0,
+    "silhouette_iou": 0.6588548289562175,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 18326,
+    "components_1pct": 0,
+    "faces": 133848,
+    "vertices": 1046504
+   }
+  },
+  "nofit": {
+   "6": {
+    "mesh": true,
+    "completeness": 0.33636363636363636,
+    "completeness_posthoc_voxel_tau": 0.4803030303030303,
+    "accuracy_like": 0.2347,
+    "silhouette_recall": 0.996322772893528,
+    "silhouette_iou": 0.48863563774048335,
+    "box_hull_iou": 0.16853422512010607,
+    "heldout_frames": 20,
+    "components": 16196,
+    "components_1pct": 0,
+    "faces": 111618,
+    "vertices": 1488917
+   },
+   "9": {
+    "mesh": true,
+    "completeness": 0.2144927536231884,
+    "completeness_posthoc_voxel_tau": 0.35942028985507246,
+    "accuracy_like": 0.2049,
+    "silhouette_recall": 0.9718681429059934,
+    "silhouette_iou": 0.7910698989463343,
+    "box_hull_iou": 0.20435237144370577,
+    "heldout_frames": 20,
+    "components": 5131,
+    "components_1pct": 0,
+    "faces": 35774,
+    "vertices": 508947
+   },
+   "18": {
+    "mesh": true,
+    "completeness": 0.30060120240480964,
+    "completeness_posthoc_voxel_tau": 0.41382765531062127,
+    "accuracy_like": 0.3768,
+    "silhouette_recall": 0.9913139506348243,
+    "silhouette_iou": 0.6823236636743613,
+    "box_hull_iou": 0.2548631965909802,
+    "heldout_frames": 20,
+    "components": 15220,
+    "components_1pct": 0,
+    "faces": 106372,
+    "vertices": 1442450
+   },
+   "20": {
+    "mesh": true,
+    "completeness": 0.33713561470215464,
+    "completeness_posthoc_voxel_tau": 0.532319391634981,
+    "accuracy_like": 0.2771,
+    "silhouette_recall": 0.9990577226758592,
+    "silhouette_iou": 0.769545399581375,
+    "box_hull_iou": 0.3269036728265184,
+    "heldout_frames": 20,
+    "components": 14000,
+    "components_1pct": 0,
+    "faces": 98350,
+    "vertices": 1215368
+   },
+   "21": {
+    "mesh": true,
+    "completeness": 0.3215434083601286,
+    "completeness_posthoc_voxel_tau": 0.7652733118971061,
+    "accuracy_like": 0.1404,
+    "silhouette_recall": 0.9915801982342234,
+    "silhouette_iou": 0.9277082505303047,
+    "box_hull_iou": 0.3171643742545174,
+    "heldout_frames": 20,
+    "components": 7643,
+    "components_1pct": 0,
+    "faces": 53038,
+    "vertices": 729860
+   },
+   "22": {
+    "mesh": true,
+    "completeness": 0.3481969755719271,
+    "completeness_posthoc_voxel_tau": 0.3481969755719271,
+    "accuracy_like": 0.151,
+    "silhouette_recall": 0.9874039548101299,
+    "silhouette_iou": 0.8989154573305596,
+    "box_hull_iou": 0.6845231927473625,
+    "heldout_frames": 20,
+    "components": 22291,
+    "components_1pct": 0,
+    "faces": 155510,
+    "vertices": 2078301
+   },
+   "56": {
+    "mesh": true,
+    "completeness": 0.3380281690140845,
+    "completeness_posthoc_voxel_tau": 0.7007042253521126,
+    "accuracy_like": 0.1211,
+    "silhouette_recall": 0.9990394241723339,
+    "silhouette_iou": 0.4643216350285134,
+    "box_hull_iou": 0.16808141957842557,
+    "heldout_frames": 20,
+    "components": 8865,
+    "components_1pct": 0,
+    "faces": 61968,
+    "vertices": 838100
+   },
+   "67": {
+    "mesh": true,
+    "completeness": 0.5130956137582834,
+    "completeness_posthoc_voxel_tau": 0.5130956137582834,
+    "accuracy_like": 0.3064,
+    "silhouette_recall": 0.8984264021880504,
+    "silhouette_iou": 0.7161346666495085,
+    "box_hull_iou": 0.4305889805492735,
+    "heldout_frames": 20,
+    "components": 16017,
+    "components_1pct": 0,
+    "faces": 112770,
+    "vertices": 1412943
+   },
+   "74": {
+    "mesh": true,
+    "completeness": 0.3302180685358255,
+    "completeness_posthoc_voxel_tau": 0.6261682242990654,
+    "accuracy_like": 0.1341,
+    "silhouette_recall": 0.9984463980763916,
+    "silhouette_iou": 0.4601193650155686,
+    "box_hull_iou": 0.16976705587813684,
+    "heldout_frames": 20,
+    "components": 9158,
+    "components_1pct": 0,
+    "faces": 63684,
+    "vertices": 901979
+   },
+   "222": {
+    "mesh": true,
+    "completeness": 0.08829787234042553,
+    "completeness_posthoc_voxel_tau": 0.09574468085106383,
+    "accuracy_like": 0.1646,
+    "silhouette_recall": 0.9901549744015498,
+    "silhouette_iou": 0.7783044455666509,
+    "box_hull_iou": 0.20982611230936182,
+    "heldout_frames": 20,
+    "components": 5842,
+    "components_1pct": 0,
+    "faces": 40518,
+    "vertices": 566957
+   }
+  }
+ },
+ "readings": {
+  "summary": {
+   "completeness": {
+    "seed_spread_median": 0.043177179016125736,
+    "default_mean_median": 0.34432634226960934,
+    "configs": {
+     "views12": {
+      "median_delta": -0.026412079131536897,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views6": {
+      "median_delta": -0.010299713232727076,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views3": {
+      "median_delta": 0.004699730423203097,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views1": {
+      "median_delta": -0.0669037605727888,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "fps": {
+      "median_delta": -0.0001018975589874016,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "erode4": {
+      "median_delta": -0.07217709413526904,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "dilate4": {
+      "median_delta": 0.05530117757665551,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "nofit": {
+      "median_delta": -0.01952410319662863,
+      "n": 10,
+      "verdict": "within seed noise"
+     }
+    }
+   },
+   "silhouette_iou": {
+    "seed_spread_median": 0.05718308950899703,
+    "default_mean_median": 0.7379326663064771,
+    "configs": {
+     "views12": {
+      "median_delta": 0.012882014110046192,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views6": {
+      "median_delta": -0.001090393393442246,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views3": {
+      "median_delta": -0.04486420676218478,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views1": {
+      "median_delta": -0.25677955976016825,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "fps": {
+      "median_delta": 0.024773509812300226,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "erode4": {
+      "median_delta": 0.00326296953322458,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "dilate4": {
+      "median_delta": -0.03987362927932808,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "nofit": {
+      "median_delta": 0.007572025581941644,
+      "n": 10,
+      "verdict": "within seed noise"
+     }
+    }
+   },
+   "silhouette_recall": {
+    "seed_spread_median": 0.005155314924986665,
+    "default_mean_median": 0.9939145376334096,
+    "configs": {
+     "views12": {
+      "median_delta": -0.0014803350615703592,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views6": {
+      "median_delta": 0.0014788498564697328,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views3": {
+      "median_delta": -0.0022115756052150104,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views1": {
+      "median_delta": -0.06512248379862029,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "fps": {
+      "median_delta": 0.0040854248533727655,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "erode4": {
+      "median_delta": -0.07269421319262148,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "dilate4": {
+      "median_delta": 0.004350823313126084,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "nofit": {
+      "median_delta": 0.0004647030761049664,
+      "n": 10,
+      "verdict": "within seed noise"
+     }
+    }
+   },
+   "components_1pct": {
+    "seed_spread_median": 0.0,
+    "default_mean_median": 0.0,
+    "configs": {
+     "views12": {
+      "median_delta": 0.0,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views6": {
+      "median_delta": 0.0,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views3": {
+      "median_delta": 0.0,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views1": {
+      "median_delta": 0.0,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "fps": {
+      "median_delta": 0.0,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "erode4": {
+      "median_delta": 0.0,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "dilate4": {
+      "median_delta": 0.0,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "nofit": {
+      "median_delta": 0.0,
+      "n": 10,
+      "verdict": "within seed noise"
+     }
+    }
+   },
+   "accuracy_like": {
+    "seed_spread_median": 0.037000000000000005,
+    "default_mean_median": 0.21783333333333332,
+    "configs": {
+     "views12": {
+      "median_delta": -0.00965000000000002,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views6": {
+      "median_delta": -0.001166666666666663,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views3": {
+      "median_delta": -0.004383333333333336,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views1": {
+      "median_delta": -0.04993333333333336,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "fps": {
+      "median_delta": 0.0016666666666666635,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "erode4": {
+      "median_delta": -0.02313333333333334,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "dilate4": {
+      "median_delta": -0.0017500000000000154,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "nofit": {
+      "median_delta": -0.012800000000000006,
+      "n": 10,
+      "verdict": "within seed noise"
+     }
+    }
+   },
+   "completeness_posthoc_voxel_tau": {
+    "seed_spread_median": 0.04021622629199867,
+    "default_mean_median": 0.5197184270667523,
+    "configs": {
+     "views12": {
+      "median_delta": -0.020538418512766388,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views6": {
+      "median_delta": -0.011963786874935989,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views3": {
+      "median_delta": -0.002128000630317428,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "views1": {
+      "median_delta": -0.11246906959458819,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "fps": {
+      "median_delta": 0.0036100441030018637,
+      "n": 10,
+      "verdict": "within seed noise"
+     },
+     "erode4": {
+      "median_delta": -0.08820207438856861,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "dilate4": {
+      "median_delta": 0.049131718774942414,
+      "n": 10,
+      "verdict": "changes"
+     },
+     "nofit": {
+      "median_delta": -0.015481402932658324,
+      "n": 10,
+      "verdict": "within seed noise"
+     }
+    }
+   }
+  },
+  "sanity": {
+   "default_s42_matches_e08e_stage1_views_T": {
+    "6": true,
+    "9": true,
+    "18": true,
+    "20": true,
+    "21": true,
+    "22": true,
+    "56": true,
+    "67": true,
+    "74": true,
+    "222": true
+   }
+  },
+  "mesh_counts": {
+   "default_s42": 10,
+   "default_s0": 10,
+   "default_s1": 10,
+   "views12": 10,
+   "views6": 10,
+   "views3": 10,
+   "views1": 10,
+   "fps": 10,
+   "erode4": 10,
+   "dilate4": 10,
+   "nofit": 10
+  }
+ }
+}

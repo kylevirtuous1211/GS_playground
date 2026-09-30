@@ -339,7 +339,7 @@ def stage_b_section(b: dict, sil_html: str) -> str:
                 f"<tr><td>{esc(c)}</td><td>{k}</td><td>{m['completeness']:.3f}</td>"
                 f"<td>{num(m['silhouette_iou'])}</td>"
                 f"<td>{num(m['box_hull_iou'])}</td>"
-                f"<td>{m['components_1pct']}</td><td>{m['accuracy_like']:.3f}</td><td>{m['heldout_frames']}</td></tr>")
+                f"<td>{num(m.get('completeness_posthoc_voxel_tau'))}</td><td>{m['accuracy_like']:.3f}</td><td>{m['heldout_frames']}</td></tr>")
     return (
         '<h2>Stage B: WorldSculpt parameters, how complete each mesh is</h2>'
         f'<p class="sub">Ten objects fixed by rule before any mesh was seen ({esc(", ".join(map(str, objects)))}). '
@@ -362,7 +362,7 @@ def stage_b_section(b: dict, sil_html: str) -> str:
         f'<div class="card">{sil_html}</div>'
         '<details><summary>Table view: every Stage B object and config</summary><div class="tablewrap card"><table>'
         '<tr><th>config</th><th>object</th><th>completeness</th><th>held-out IoU</th><th>box-hull IoU (null)</th>'
-        '<th>components ≥1%</th><th>accuracy-like</th><th>held-out frames</th></tr>'
+        '<th>completeness, voxel tau (post hoc)</th><th>accuracy-like</th><th>held-out frames</th></tr>'
         + "".join(table_rows) + '</table></div></details>'
         f'<p class="sub" style="margin-top:14px">Meshes produced per config: {esc(", ".join(f"{c} {n}" for c, n in counts.items()))}. '
         f'default_s42 matches E08e on Stage 1 voxels, views and placement for {sum(sanity.values())} of {len(sanity)} objects '
@@ -403,6 +403,10 @@ def main() -> None:
         "<b>WorldSculpt's shape stage is not reproducible at a fixed seed.</b> The same command run twice on one "
         "object gave 120,370 and then 31,136 faces from identical Stage 1 voxels, so the three default seeds "
         "measure run-to-run variation as well as seed variation. Face counts are not read as quality.",
+        "Completeness uses a tolerance of 2% of the box diagonal, which for most objects is below the voxel size "
+        "of the observed points, so its absolute value is capped well below 1; read it relative to the seeds. A "
+        "post-hoc variant with the tolerance floored at half a voxel (in the table) gives the same verdicts. "
+        "Mesh fragmentation, pre-registered, could not be measured: the raw output is unwelded patches.",
     ]
     page = ('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             '<title>WorldSculpt Parameter Sweep</title>'

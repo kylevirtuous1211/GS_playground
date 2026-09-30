@@ -147,10 +147,20 @@ def sample_surface(verts: np.ndarray, faces: np.ndarray, n: int) -> np.ndarray:
     return t[:, 0] + u[:, None] * (t[:, 1] - t[:, 0]) + v[:, None] * (t[:, 2] - t[:, 0])
 
 
-def fragments(faces: np.ndarray) -> tuple[int, int]:
-    """(connected components, components holding at least 1% of faces)."""
+def fragments(verts: np.ndarray, faces: np.ndarray) -> tuple[int, int]:
+    """(connected components, components holding at least 1% of faces).
+
+    mesh.pt stores an unwelded mesh (faces do not share vertices even where
+    positions coincide), so vertices are merged by position first; counting
+    index connectivity alone reports the triangle soup, not the geometry.
+    """
     from scipy.sparse import coo_matrix
     from scipy.sparse.csgraph import connected_components
+    used = np.unique(faces)
+    _, weld = np.unique(np.round(verts[used] * 1e6).astype(np.int64), axis=0, return_inverse=True)
+    remap = np.zeros(int(faces.max()) + 1, np.int64)
+    remap[used] = weld.ravel()
+    faces = remap[faces]
     n = int(faces.max()) + 1
     a = np.concatenate([faces[:, 0], faces[:, 1], faces[:, 2]])
     b = np.concatenate([faces[:, 1], faces[:, 2], faces[:, 0]])
@@ -208,6 +218,9 @@ def score_object(mesh_path: Path, k: int, box, observed: np.ndarray, scene, E: f
     verts, faces = load_mesh(mesh_path)
     surface = sample_surface(verts, faces, SURFACE_SAMPLES)
     tau = TAU * float(np.linalg.norm(np.subtract(box[1], box[0])))
+    # post hoc (LOG E08f): the observed points are voxel centres at E/400, so a
+    # tau below half a voxel diagonal caps completeness for a perfect surface
+    tau_floor = max(tau, 0.5 * np.sqrt(3) * E / p.voxel_div)
     d_obs = cKDTree(surface).query(observed)[0]
     d_mesh = cKDTree(observed).query(surface[::20])[0]
     w, h = scene.label_wh
@@ -220,8 +233,9 @@ def score_object(mesh_path: Path, k: int, box, observed: np.ndarray, scene, E: f
         recall.append(inter / mask.sum())
         iou.append(inter / max(1, (sil | mask).sum()))
         hull_iou.append((hull & mask).sum() / max(1, (hull | mask).sum()))
-    n_comp, n_big = fragments(faces)
+    n_comp, n_big = fragments(verts, faces)
     return {"mesh": True, "completeness": float(np.mean(d_obs < tau)),
+            "completeness_posthoc_voxel_tau": float(np.mean(d_obs < tau_floor)),
             "accuracy_like": float(np.mean(d_mesh < tau)),
             "silhouette_recall": float(np.median(recall)) if recall else None,
             "silhouette_iou": float(np.median(iou)) if iou else None,
@@ -281,7 +295,8 @@ def read_b(results: dict, subset: list[int], e08e_recon: Path | None,
            e08e_log: Path | None = None, sweep_log: Path | None = None) -> dict:
     """The pre-registered reading rule, per config and metric."""
     seeds = ["default_s42", "default_s0", "default_s1"]
-    metrics = ["completeness", "silhouette_iou", "silhouette_recall", "components_1pct", "accuracy_like"]
+    metrics = ["completeness", "silhouette_iou", "silhouette_recall", "components_1pct", "accuracy_like",
+               "completeness_posthoc_voxel_tau"]
     readings = {"summary": {}, "sanity": {}}
     # amended check (PREREG_E08f.md): Stage 2 is nondeterministic upstream, so
     # default_s42 must match E08e on the deterministic parts: Stage 1 voxels,

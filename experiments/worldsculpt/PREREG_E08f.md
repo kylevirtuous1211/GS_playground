@@ -81,3 +81,12 @@ Checked by hand for obj06 before this amendment; `score-b` now checks it for all
 
 The seed null is unchanged and now also covers this run-to-run nondeterminism, which is the variation a user of the method actually faces.
 Face and vertex counts are not read as a quality measure anywhere.
+
+## Notes written after Stage B results were computed
+
+Neither changes a pre-registered reading; both are recorded here so nothing is silently redefined.
+
+1. **Fragments cannot be measured on the raw output.** `mesh.pt` is an unwelded set of 4,000-17,000 small patches per object; welding vertices at any tolerance up to the 1/1024 grid spacing leaves the largest patch at 0.1% of the faces (obj09).
+   Upstream remeshes only when it writes a GLB, which the sweep does not do. The metric is dropped from the reading rather than redefined.
+2. **The completeness tolerance is below the reference's own quantisation.** tau = 2% of the box diagonal is 0.016-0.054 units, while the observed points are voxel centres at E/400 = 0.045 (half-diagonal 0.039), so absolute completeness is capped well below 1 even for a perfect surface and favours large objects.
+   The pre-registered metric and its verdicts stand as the result. A **post-hoc** variant with tau floored at half a voxel diagonal (`completeness_posthoc_voxel_tau`) was added only to test whether the verdicts depend on this: they do not (the same three configs change, the same five stay within seed noise).
