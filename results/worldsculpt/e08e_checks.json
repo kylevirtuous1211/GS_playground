@@ -1,0 +1,204 @@
+{
+ "stages": {
+  "declared": 24,
+  "with_mask_frames": 24,
+  "with_crops": 24,
+  "with_mesh": 24,
+  "in_scene_glb": 24,
+  "scene_glb_reported": 24
+ },
+ "objects": [
+  {
+   "object": "obj04",
+   "mask_frames": 19,
+   "crops": 19,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj05",
+   "mask_frames": 14,
+   "crops": 14,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj06",
+   "mask_frames": 46,
+   "crops": 46,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj09",
+   "mask_frames": 33,
+   "crops": 33,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj14",
+   "mask_frames": 8,
+   "crops": 8,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj17",
+   "mask_frames": 14,
+   "crops": 14,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj18",
+   "mask_frames": 44,
+   "crops": 44,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj20",
+   "mask_frames": 48,
+   "crops": 48,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj21",
+   "mask_frames": 38,
+   "crops": 38,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj22",
+   "mask_frames": 34,
+   "crops": 34,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj23",
+   "mask_frames": 9,
+   "crops": 9,
+   "mask_fit": 1.066,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj27",
+   "mask_frames": 10,
+   "crops": 10,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj56",
+   "mask_frames": 46,
+   "crops": 46,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj57",
+   "mask_frames": 44,
+   "crops": 44,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj67",
+   "mask_frames": 26,
+   "crops": 26,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj70",
+   "mask_frames": 19,
+   "crops": 19,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj71",
+   "mask_frames": 19,
+   "crops": 19,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj74",
+   "mask_frames": 43,
+   "crops": 43,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj87",
+   "mask_frames": 37,
+   "crops": 37,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj107",
+   "mask_frames": 8,
+   "crops": 8,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj140",
+   "mask_frames": 31,
+   "crops": 31,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj222",
+   "mask_frames": 19,
+   "crops": 19,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj224",
+   "mask_frames": 4,
+   "crops": 4,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  },
+  {
+   "object": "obj225",
+   "mask_frames": 25,
+   "crops": 25,
+   "mask_fit": 1.0,
+   "mesh": true,
+   "in_glb": true
+  }
+ ]
+}
