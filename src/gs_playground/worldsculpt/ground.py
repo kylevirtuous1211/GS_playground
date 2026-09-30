@@ -594,6 +594,146 @@ def overview(record: dict, out: Path, E: float) -> None:
 
 
 # --------------------------------------------------------------------------
+# build
+
+
+def build(args) -> None:
+    """The WorldSculpt scene directory from a reviewed, tracked selection.
+
+    Needs no GPU and no 3DGS: boxes come from the selection file, so a later
+    `propose` cannot silently change what WorldSculpt is given.
+    """
+    import cv2
+    selection = json.loads(args.objects.read_text())
+    p = Params(**selection["params"])
+    if args.stride:
+        p = dataclasses.replace(p, stride=args.stride)
+    E = selection["E"]
+    scene = load_scene(args.data_dir, args.model_dir)
+    w, h = scene.label_wh
+    W, H = scene.width, scene.height
+    stems = scene.stems[:: p.stride]
+    out = args.out
+    if out.exists():
+        raise SystemExit(f"{out} exists; upstream resumes from whatever is there, so start clean")
+    (out / "images").mkdir(parents=True)
+
+    frames = []
+    for stem in stems:
+        dst = out / "images" / f"{stem}.jpg"
+        src = (args.images_from / "images" / f"{stem}.jpg") if args.images_from else scene.images / f"{stem}.jpg"
+        if args.images_from:
+            dst.hardlink_to(src)
+        else:
+            shutil.copy2(src, dst)
+        frames.append({"file_path": f"images/{stem}.jpg", "source_image": f"{stem}.jpg",
+                       "transform_matrix": (c2w(scene.cams[stem]) @ FLIP).tolist()})
+
+    morph = None
+    if args.mask_morph:
+        r = abs(args.mask_morph)
+        morph = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1))
+    instances = []
+    for obj in selection["objects"]:
+        if not obj["keep"]:
+            continue
+        k, box = obj["id"], obj["aabb_world"]
+        n = 0
+        for i, stem in enumerate(stems):
+            mask = clean_mask(scene.label(stem) == k, p)
+            if mask.sum() * (W * H) / (w * h) < p.area_min:
+                continue
+            kept, _ = frame_gate(mask, box, scaled(scene.cams[stem], w, h), E, p)
+            if kept is None:
+                continue
+            full = cv2.resize(kept.astype(np.float32), (W, H), interpolation=cv2.INTER_LINEAR) > 0.5
+            if morph is not None:
+                op = cv2.dilate if args.mask_morph > 0 else cv2.erode
+                full = op(full.astype(np.uint8), morph).astype(bool)
+            if full.sum() < p.area_min:
+                continue
+            path = out / "masks" / f"obj{k:02d}" / f"{i:04d}.png"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            # upstream thresholds alpha at >127: 0/1 masks would drop every frame
+            cv2.imwrite(str(path), full.astype(np.uint8) * 255)
+            n += 1
+        lo, hi = np.asarray(box[0]), np.asarray(box[1])
+        instances.append({"pass_index": k, "label": str(k), "aabb_world": box,
+                          "center_world": ((lo + hi) / 2).tolist(), "extent": (hi - lo).tolist(),
+                          "n_mask_frames": n})
+        print(f"  obj{k:02d}: {n} mask frames")
+
+    fx = {round(float(scene.cams[s].K[0, 0]), 6) for s in stems}
+    fy = {round(float(scene.cams[s].K[1, 1]), 6) for s in stems}
+    if len(fx) != 1 or len(fy) != 1:
+        raise SystemExit(f"WorldSculpt takes one global intrinsics; got fx {fx}, fy {fy}")
+    (out / "transforms.json").write_text(json.dumps({
+        "camera_model": "OPENGL", "w": W, "h": H,
+        "fl_x": fx.pop(), "fl_y": fy.pop(), "cx": W / 2.0, "cy": H / 2.0,
+        "source": {"kind": "captured video, COLMAP + 3DGS", "data_dir": str(args.data_dir),
+                   "selection": str(args.objects), "stride": p.stride,
+                   "mask_morph_px": args.mask_morph,
+                   "masks": "HQ-SAM label maps associated by Inpaint360GS, cleaned and gated here"},
+        "frames": frames, "instances": instances}, indent=1) + "\n")
+    import hashlib
+    (out / "selection.sha256").write_text(hashlib.sha256(args.objects.read_bytes()).hexdigest() + "\n")
+    print(f"built {out}: {len(frames)} frames, {len(instances)} objects")
+
+
+# --------------------------------------------------------------------------
+# check
+
+
+def check(args) -> None:
+    """Count the declared objects that survive each upstream stage.
+
+    Upstream never fails on a lost object: no mask frames, no crops or a
+    failed reconstruction all just leave it out of scene.glb. This makes
+    every such loss a number.
+    """
+    import ast
+    import re
+    meta = json.loads((args.scene_dir / "transforms.json").read_text())
+    case = args.case_root
+    log = args.log.read_text() if args.log and args.log.exists() else ""
+    in_glb = set()
+    m = re.findall(r"\[scene\] instances\s*=\s*(\[.*?\])", log)
+    if m:
+        in_glb = set(ast.literal_eval(m[-1]))  # a list literal upstream prints
+    saved = re.findall(r"scene\.glb \((\d+) instances", log)
+    rows = []
+    for inst in meta["instances"]:
+        name = f"obj{inst['pass_index']:02d}"
+        crop_meta = case / "_crops" / name / "transforms.json"
+        row = {"object": name, "mask_frames": inst.get("n_mask_frames"),
+               "crops": 0, "mask_fit": None, "mesh": (case / "_recon" / name / "mesh.pt").exists(),
+               "in_glb": name in in_glb}
+        if crop_meta.exists():
+            cm = json.loads(crop_meta.read_text())
+            row["crops"] = len(cm["frames"])
+            # the cube upstream would build from the box alone, measured along R_box
+            R = np.asarray(cm["R_box"])
+            local = corners(cm["aabb_world"]) @ R
+            row["mask_fit"] = round(float(cm["scale"]) / float((local.max(0) - local.min(0)).max()), 3)
+        rows.append(row)
+    stages = {"declared": len(rows),
+              "with_mask_frames": sum(bool(r["mask_frames"]) for r in rows),
+              "with_crops": sum(r["crops"] > 0 for r in rows),
+              "with_mesh": sum(r["mesh"] for r in rows),
+              "in_scene_glb": sum(r["in_glb"] for r in rows),
+              "scene_glb_reported": int(saved[-1]) if saved else None}
+    record = {"stages": stages, "objects": rows}
+    text = json.dumps(record, indent=1) + "\n"
+    if args.out:
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(text)
+    print(json.dumps(stages))
+    lost = [r["object"] for r in rows if not r["in_glb"]]
+    if lost:
+        print(f"lost before scene.glb: {lost}")
+
+
+# --------------------------------------------------------------------------
 
 
 def main() -> None:
@@ -603,8 +743,23 @@ def main() -> None:
     pr.add_argument("--data-dir", required=True, type=Path)
     pr.add_argument("--model-dir", required=True, type=Path)
     pr.add_argument("--out", required=True, type=Path)
+    bu = sub.add_parser("build")
+    bu.add_argument("--data-dir", required=True, type=Path)
+    bu.add_argument("--model-dir", required=True, type=Path)
+    bu.add_argument("--objects", required=True, type=Path, help="reviewed selection JSON")
+    bu.add_argument("--out", required=True, type=Path)
+    bu.add_argument("--stride", type=int, default=0, help="override the selection's stride")
+    bu.add_argument("--mask-morph", type=int, default=0,
+                    help="full-res px: >0 dilates, <0 erodes the final masks (E08f)")
+    bu.add_argument("--images-from", type=Path,
+                    help="hardlink frames from an existing scene dir instead of copying")
+    ch = sub.add_parser("check")
+    ch.add_argument("--scene-dir", required=True, type=Path)
+    ch.add_argument("--case-root", required=True, type=Path)
+    ch.add_argument("--log", type=Path)
+    ch.add_argument("--out", type=Path)
     args = ap.parse_args()
-    {"propose": propose}[args.cmd](args)
+    {"propose": propose, "build": build, "check": check}[args.cmd](args)
 
 
 if __name__ == "__main__":
