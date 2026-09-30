@@ -145,8 +145,9 @@ def score_run(scene: Path, ref, box, colmap_centres: dict, device: str = "cuda")
     cloud = scene / ("point_cloud_normals.ply" if guided else "final.ply")
     pred = torch.as_tensor(np.asarray(trimesh.load(cloud).vertices), dtype=torch.float64)
     stems = [Path(p).stem for p in state["selected_images"]]
-    ours = torch.tensor(np.stack([-np.asarray(c["R"]) @ np.asarray(c["T"]) for c in state["cameras"]]))
-    theirs = torch.tensor(np.stack([colmap_centres[s] for s in stems]))
+    ours = torch.tensor(np.stack([-np.asarray(c["R"]) @ np.asarray(c["T"]) for c in state["cameras"]]),
+                        dtype=torch.float64)
+    theirs = torch.tensor(np.stack([colmap_centres[s] for s in stems]), dtype=torch.float64)
     s, R, t = umeyama_alignment(ours, theirs)
     cam_residual = (apply_similarity(ours, s, R, t) - theirs).norm(dim=1)
     pred = apply_similarity(pred, s, R, t)
