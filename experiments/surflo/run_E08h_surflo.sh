@@ -35,8 +35,8 @@ infer() {
     rm -rf "$out" && mkdir -p "$out"
     local args=(mode="$mode" ckpt="$CKPT" source.image_folder="$folder"
                 source.n_images="$n" num_query_points=100000 seed="$seed"
-                output_dir="$out" hydra.run.dir="$out/hydra")
-    if [ "$mode" = guided ]; then args+=(guided="$preset" save_guided_state=true); fi
+                output_dir="$out" hydra.run.dir="$out/hydra" save_guided_state=true)
+    if [ "$mode" = guided ]; then args+=(guided="$preset"); fi
     echo "   $out"
     ( source tools/setup/activate_surflo.sh && cd "$CLONE" && python scripts/infer.py "${args[@]}" ) \
         > "$out/infer.log" 2>&1 || { echo "   FAILED: see $out/infer.log" >&2; exit 1; }
@@ -80,8 +80,32 @@ A)
     export_all "$OUT" "$ROOT/results/surflo/e08h_export_check.json"
     ;;
 B)
-    echo "Stage B is added after Stage A has been read against the pre-registration." >&2
-    exit 1
+    # Pre-registered: Stage B runs only if Stage A passed all four criteria.
+    python3 -c "import json,sys; sys.exit(0 if json.load(open('results/surflo/e08h_stage_a.json')).get('passes') else 1)" || {
+        echo "Stage A has not passed (results/surflo/e08h_stage_a.json); Stage B does not run" >&2; exit 1; }
+    [ -f "$ROOT/.env.local" ] && . "$ROOT/.env.local"
+    : "${NCHC_SOFA_RUN:?set NCHC_SOFA_RUN in .env.local}"
+    SCENE=nchc_sofa_20260727_143647
+    FOLDER="$NCHC_SOFA_RUN/data/editreadygs_video/$SCENE/images"
+    MODEL="$NCHC_SOFA_RUN/output/editreadygs_video/$SCENE/3dgs_output"
+    DEPTH="$ROOT/outputs/worldsculpt/NCHC/ground/depth"   # E08e's cache of that 3DGS's depth
+    [ "$(ls "$DEPTH" | wc -l)" = 364 ] || { echo "missing E08e's depth cache at $DEPTH" >&2; exit 1; }
+    OUT="$ROOT/outputs/surflo/nchc_sofa"
+    mkdir -p "$OUT"
+    source tools/stamp_provenance.sh
+    stamp_provenance "$OUT" surflo
+    echo "== Stage B: NCHC sofa, three arms x seeds {42, 0, 1} (exploratory)"
+    for seed in 42 0 1; do
+        infer "$OUT/guided_default_16/seed$seed" guided default "$FOLDER" 16 "$seed"
+        infer "$OUT/plain_16/seed$seed" plain - "$FOLDER" 16 "$seed"
+        infer "$OUT/guided_long_32/seed$seed" guided long "$FOLDER" 32 "$seed"
+    done
+    echo "== export check on Stage B's guided runs"
+    export_all "$OUT" "$ROOT/results/surflo/e08h_export_check.json"
+    echo "== Stage B scores (authors' metric code, surflo env)"
+    ( source tools/setup/activate_surflo.sh &&
+      python -m gs_playground.surflo.evaluate stage-b --root "$OUT" --model-dir "$MODEL" \
+          --depth-dir "$DEPTH" --out "$ROOT/results/surflo/e08h_stage_b.json" )
     ;;
 *)
     echo "unknown stage $STAGE (A or B)" >&2; exit 1 ;;

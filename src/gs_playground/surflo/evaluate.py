@@ -2,11 +2,19 @@
 
     python -m gs_playground.surflo.evaluate stage-a \
         --root outputs/surflo/garden_sample --out results/surflo/e08h_stage_a.json
+    # surflo env: the authors' metric code only imports there
+    python -m gs_playground.surflo.evaluate stage-b --root outputs/surflo/nchc_sofa \
+        --model-dir <3dgs_output> --depth-dir outputs/worldsculpt/NCHC/ground/depth \
+        --out results/surflo/e08h_stage_b.json
 
 Stage A compares each arm's ODE time and peak VRAM with the authors' README
 table and checks the promised outputs exist. The fourth criterion (the mesh
 shows the table, the pot and the ground) is judged by eye and recorded in the
 LOG, so this file reports it as pending rather than guessing.
+
+Stage B scores each sofa run's point cloud against our 3DGS's back-projected
+depth, with the authors' own metric functions (Umeyama on camera centres, no
+ICP), and applies the pre-registered seed-noise reading rule.
 """
 
 from __future__ import annotations
@@ -95,13 +103,135 @@ def stage_a(root: Path) -> dict:
     }
 
 
+#: Stage B, pre-registered
+REFERENCE_ARM = "guided_default_16"
+ALPHA_MIN = 0.95
+PIXEL_STRIDE = 2
+BOX_PERCENTILES = (0.5, 99.5)
+VOXEL_FRAC = 0.001
+TAU_FRAC = 0.01
+METRICS = ("chamfer_norm", "precision", "recall", "f1")
+
+
+def reference_points(model_dir: Path, depth_dir: Path) -> "np.ndarray":
+    """Our 3DGS's expected depth, back-projected over every frame (as E08e's gather)."""
+    import numpy as np
+    pts = []
+    for c in json.loads((model_dir / "cameras.json").read_text()):
+        d = np.load(depth_dir / f"{Path(c['img_name']).stem}.npz")
+        depth, alpha = d["depth"], d["alpha"].astype(np.float32) / 255
+        h, w = depth.shape
+        sx, sy = w / c["width"], h / c["height"]
+        fx, fy = c["fx"] * sx, c["fy"] * sy
+        cx, cy = c.get("cx", c["width"] / 2) * sx, c.get("cy", c["height"] / 2) * sy
+        ys, xs = np.mgrid[0:h:PIXEL_STRIDE, 0:w:PIXEL_STRIDE]
+        z = depth[ys, xs]
+        ok = (alpha[ys, xs] > ALPHA_MIN) & (z > 0)
+        u, v, z = xs[ok] + 0.5, ys[ok] + 0.5, z[ok]
+        cam = np.stack([(u - cx) / fx * z, (v - cy) / fy * z, z], 1)
+        pts.append(cam @ np.asarray(c["rotation"]).T + np.asarray(c["position"]))
+    return np.concatenate(pts).astype(np.float32)
+
+
+def score_run(scene: Path, ref, box, colmap_centres: dict, device: str = "cuda") -> dict:
+    import numpy as np
+    import torch
+    import trimesh
+    from surflo.metrics.eval_alignment import (apply_similarity, chamfer_and_fscore,
+                                               umeyama_alignment, voxel_downsample)
+    guided = (scene / "guided_state.pt").exists()
+    state = torch.load(scene / ("guided_state.pt" if guided else "plain_state.pt"),
+                       map_location="cpu", weights_only=False)
+    cloud = scene / ("point_cloud_normals.ply" if guided else "final.ply")
+    pred = torch.as_tensor(np.asarray(trimesh.load(cloud).vertices), dtype=torch.float64)
+    stems = [Path(p).stem for p in state["selected_images"]]
+    ours = torch.tensor(np.stack([-np.asarray(c["R"]) @ np.asarray(c["T"]) for c in state["cameras"]]))
+    theirs = torch.tensor(np.stack([colmap_centres[s] for s in stems]))
+    s, R, t = umeyama_alignment(ours, theirs)
+    cam_residual = (apply_similarity(ours, s, R, t) - theirs).norm(dim=1)
+    pred = apply_similarity(pred, s, R, t)
+    lo, hi = box
+    keep = ((pred >= lo) & (pred <= hi)).all(dim=1)
+    diag = float((hi - lo).norm())
+    pred_ds = voxel_downsample(pred[keep].float().to(device), VOXEL_FRAC * diag)
+    ref_ds = voxel_downsample(ref.to(device), VOXEL_FRAC * diag)
+    m = chamfer_and_fscore(pred_ds, ref_ds, tau=TAU_FRAC * diag)
+    return {
+        "scene": str(scene), "views": len(stems), "pred_points": int(pred.shape[0]),
+        "pred_in_box": int(keep.sum()), "umeyama_scale": float(s),
+        "camera_residual_over_diag": float(cam_residual.mean() / diag),
+        "chamfer_norm": m.chamfer_mean / diag, "precision": m.precision,
+        "recall": m.recall, "f1": m.f_score,
+    }
+
+
+def stage_b(root: Path, model_dir: Path, depth_dir: Path) -> dict:
+    import numpy as np
+    import torch
+    cache = root / "reference_points.npz"
+    if not cache.exists():
+        np.savez_compressed(cache, points=reference_points(model_dir, depth_dir))
+    points = np.load(cache)["points"]
+    lo_np, hi_np = np.percentile(points, BOX_PERCENTILES, axis=0)   # exact, deterministic
+    points = points[((points >= lo_np) & (points <= hi_np)).all(axis=1)]
+    ref = torch.from_numpy(points)
+    lo, hi = torch.from_numpy(lo_np), torch.from_numpy(hi_np)
+    centres = {Path(c["img_name"]).stem: np.asarray(c["position"])
+               for c in json.loads((model_dir / "cameras.json").read_text())}
+    arms = {}
+    for arm_dir in sorted(p for p in root.iterdir() if p.is_dir() and (p / "seed42").exists()):
+        rows = {}
+        for seed_dir in sorted(arm_dir.glob("seed*")):
+            scene = next(p.parent for p in seed_dir.glob("*/_infer_summary.json"))
+            rows[seed_dir.name] = score_run(scene, ref, (lo, hi), centres)
+        arms[arm_dir.name] = rows
+    base = arms[REFERENCE_ARM]
+    seed_range = {k: max(r[k] for r in base.values()) - min(r[k] for r in base.values())
+                  for k in METRICS}
+    reading = {}
+    for arm, rows in arms.items():
+        if arm == REFERENCE_ARM:
+            continue
+        reading[arm] = {}
+        for k in METRICS:
+            change = median(rows[s][k] - base[s][k] for s in rows if s in base)
+            reading[arm][k] = {"median_paired_change": change,
+                               "reference_seed_range": seed_range[k],
+                               "verdict": "changes" if abs(change) > seed_range[k]
+                               else "within seed noise"}
+    summary = {arm: {k: {"median": median(r[k] for r in rows.values()),
+                         "range": [min(r[k] for r in rows.values()), max(r[k] for r in rows.values())]}
+                     for k in METRICS} for arm, rows in arms.items()}
+    return {"entry": "E08h", "stage": "B", "lane": "exploratory",
+            "prereg": "experiments/surflo/PREREG_E08h.md",
+            "reference": {"points_in_box": int(len(ref)), "box_lo": lo.tolist(), "box_hi": hi.tolist(),
+                          "diag": float((hi - lo).norm())},
+            "reference_arm": REFERENCE_ARM, "arms": arms, "summary": summary, "reading": reading}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     a = sub.add_parser("stage-a")
     a.add_argument("--root", type=Path, required=True)
     a.add_argument("--out", type=Path, required=True)
+    b = sub.add_parser("stage-b")
+    b.add_argument("--root", type=Path, required=True)
+    b.add_argument("--model-dir", type=Path, required=True)
+    b.add_argument("--depth-dir", type=Path, required=True)
+    b.add_argument("--out", type=Path, required=True)
     args = ap.parse_args()
+    if args.cmd == "stage-b":
+        result = stage_b(args.root, args.model_dir, args.depth_dir)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(result, indent=1))
+        for arm, stats in result["summary"].items():
+            print(arm, {k: f"{v['median']:.4f} [{v['range'][0]:.4f}, {v['range'][1]:.4f}]"
+                        for k, v in stats.items()})
+        for arm, r in result["reading"].items():
+            print(arm, {k: f"{v['median_paired_change']:+.4f} vs {v['reference_seed_range']:.4f}: "
+                           f"{v['verdict']}" for k, v in r.items()})
+        return
     if args.cmd == "stage-a":
         result = stage_a(args.root)
         args.out.parent.mkdir(parents=True, exist_ok=True)
