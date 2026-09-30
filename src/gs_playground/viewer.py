@@ -13,7 +13,10 @@ The spec is JSON::
       "panels": [
         {"label": "...", "ply": "path/to.ply", "caption": "...",
          "up": "z", "meta": {"gaussians": 530336},
-         "sh": false}   # true keeps the higher-order SH bands
+         "sh": false},  # true keeps the higher-order SH bands
+        {"label": "...", "mesh": "path/to/mesh.ply",  # vertex-coloured mesh
+         "rotation": [x, y, z, w]},  # any panel: replaces the up toggle
+        {"label": "...", "image": "path/to/sheet.jpg"}
       ],
       "notes": ["stated caveats, shown on the page"]
     }
@@ -37,7 +40,9 @@ import json
 import shutil
 from pathlib import Path
 
+import numpy as np
 import torch
+from plyfile import PlyData, PlyElement
 
 from .gs.ply import GaussianCloud, load_ply, save_ply
 
@@ -132,8 +137,15 @@ TEMPLATE = """<meta charset="utf-8">
 <script type="module">
 import * as THREE from "three";
 import { SparkRenderer, SplatMesh } from "@sparkjsdev/spark";
+import { PLYLoader } from "three/addons/loaders/PLYLoader.js";
 
 const manifest = await (await fetch("./manifest.json")).json();
+// the up toggle does nothing to a panel with its own rotation; hide it if none would listen
+const turnable = manifest.panels.filter(p => !p.image);
+if (turnable.length && turnable.every(p => p.rotation)) {
+  for (const id of ["zup", "yup"]) document.getElementById(id).style.display = "none";
+  document.getElementById("zup").previousElementSibling.style.display = "none";
+}
 const grid = document.getElementById("grid");
 document.getElementById("notes").innerHTML =
   manifest.notes.map(n => `<li>${n}</li>`).join("");
@@ -151,7 +163,7 @@ for (const panel of manifest.panels) {
     ([k, v]) => `<span>${k}<b>${v}</b></span>`).join("");
   card.innerHTML = `
     <h2>${panel.label}</h2>
-    <div class="stage"><div class="loading">loading splats…</div></div>
+    <div class="stage"><div class="loading">loading…</div></div>
     <div class="caption">${panel.caption ?? ""}</div>
     <div class="stats">${stats}</div>`;
   grid.appendChild(card);
@@ -173,7 +185,14 @@ for (const panel of manifest.panels) {
   stage.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
-  scene.add(new SparkRenderer({ renderer }));
+  if (panel.mesh) {
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x3a3f47, 1.6));
+    const sun = new THREE.DirectionalLight(0xffffff, 1.3);
+    sun.position.set(1, 2, 1.5);
+    scene.add(sun);
+  } else {
+    scene.add(new SparkRenderer({ renderer }));
+  }
   new ResizeObserver(() => {
     const { clientWidth: w, clientHeight: h } = stage;
     renderer.setSize(w, h, false);
@@ -181,14 +200,23 @@ for (const panel of manifest.panels) {
     camera.updateProjectionMatrix();
   }).observe(stage);
 
-  const entry = { renderer, scene, camera, mesh: null, up: panel.up ?? null };
+  const entry = { renderer, scene, camera, mesh: null, up: panel.up ?? null,
+                  rotation: panel.rotation ?? null };
   panels.push(entry);
   attach(renderer.domElement);
 
   (async () => {
-    const bytes = new Uint8Array(await (await fetch(panel.splat)).arrayBuffer());
-    const mesh = new SplatMesh({ fileBytes: bytes, fileType: "ply" });
-    await mesh.initialized;
+    let mesh;
+    if (panel.mesh) {
+      const geometry = new PLYLoader().parse(await (await fetch(panel.mesh)).arrayBuffer());
+      geometry.computeVertexNormals();
+      mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
+        vertexColors: geometry.hasAttribute("color"), roughness: 0.9, side: THREE.DoubleSide }));
+    } else {
+      const bytes = new Uint8Array(await (await fetch(panel.splat)).arrayBuffer());
+      mesh = new SplatMesh({ fileBytes: bytes, fileType: "ply" });
+      await mesh.initialized;
+    }
     entry.mesh = mesh;
     setUp(entry);
     scene.add(mesh);
@@ -198,6 +226,8 @@ for (const panel of manifest.panels) {
 
 function setUp(entry) {
   if (!entry.mesh) return;
+  // a panel with its own rotation (a quaternion, x y z w) ignores the up toggle
+  if (entry.rotation) { entry.mesh.quaternion.fromArray(entry.rotation); return; }
   const up = entry.up ?? (zUp ? "z" : "y");
   entry.mesh.quaternion.set(up === "z" ? 1 : 0, 0, 0, up === "z" ? 0 : 1);
 }
@@ -287,6 +317,33 @@ def subsample(cloud: GaussianCloud, limit: int, seed: int = 0) -> GaussianCloud:
     return cloud.select(keep)
 
 
+def slug(label: str) -> str:
+    return (label.lower().replace(" ", "_").replace(",", "")
+            .replace("(", "").replace(")", "").replace("/", "-"))
+
+
+def write_mesh(source: Path, target: Path) -> tuple[int, float]:
+    """A vertex-coloured PLY mesh, normalised like the splat panels."""
+    ply = PlyData.read(str(source))
+    v, faces = ply["vertex"].data, ply["face"].data["vertex_indices"]
+    xyz = np.stack([v[k] for k in ("x", "y", "z")], axis=1).astype(np.float32)
+    lo, hi = np.percentile(xyz, 1, axis=0), np.percentile(xyz, 99, axis=0)
+    scale = float(max((hi - lo).max(), 1e-6))
+    xyz = (xyz - (lo + hi) / 2) / scale
+    colour = [k for k in ("red", "green", "blue") if k in v.dtype.names]
+    vertex = np.empty(len(v), dtype=[("x", "f4"), ("y", "f4"), ("z", "f4")]
+                      + [(k, "u1") for k in colour])
+    for i, k in enumerate("xyz"):
+        vertex[k] = xyz[:, i]
+    for k in colour:
+        vertex[k] = v[k]
+    face = np.empty(len(faces), dtype=[("vertex_indices", "i4", (3,))])
+    face["vertex_indices"] = np.stack(faces).astype(np.int32)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    PlyData([PlyElement.describe(vertex, "vertex"), PlyElement.describe(face, "face")]).write(str(target))
+    return len(faces), scale
+
+
 def build(spec: dict, out: Path, js_dir: Path,
           max_gaussians: int = 250_000) -> None:
     out.mkdir(parents=True, exist_ok=True)
@@ -317,6 +374,18 @@ def build(spec: dict, out: Path, js_dir: Path,
             })
             print(f"{panel['label']}: still image")
             continue
+        if "mesh" in panel:
+            name = slug(panel["label"]) + ".ply"
+            faces, scale = write_mesh(Path(panel["mesh"]), out / "meshes" / name)
+            meta = dict(panel.get("meta", {}))
+            meta.setdefault("faces", f"{faces:,}")
+            panels.append({
+                "label": panel["label"], "up": panel.get("up"),
+                "rotation": panel.get("rotation"), "caption": panel.get("caption", ""),
+                "mesh": f"meshes/{name}", "meta": meta,
+            })
+            print(f"{panel['label']}: mesh, {faces:,} faces, normalised by {scale:.3f}")
+            continue
         cloud = load_ply(Path(panel["ply"]))
         if not panel.get("sh"):
             # DC only unless a panel asks: SH bands quadruple the file, and every
@@ -325,8 +394,7 @@ def build(spec: dict, out: Path, js_dir: Path,
         total = int(cloud.means.shape[0])
         cloud = subsample(cloud, max_gaussians)
         cloud, scale = normalise(cloud)
-        name = (panel["label"].lower().replace(" ", "_").replace(",", "")
-                .replace("(", "").replace(")", "").replace("/", "-") + ".ply")
+        name = slug(panel["label"]) + ".ply"
         save_ply(cloud, out / "splats" / name)
 
         meta = dict(panel.get("meta", {}))
@@ -336,6 +404,7 @@ def build(spec: dict, out: Path, js_dir: Path,
         panels.append({
             "label": panel["label"],
             "up": panel.get("up"),
+            "rotation": panel.get("rotation"),
             "caption": panel.get("caption", ""),
             "splat": f"splats/{name}",
             "meta": meta,
