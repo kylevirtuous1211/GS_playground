@@ -250,7 +250,7 @@ def score_b(args) -> None:
         done = sum(r["mesh"] for r in results[cfg["name"]].values())
         print(f"  {cfg['name']}: {done}/{len(subset)} meshes", flush=True)
 
-    readings = read_b(results, subset, args.e08e_recon)
+    readings = read_b(results, subset, args.e08e_recon, args.e08e_log, args.sweep_log)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps({
         "entry": "E08f", "stage": "B", "prereg": "experiments/worldsculpt/PREREG_E08f.md",
@@ -260,22 +260,44 @@ def score_b(args) -> None:
     print(json.dumps(readings["summary"], indent=1))
 
 
-def read_b(results: dict, subset: list[int], e08e_recon: Path | None) -> dict:
+def stage1_record(log: Path) -> dict:
+    """Per object: Stage 1 occupied voxels and selected views, from a reconstruct log."""
+    import re
+    out, obj = {}, None
+    for line in log.read_text(errors="replace").replace("\r", "\n").splitlines():
+        m = re.search(r"\[batch\] =+ \[\d+/\d+\] (obj\d+)", line)
+        if m:
+            obj = m.group(1)
+        m = re.search(r"views: (\[.*?\]) \(anchor sub=(\d+)\)", line)
+        if m and obj:
+            out.setdefault(obj, {})["views"] = m.group(1) + f" anchor {m.group(2)}"
+        m = re.search(r"coords: (\d+) occupied voxels", line)
+        if m and obj:
+            out.setdefault(obj, {})["occupied"] = int(m.group(1))
+    return out
+
+
+def read_b(results: dict, subset: list[int], e08e_recon: Path | None,
+           e08e_log: Path | None = None, sweep_log: Path | None = None) -> dict:
     """The pre-registered reading rule, per config and metric."""
     seeds = ["default_s42", "default_s0", "default_s1"]
     metrics = ["completeness", "silhouette_iou", "silhouette_recall", "components_1pct", "accuracy_like"]
     readings = {"summary": {}, "sanity": {}}
-    # default_s42 must reproduce E08e's meshes (same crops, same seed)
-    if e08e_recon is not None:
+    # amended check (PREREG_E08f.md): Stage 2 is nondeterministic upstream, so
+    # default_s42 must match E08e on the deterministic parts: Stage 1 voxels,
+    # views and anchor, and the placement transform
+    if e08e_recon is not None and e08e_log and sweep_log and e08e_log.exists() and sweep_log.exists():
         import torch
-        same = {}
+        theirs_log, mine_log = stage1_record(e08e_log), stage1_record(sweep_log)
+        match = {}
         for k in subset:
-            mine = results["default_s42"][str(k)]
-            path = e08e_recon / f"obj{k:02d}" / "mesh.pt"
-            if mine.get("mesh") and path.exists():
-                theirs = torch.load(path, map_location="cpu", weights_only=False)
-                same[k] = int(np.asarray(theirs["vertices"]).shape[0]) == mine["vertices"]
-        readings["sanity"]["default_s42_reproduces_e08e"] = same
+            name = f"obj{k:02d}"
+            a = torch.load(e08e_recon / name / "mesh.pt", map_location="cpu", weights_only=False)
+            b = torch.load(e08e_recon.parent / "_sweep_default_s42" / name / "mesh.pt",
+                           map_location="cpu", weights_only=False)
+            match[k] = (theirs_log.get(name) == mine_log.get(name)
+                        and bool(np.allclose(a["T_canon_to_metric"], b["T_canon_to_metric"])))
+        readings["sanity"]["default_s42_matches_e08e_stage1_views_T"] = match
     for metric in metrics:
         vals = {s: {k: results[s][str(k)].get(metric) for k in subset} for s in seeds}
         ok = [k for k in subset if all(vals[s][k] is not None for s in seeds)]
@@ -318,6 +340,8 @@ def main() -> None:
     b.add_argument("--objects", required=True, type=Path)
     b.add_argument("--observed", required=True, type=Path)
     b.add_argument("--e08e-recon", type=Path, help="E08e's _recon, for the reproduction check")
+    b.add_argument("--e08e-log", type=Path, help="E08e's run.log (Stage 1 record)")
+    b.add_argument("--sweep-log", type=Path, help="default_s42's reconstruct log")
     b.add_argument("--out", required=True, type=Path)
     args = ap.parse_args()
     {"stage-a": stage_a, "score-b": score_b}[args.cmd](args)

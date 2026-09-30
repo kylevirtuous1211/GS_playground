@@ -327,7 +327,7 @@ def stage_b_section(b: dict, sil_html: str) -> str:
     res = b["results"]
     summ = b["readings"]["summary"]
     counts = b["readings"]["mesh_counts"]
-    sanity = b["readings"]["sanity"].get("default_s42_reproduces_e08e", {})
+    sanity = b["readings"]["sanity"].get("default_s42_matches_e08e_stage1_views_T", {})
     table_rows = []
     for c, per in res.items():
         for k in objects:
@@ -365,7 +365,8 @@ def stage_b_section(b: dict, sil_html: str) -> str:
         '<th>components ≥1%</th><th>accuracy-like</th><th>held-out frames</th></tr>'
         + "".join(table_rows) + '</table></div></details>'
         f'<p class="sub" style="margin-top:14px">Meshes produced per config: {esc(", ".join(f"{c} {n}" for c, n in counts.items()))}. '
-        f'default_s42 reproduces E08e\'s vertex counts for {sum(sanity.values())} of {len(sanity)} objects.</p>')
+        f'default_s42 matches E08e on Stage 1 voxels, views and placement for {sum(sanity.values())} of {len(sanity)} objects '
+        '(the shape stage itself is nondeterministic at a fixed seed; see the notes).</p>')
 
 
 def main() -> None:
@@ -399,6 +400,9 @@ def main() -> None:
         "Held-out IoU compares against HQ-SAM's predicted mask, a reference rather than ground truth; the box-hull "
         "IoU in the table is its null.",
         "Units are COLMAP units; this capture has no metric scale.",
+        "<b>WorldSculpt's shape stage is not reproducible at a fixed seed.</b> The same command run twice on one "
+        "object gave 120,370 and then 31,136 faces from identical Stage 1 voxels, so the three default seeds "
+        "measure run-to-run variation as well as seed variation. Face counts are not read as quality.",
     ]
     page = ('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             '<title>WorldSculpt Parameter Sweep</title>'

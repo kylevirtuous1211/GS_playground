@@ -69,3 +69,15 @@ Completeness therefore measures consistency with our own grounding, not absolute
 
 - `default_s42` must reproduce E08e's meshes for the subset (same vertex counts), or the sweep runner has drifted from `inference.sh`.
 - Stage A at default parameters must reproduce E08e's automatic kept set exactly.
+
+## Amendment, 2026-09-30, before any Stage B metric was computed
+
+The sanity check "`default_s42` must reproduce E08e's meshes (same vertex counts)" cannot hold, and not because of the sweep runner.
+Upstream's shape stage is nondeterministic at a fixed seed: `reconstruct_batch.py` run twice back to back on obj09 with `inference.sh`'s exact flags, seed 42, gave F = 120,370 and then F = 31,136 faces, from the same 2,364 occupied Stage 1 voxels.
+`default_s42` and E08e differ by the same kind of factor (3.5-4x fewer faces) on all ten objects.
+
+Replaced with what the runner can be held to: for every subset object, `default_s42` must match E08e exactly on the Stage 1 occupied-voxel count (the seeded, deterministic stage), the selected views and anchor, and `T_canon_to_metric`.
+Checked by hand for obj06 before this amendment; `score-b` now checks it for all ten from the two logs.
+
+The seed null is unchanged and now also covers this run-to-run nondeterminism, which is the variation a user of the method actually faces.
+Face and vertex counts are not read as a quality measure anywhere.

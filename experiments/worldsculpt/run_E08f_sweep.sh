@@ -100,4 +100,5 @@ export PYTHONPATH="$ROOT/src"   # the clone's vendored modules must not shadow o
 python -m gs_playground.worldsculpt.sweep score-b \
     --data-dir "$DATA_DIR" --model-dir "$MODEL_DIR" --configs "$CONFIGS" --objects "$OBJECTS" \
     --observed "$OBSERVED" --e08e-recon "$BASE_CASE/_recon" \
+    --e08e-log "$ROOT/outputs/worldsculpt/NCHC/run.log" --sweep-log "$SWEEP/default_s42.log" \
     --out "$ROOT/results/worldsculpt/e08f_stage_b.json"
