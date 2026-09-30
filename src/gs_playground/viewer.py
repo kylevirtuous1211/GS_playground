@@ -12,7 +12,8 @@ The spec is JSON::
       "title": "...", "eyebrow": "...", "intro": "one paragraph",
       "panels": [
         {"label": "...", "ply": "path/to.ply", "caption": "...",
-         "up": "z", "meta": {"gaussians": 530336}}
+         "up": "z", "meta": {"gaussians": 530336},
+         "sh": false}   # true keeps the higher-order SH bands
       ],
       "notes": ["stated caveats, shown on the page"]
     }
@@ -31,6 +32,7 @@ standard web media types, would need the bytes wrapped in JSON instead.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import shutil
 from pathlib import Path
@@ -265,6 +267,7 @@ def normalise(cloud: GaussianCloud) -> tuple[GaussianCloud, float]:
         opacity_logit=cloud.opacity_logit,
         log_scales=cloud.log_scales - torch.log(torch.tensor(scale)),
         quats=cloud.quats,
+        f_rest=cloud.f_rest,  # SH bands are view directions: scale and shift leave them alone
     ), scale
 
 
@@ -281,9 +284,7 @@ def subsample(cloud: GaussianCloud, limit: int, seed: int = 0) -> GaussianCloud:
         return cloud
     generator = torch.Generator().manual_seed(seed)
     keep = torch.randperm(cloud.means.shape[0], generator=generator)[:limit]
-    return GaussianCloud(cloud.means[keep], cloud.f_dc[keep],
-                         cloud.opacity_logit[keep], cloud.log_scales[keep],
-                         cloud.quats[keep])
+    return cloud.select(keep)
 
 
 def build(spec: dict, out: Path, js_dir: Path,
@@ -317,6 +318,10 @@ def build(spec: dict, out: Path, js_dir: Path,
             print(f"{panel['label']}: still image")
             continue
         cloud = load_ply(Path(panel["ply"]))
+        if not panel.get("sh"):
+            # DC only unless a panel asks: SH bands quadruple the file, and every
+            # viewer built before load_ply kept them was DC only
+            cloud = dataclasses.replace(cloud, f_rest=None)
         total = int(cloud.means.shape[0])
         cloud = subsample(cloud, max_gaussians)
         cloud, scale = normalise(cloud)

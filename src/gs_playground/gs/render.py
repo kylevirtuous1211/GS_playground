@@ -55,24 +55,41 @@ def load_cameras(path: str | Path, max_side: int | None = None) -> list[Camera]:
 
 
 @torch.no_grad()
-def render(cloud: GaussianCloud, cam: Camera,
-           device: str = "cuda") -> torch.Tensor:
-    """-> [H, W, 3] float in [0, 1], white background."""
+def render(cloud: GaussianCloud, cam: Camera, device: str = "cuda", *,
+           sh_degree: int | None = None, eps2d: float = 0.3,
+           background: tuple[float, float, float] = (1.0, 1.0, 1.0)) -> torch.Tensor:
+    """-> [H, W, 3] float in [0, 1].
+
+    Defaults: DC colour only, gsplat's 0.3 px screen-space dilation, white
+    background. `sh_degree` evaluates the cloud's higher-order SH bands up to
+    that degree (gsplat adds 0.5 and clamps at 0, as INRIA's rasterizer does);
+    `eps2d=0` renders without the dilation, for assets trained without it.
+    """
     cloud = cloud.to(device)
-    colors, alphas, _ = rasterization(
+    if sh_degree is None:
+        colors = cloud.colors
+    else:
+        bands = (sh_degree + 1) ** 2 - 1
+        rest = (cloud.f_rest[:, :bands] if cloud.f_rest is not None
+                else cloud.f_dc.new_zeros(len(cloud), bands, 3))
+        colors = torch.cat([cloud.f_dc[:, None], rest], dim=1)
+    rendered, alphas, _ = rasterization(
         means=cloud.means,
         quats=torch.nn.functional.normalize(cloud.quats, dim=1),
         scales=torch.exp(cloud.log_scales),
         opacities=cloud.opacities,
-        colors=cloud.colors,
+        colors=colors,
         viewmats=cam.viewmat[None].to(device),
         Ks=cam.K[None].to(device),
         width=cam.width,
         height=cam.height,
+        sh_degree=sh_degree,
+        eps2d=eps2d,
     )
-    # composite over white ourselves; gsplat's `backgrounds` shape contract
-    # varies across 1.x versions and this does not
-    img = colors[0] + (1.0 - alphas[0])
+    # composite over the background ourselves; gsplat's `backgrounds` shape
+    # contract varies across 1.x versions and this does not
+    bg = torch.tensor(background, device=device, dtype=rendered.dtype)
+    img = rendered[0] + (1.0 - alphas[0]) * bg
     return img.clamp(0.0, 1.0)
 
 
