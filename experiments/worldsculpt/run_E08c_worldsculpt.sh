@@ -43,13 +43,19 @@ source envs/worldsculpt-overlay/bin/activate
 # clone the base activation puts on PYTHONPATH.
 export PYTHONPATH="$CLONE:$ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
 export SPCONV_ALGO=native
+# Pixal3D's shape decoder needs its default sparse conv, flex_gemm, which the
+# overlay builds. The base activation defaults to spconv for the archived
+# TRELLIS work, and under spconv the shape stage decodes a table into ~15,000
+# disconnected 4 mm blobs instead of one surface (LOG.md, overturned
+# claims): every E08c/E08e/E08f mesh made before this line was that dust.
+export SPARSE_CONV_BACKEND=flex_gemm
 
 # Preflight. The vendored pixal3d package imports these at module load, and
 # the crop stage runs for minutes before the first one is touched, so a missing
 # extension otherwise surfaces as a traceback well into the run.
 python - <<'PY' || exit 1
 import importlib.util, sys
-missing = [m for m in ("cumesh", "o_voxel", "nvdiffrast", "utils3d", "natten")
+missing = [m for m in ("cumesh", "o_voxel", "nvdiffrast", "utils3d", "natten", "flex_gemm")
            if importlib.util.find_spec(m) is None]
 if missing:
     print(f"[preflight] missing: {', '.join(missing)}", file=sys.stderr)

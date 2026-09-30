@@ -73,6 +73,12 @@ crops "$BASE_SCENE" "$SWEEP/nofit"
 source envs/worldsculpt-overlay/bin/activate
 export PYTHONPATH="$CLONE:$ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
 export SPCONV_ALGO=native
+# Pixal3D's shape decoder needs its default sparse conv, flex_gemm, which the
+# overlay builds. The base activation defaults to spconv for the archived
+# TRELLIS work, and under spconv the shape stage decodes a table into ~15,000
+# disconnected 4 mm blobs instead of one surface (LOG.md, overturned
+# claims): every E08c/E08e/E08f mesh made before this line was that dust.
+export SPARSE_CONV_BACKEND=flex_gemm
 
 python - "$CONFIGS" <<'PY' > "$SWEEP/plan.tsv"
 import json, sys
