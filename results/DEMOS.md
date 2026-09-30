@@ -15,6 +15,7 @@ Showing the result on its own is enough; a **comparison** is owed only when the 
 | E08e WorldSculpt on NCHC sofa | our own lounge capture taken apart into 24 object meshes, each per-view strip beside the frame it came from, plus what each object was given (our mask and box) | `python -m http.server -d outputs/worldsculpt/NCHC/viewer` | `gs_playground.worldsculpt.demo --page nchc` | `LOG.md` E08e |
 | E08f WorldSculpt parameter sweep | which knobs change how many objects come out (Stage A, 256 label ids, stands) and how complete their meshes are (Stage B, **retracted** by E08g and marked so on the page: its meshes were decoded with random conv weights) | `python -m http.server -d outputs/worldsculpt/NCHC/sweep/viewer` | `gs_playground.worldsculpt.sweep_demo` | `LOG.md` E08f |
 | E08g WorldSculpt scenes in 3D | both WorldSculpt scenes (Marble 13 objects, NCHC sofa 24) as orbitable meshes in one page, like the paper's project page; hover shows an object's input box, click shows the crop it was conditioned on | `python -m http.server -d outputs/worldsculpt/viewer3d` | `gs_playground.worldsculpt.scene_viewer` | `LOG.md` E08g |
+| E08h SuRFLo | a mesh and a 3DGS from 16 photos: the authors' garden sample and our NCHC sofa, each beside its input views, our exported 3DGS (SuRFLo never saves it) and, for the sofa, our 3DGS labelled as a reference | `python -m http.server -d outputs/surflo/viewer` | `gs_playground.surflo.demo` (surflo env) | `LOG.md` E08h |
 
 ## Rebuilding a viewer
 

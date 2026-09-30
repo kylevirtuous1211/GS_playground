@@ -27,7 +27,9 @@ It is not allowed to be the place a model or a dataset is defined.
 | E08c | `worldsculpt` | does WorldSculpt run here on the authors' data? | **yes**: 13/13 objects in 8.5 min; no room shell, by design |
 | E08d | `worldgrow` | does WorldGrow follow a text prompt or guidance? | **no**: output changes (IoU 0.62-0.84 vs 0.999 repeat), room type does not (CLIP 0-1/16) |
 | E08e | `worldsculpt` | does WorldSculpt run on our own capture (NCHC sofa)? | **yes**: 24/24 objects reach `scene.glb`, placement right by eye; masks predicted, boxes ours |
-| E08f | `worldsculpt` | which parameters change object count and mesh completeness? | count: views needed (stride, min_views); completeness: only 1 view and mask erosion/dilation beat seed noise; **shape stage nondeterministic at a fixed seed** |
+| E08f | `worldsculpt` | which parameters change object count and mesh completeness? | count: views needed (stride, min_views); completeness: only 1 view and mask erosion/dilation beat seed noise; **shape stage nondeterministic at a fixed seed** (Stage B and that finding retracted by E08g: random conv weights) |
+| E08g | `worldsculpt` | why did WorldSculpt's meshes look like dust? | **our bug**: spconv backend left the shape decoder's convs at random init; fixed, E08c/E08e rerun, deterministic |
+| E08h | `surflo` | does SuRFLo reproduce on its own garden sample, and how does it do on our sofa? | **reproduces** (runtime/VRAM/outputs; accuracy not attempted, no GT released); 3DGS export exact (59-63 dB); sofa: unguided F1 0.87 vs guided 0.58, cause untested |
 
 ## Methods
 
@@ -35,6 +37,7 @@ It is not allowed to be the place a model or a dataset is defined.
 |---|---|---|
 | [`worldgrow`](worldgrow/) | WorldGrow, AAAI 2026 Oral, arXiv 2510.21682 | nothing but weights: the released pipeline is unconditional |
 | [`worldsculpt`](worldsculpt/) | WorldSculpt, arXiv 2609.05416 | posed frames **plus per-instance masks and 3D boxes** |
+| [`surflo`](surflo/) | SuRFLo, NeurIPS 2026, arXiv 2606.13644 | 2-32 unposed photos; nothing else |
 
 ## Archive
 
