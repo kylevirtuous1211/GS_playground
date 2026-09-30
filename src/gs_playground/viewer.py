@@ -120,7 +120,7 @@ TEMPLATE = """<meta charset="utf-8">
     <span>up axis</span>
     <button id="zup" aria-pressed="true">Z up</button>
     <button id="yup" aria-pressed="false">Y up</button>
-    <span style="margin-left:auto">drag to orbit, scroll to zoom, all panels move together</span>
+    <span style="margin-left:auto">drag to orbit · right- or shift-drag to pan · scroll to zoom · double-click to reset · all panels move together</span>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -152,7 +152,8 @@ document.getElementById("notes").innerHTML =
 
 // One orbit state, shared by every panel: a comparison whose panels can drift
 // apart is not a comparison.
-const orbit = { azimuth: 0.6, elevation: 0.85, radius: 1.9 };
+const HOME = { azimuth: 0.6, elevation: 0.85, radius: 1.9 };
+const orbit = { ...HOME, target: new THREE.Vector3() };
 let zUp = true;
 const panels = [];
 
@@ -232,25 +233,52 @@ function setUp(entry) {
   entry.mesh.quaternion.set(up === "z" ? 1 : 0, 0, 0, up === "z" ? 0 : 1);
 }
 
+// Unit vector from the orbit target towards the camera.
+function backVector() {
+  const cosE = Math.cos(orbit.elevation);
+  return new THREE.Vector3(cosE * Math.sin(orbit.azimuth), Math.sin(orbit.elevation),
+                           cosE * Math.cos(orbit.azimuth));
+}
+
+// Move the orbit target in the view plane, by pixels scaled to the distance,
+// so what is under the cursor follows it at any zoom.
+function pan(dx, dy) {
+  const back = backVector();
+  const right = new THREE.Vector3(0, 1, 0).cross(back).normalize();
+  const up = back.clone().cross(right);
+  const k = orbit.radius * 0.0015;
+  orbit.target.addScaledVector(right, -dx * k).addScaledVector(up, dy * k);
+}
+
 function attach(element) {
-  let dragging = false, lastX = 0, lastY = 0;
+  let mode = null, lastX = 0, lastY = 0;
+  element.addEventListener("contextmenu", (e) => e.preventDefault());
   element.addEventListener("pointerdown", (e) => {
-    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    mode = (e.button === 2 || e.shiftKey || e.ctrlKey) ? "pan" : "orbit";
+    lastX = e.clientX; lastY = e.clientY;
     element.setPointerCapture(e.pointerId);
   });
-  element.addEventListener("pointerup", () => { dragging = false; });
+  element.addEventListener("pointerup", () => { mode = null; });
   element.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-    orbit.azimuth -= (e.clientX - lastX) * 0.006;
-    orbit.elevation = Math.max(-1.4, Math.min(1.4,
-      orbit.elevation + (e.clientY - lastY) * 0.005));
+    if (!mode) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
     lastX = e.clientX; lastY = e.clientY;
+    if (mode === "pan") { pan(dx, dy); return; }
+    orbit.azimuth -= dx * 0.006;
+    orbit.elevation = Math.max(-1.4, Math.min(1.4, orbit.elevation + dy * 0.005));
   });
+  // Proportional to the wheel delta, so a trackpad zooms smoothly and a mouse
+  // notch (about 100) moves about 20%. Down to 0.01 of the unit-sized scene,
+  // close enough to read single objects; pan to bring them to the centre.
   element.addEventListener("wheel", (e) => {
     e.preventDefault();
-    orbit.radius = Math.max(0.4, Math.min(9,
-      orbit.radius * (1 + Math.sign(e.deltaY) * 0.1)));
+    const step = Math.exp(Math.max(-1, Math.min(1, e.deltaY / 500)));
+    orbit.radius = Math.max(0.01, Math.min(9, orbit.radius * step));
   }, { passive: false });
+  element.addEventListener("dblclick", () => {
+    Object.assign(orbit, HOME);
+    orbit.target.set(0, 0, 0);
+  });
 }
 
 for (const [id, value] of [["zup", true], ["yup", false]]) {
@@ -263,13 +291,13 @@ for (const [id, value] of [["zup", true], ["yup", false]]) {
 }
 
 function frame() {
-  const cosE = Math.cos(orbit.elevation);
+  const eye = orbit.target.clone().addScaledVector(backVector(), orbit.radius);
+  // near plane follows the zoom, or close-up geometry is clipped away
+  const near = Math.max(1e-4, orbit.radius * 0.01);
   for (const { renderer, scene, camera } of panels) {
-    camera.position.set(
-      orbit.radius * cosE * Math.sin(orbit.azimuth),
-      orbit.radius * Math.sin(orbit.elevation),
-      orbit.radius * cosE * Math.cos(orbit.azimuth));
-    camera.lookAt(0, 0, 0);
+    if (camera.near !== near) { camera.near = near; camera.updateProjectionMatrix(); }
+    camera.position.copy(eye);
+    camera.lookAt(orbit.target);
     renderer.render(scene, camera);
   }
   requestAnimationFrame(frame);

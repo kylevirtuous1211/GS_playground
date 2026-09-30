@@ -29,13 +29,16 @@ from ..viewer import build
 #: OpenCV camera axes -> OpenGL, which display_frame expects
 FLIP = np.diag([1.0, -1.0, -1.0, 1.0])
 
+#: per scene: title, where the frames come from, and the size of the capture
+#: they were taken from (the garden sample is 16 files; its capture has 185)
 TEXT = {
     "garden": ("Mip-NeRF 360 garden, the authors' sample",
-               "The 16 views the SuRFLo repository ships (518x336, already downscaled by "
-               "the authors), run with their README's first command."),
+               "The frames the SuRFLo repository ships, spread from the first to the last "
+               "frame of the 185-frame Mip-NeRF 360 capture (518x336, downscaled by the "
+               "authors), run with their README's first command.", 185),
     "sofa": ("NCHC sofa lounge, our capture",
-             "Views sampled uniformly by SuRFLo from our 364-frame handheld video "
-             "(1272x715)."),
+             "Sampled uniformly by SuRFLo from the 364 COLMAP-registered frames of our "
+             "handheld video (1272x715).", None),
 }
 
 
@@ -92,19 +95,25 @@ def main() -> None:
     references = dict(args.reference)
 
     tmp = Path(tempfile.mkdtemp(prefix="surflo_demo_"))
-    panels = []
+    panels, counts = [], []
     for key, run in args.scene:
         run = Path(run)
         scene = next(p.parent for p in run.glob("*/_infer_summary.json"))
         summary = json.loads((scene / "_infer_summary.json").read_text())
         inputs = [Path(p) for p in summary["selected_images"]]
-        title, blurb = TEXT[key]
+        title, blurb, capture = TEXT[key]
+        source = Path(summary["source"]["image_folder"])
+        capture = capture or sum(1 for p in source.iterdir()
+                                 if p.suffix.lower() in (".jpg", ".jpeg", ".png"))
         rotation = rotation_from_cameras(surflo_c2w(scene / "cameras.json"))
         n_views = len(inputs)
+        counts.append(f"{n_views} of {capture} frames for the {title.split(',')[0]}")
         panels.append({
-            "label": f"{title}: the {n_views} input views",
+            "label": f"{title}: the {n_views} input frames ({n_views} of {capture})",
             "image": str(contact_sheet(inputs, tmp / f"{key}_inputs.jpg")),
-            "caption": f"{blurb} Everything below is made from these alone: no poses, no depth.",
+            "caption": f"{blurb} Everything below is made from these {n_views} frames "
+                       f"alone: no poses, no depth.",
+            "meta": {"frames used": f"{n_views} of {capture}"},
         })
         small = decimate(scene / "mesh_textured.ply", tmp / f"{key}_mesh.ply", args.mesh_faces)
         print(f"{key}: mesh {small['faces_source']:,} -> {small['faces']:,} faces, "
@@ -142,7 +151,7 @@ def main() -> None:
         "intro": "SuRFLo takes unposed photos and, in one forward pass through a frozen VGGT "
                  "backbone and a flow-matching decoder, returns an oriented surface and a "
                  "mesh. Its guided mode also fits a 3DGS against the photos to steer that "
-                 "surface; we export it. Drag to orbit, scroll to zoom.",
+                 "surface; we export it. Frames used: " + "; ".join(counts) + ".",
         "panels": panels,
         "notes": [
             "Units are VGGT's: no metric scale. Up is estimated from the cameras.",
