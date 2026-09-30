@@ -1,0 +1,3081 @@
+{
+ "entry": "E08e",
+ "scene": "nchc_sofa_20260727_143647",
+ "note": "Reviewed selection for WorldSculpt. Boxes and automatic decisions from `ground propose` at the commit below; the manual overrides were made by looking at the review tiles, before any WorldSculpt run. The consistency rule was corrected once before review (it had counted frames that cut a large object off as inconsistent); no threshold was changed after seeing the results.",
+ "propose_commit": "cc2b1c1027dead862d1247921565e9dc61d7dbd4",
+ "params": {
+  "speck_frac": 0.02,
+  "largest_only": false,
+  "alpha_min": 0.95,
+  "erode_px": 2,
+  "points_per_frame": 1500,
+  "voxel_div": 400,
+  "support_frac": 0.05,
+  "support_min": 3,
+  "min_voxels": 30,
+  "struct_extent": 0.4,
+  "struct_border": 0.6,
+  "tiny_frac": 0.01,
+  "split_flag": 0.3,
+  "stride": 3,
+  "min_views": 8,
+  "area_min": 910,
+  "clip_gate": true,
+  "clip_margin": 0.15,
+  "clip_drop": 0.1,
+  "min_consistent": 0.5,
+  "in_image": 0.7,
+  "near_frac": 0.02
+ },
+ "E": 17.873878479003906,
+ "stride": 3,
+ "alignment": {
+  "psnr": 25.417724525241255,
+  "psnr_null": 11.040939204423633,
+  "depth_agree": 0.26417029877642795,
+  "depth_agree_null": 0.01488980492467098
+ },
+ "kept": [
+  4,
+  5,
+  6,
+  9,
+  14,
+  17,
+  18,
+  20,
+  21,
+  22,
+  23,
+  27,
+  56,
+  57,
+  67,
+  70,
+  71,
+  74,
+  87,
+  107,
+  140,
+  222,
+  224,
+  225
+ ],
+ "objects": [
+  {
+   "id": 0,
+   "keep": false,
+   "reason": "unlabelled",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 363
+  },
+  {
+   "id": 1,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 12
+  },
+  {
+   "id": 2,
+   "keep": false,
+   "reason": "box_failed (1 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 13
+  },
+  {
+   "id": 3,
+   "keep": false,
+   "reason": "structure (2-border 0.99)",
+   "flags": [
+    "split 0.69"
+   ],
+   "aabb_world": [
+    [
+     1.4522526264190674,
+     -0.022342348098754884,
+     -1.5094490375518799
+    ],
+    [
+     1.6756761074066164,
+     0.6926127910614015,
+     -0.9160362720489502
+    ]
+   ],
+   "n_views": 0,
+   "n_frames": 364
+  },
+  {
+   "id": 4,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.8713515758514405,
+     0.3351352214813233,
+     3.329009866714478
+    ],
+    [
+     -0.3351352214813233,
+     0.5138740062713624,
+     3.6864874362945557
+    ]
+   ],
+   "n_views": 19,
+   "n_frames": 126
+  },
+  {
+   "id": 5,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -2.301261854171753,
+     0.4245046138763428,
+     -1.7650454998016358
+    ],
+    [
+     0.4245046138763428,
+     1.184144449234009,
+     1.3181985378265382
+    ]
+   ],
+   "n_views": 14,
+   "n_frames": 255
+  },
+  {
+   "id": 6,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.6479280948638917,
+     0.6032433986663819,
+     0.6926127910614014
+    ],
+    [
+     0.1747171621322618,
+     1.1394597530364992,
+     1.362883234024048
+    ]
+   ],
+   "n_views": 46,
+   "n_frames": 191
+  },
+  {
+   "id": 7,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 12
+  },
+  {
+   "id": 8,
+   "keep": false,
+   "reason": "too_few_views (5 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     1.0500903606414795,
+     1.1841444492340087,
+     -1.8990995883941653
+    ],
+    [
+     1.6309914112091066,
+     1.6756761074066164,
+     -1.362883234024048
+    ]
+   ],
+   "n_views": 5,
+   "n_frames": 29
+  },
+  {
+   "id": 9,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.96072096824646,
+     0.20108113288879398,
+     3.3736945629119877
+    ],
+    [
+     -0.11171174049377443,
+     0.5138740062713624,
+     3.865226221084595
+    ]
+   ],
+   "n_views": 33,
+   "n_frames": 119
+  },
+  {
+   "id": 10,
+   "keep": false,
+   "reason": "box_failed (9 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 63
+  },
+  {
+   "id": 11,
+   "keep": false,
+   "reason": "box_failed (10 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 24
+  },
+  {
+   "id": 12,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 13,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 16
+  },
+  {
+   "id": 14,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     5.205767107009888,
+     0.2904505252838135,
+     -4.446127271652222
+    ],
+    [
+     6.546307992935181,
+     0.6479280948638917,
+     -3.7311721324920657
+    ]
+   ],
+   "n_views": 8,
+   "n_frames": 39
+  },
+  {
+   "id": 15,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 16,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 17,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -4.75892014503479,
+     -0.06702704429626466,
+     2.569370031356812
+    ],
+    [
+     -3.9188478565216065,
+     0.33513522148132324,
+     3.186018838882447
+    ]
+   ],
+   "n_views": 14,
+   "n_frames": 67
+  },
+  {
+   "id": 18,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -1.943784284591675,
+     0.3351352214813233,
+     1.2288291454315186
+    ],
+    [
+     -1.1394597530364992,
+     0.9160362720489503,
+     2.0331536769866942
+    ]
+   ],
+   "n_views": 44,
+   "n_frames": 194
+  },
+  {
+   "id": 19,
+   "keep": false,
+   "reason": "manual: blue pillar, structure that rarely touches two image borders",
+   "flags": [],
+   "aabb_world": [
+    [
+     -4.580181360244751,
+     -2.1672077655792235,
+     2.6140547275543216
+    ],
+    [
+     -3.4183792591094972,
+     0.24576582908630373,
+     3.239640474319458
+    ]
+   ],
+   "n_views": 20,
+   "n_frames": 144
+  },
+  {
+   "id": 20,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.9160362720489503,
+     0.6032433986663819,
+     0.4691893100738526
+    ],
+    [
+     -0.15639643669128417,
+     1.1394597530364992,
+     1.0947750568389893
+    ]
+   ],
+   "n_views": 48,
+   "n_frames": 201
+  },
+  {
+   "id": 21,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -1.4969373226165772,
+     0.5585587024688721,
+     -0.9160362720489503
+    ],
+    [
+     -0.9607209682464599,
+     0.8266668796539307,
+     -0.37981991767883305
+    ]
+   ],
+   "n_views": 38,
+   "n_frames": 194
+  },
+  {
+   "id": 22,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -1.2735138416290284,
+     -0.6479280948638917,
+     3.284325170516968
+    ],
+    [
+     0.24576582908630373,
+     0.2904505252838135,
+     4.267388486862183
+    ]
+   ],
+   "n_views": 34,
+   "n_frames": 175
+  },
+  {
+   "id": 23,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     2.345946550369263,
+     -0.5138740062713624,
+     -1.6041805934906008
+    ],
+    [
+     3.1681449604034415,
+     0.20108113288879398,
+     -0.9607209682464599
+    ]
+   ],
+   "n_views": 9,
+   "n_frames": 119
+  },
+  {
+   "id": 24,
+   "keep": false,
+   "reason": "structure (2-border 0.86)",
+   "flags": [],
+   "aabb_world": [
+    [
+     -1.4075679302215578,
+     0.7372974872589111,
+     1.1555462436676025
+    ],
+    [
+     0.4084181232452387,
+     1.0947750568389893,
+     3.2843251705169676
+    ]
+   ],
+   "n_views": 3,
+   "n_frames": 299
+  },
+  {
+   "id": 25,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 15
+  },
+  {
+   "id": 26,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 11
+  },
+  {
+   "id": 27,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -1.2288291454315188,
+     0.24576582908630373,
+     3.329009866714478
+    ],
+    [
+     -0.7623209171295167,
+     0.4245046138763428,
+     3.70614870262146
+    ]
+   ],
+   "n_views": 10,
+   "n_frames": 145
+  },
+  {
+   "id": 28,
+   "keep": false,
+   "reason": "inconsistent (13/13 frames clipped)",
+   "flags": [
+    "split 0.56"
+   ],
+   "aabb_world": [
+    [
+     3.5135576620101934,
+     -0.33513522148132324,
+     -2.965723286628723
+    ],
+    [
+     3.820541524887085,
+     -0.20108113288879398,
+     -2.524685335159302
+    ]
+   ],
+   "n_views": 0,
+   "n_frames": 33
+  },
+  {
+   "id": 29,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 30,
+   "keep": false,
+   "reason": "manual: ceiling fixture",
+   "flags": [],
+   "aabb_world": [
+    [
+     4.356757879257203,
+     -0.46918931007385256,
+     -1.6756761074066164
+    ],
+    [
+     5.920722246170044,
+     0.1903568058013912,
+     -0.6479280948638916
+    ]
+   ],
+   "n_views": 10,
+   "n_frames": 52
+  },
+  {
+   "id": 31,
+   "keep": false,
+   "reason": "too_few_views (1 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     -3.9099109172821045,
+     0.2904505252838135,
+     -0.6926127910614015
+    ],
+    [
+     -3.686487436294556,
+     0.781982183456421,
+     -0.24576582908630373
+    ]
+   ],
+   "n_views": 1,
+   "n_frames": 17
+  },
+  {
+   "id": 32,
+   "keep": false,
+   "reason": "box_failed (6 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 17
+  },
+  {
+   "id": 33,
+   "keep": false,
+   "reason": "too_few_views (5 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.5585587024688721,
+     -0.6926127910614015,
+     -2.122523069381714
+    ],
+    [
+     1.2288291454315188,
+     0.022342348098754884,
+     -1.0947750568389893
+    ]
+   ],
+   "n_views": 5,
+   "n_frames": 63
+  },
+  {
+   "id": 34,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 35,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 10
+  },
+  {
+   "id": 36,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 37,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 38,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 39,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 23
+  },
+  {
+   "id": 40,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 41,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 10
+  },
+  {
+   "id": 42,
+   "keep": false,
+   "reason": "inconsistent (10/10 frames clipped)",
+   "flags": [],
+   "aabb_world": [
+    [
+     3.9545956134796145,
+     -0.5585587024688722,
+     -3.239640474319458
+    ],
+    [
+     4.29866777420044,
+     -0.4245046138763428,
+     -2.8374782085418704
+    ]
+   ],
+   "n_views": 0,
+   "n_frames": 30
+  },
+  {
+   "id": 43,
+   "keep": false,
+   "reason": "box_failed (8 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 101
+  },
+  {
+   "id": 44,
+   "keep": false,
+   "reason": "inconsistent (10/17 frames clipped)",
+   "flags": [],
+   "aabb_world": [
+    [
+     3.4013990745544436,
+     -0.8266668796539307,
+     -1.4522526264190676
+    ],
+    [
+     4.267388486862183,
+     -0.37981991767883305,
+     -0.8266668796539307
+    ]
+   ],
+   "n_views": 3,
+   "n_frames": 37
+  },
+  {
+   "id": 45,
+   "keep": false,
+   "reason": "structure (2-border 0.66)",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.5585587024688722,
+     -2.0331536769866942,
+     2.0778383731842043
+    ],
+    [
+     0.33513522148132324,
+     -1.6756761074066162,
+     2.480000638961792
+    ]
+   ],
+   "n_views": 0,
+   "n_frames": 109
+  },
+  {
+   "id": 46,
+   "keep": false,
+   "reason": "manual: ceiling light tubes (thin)",
+   "flags": [],
+   "aabb_world": [
+    [
+     2.0331536769866947,
+     -1.020151614189148,
+     -0.5585587024688722
+    ],
+    [
+     3.105586385726929,
+     -0.6032433986663819,
+     1.7650454998016358
+    ]
+   ],
+   "n_views": 13,
+   "n_frames": 93
+  },
+  {
+   "id": 47,
+   "keep": false,
+   "reason": "inconsistent (10/18 frames clipped)",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.6479280948638916,
+     -0.7372974872589112,
+     -5.295136499404907
+    ],
+    [
+     4.088649702072144,
+     -0.15639643669128417,
+     -3.8652262210845953
+    ]
+   ],
+   "n_views": 3,
+   "n_frames": 41
+  },
+  {
+   "id": 48,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 11
+  },
+  {
+   "id": 49,
+   "keep": false,
+   "reason": "manual: ceiling light / duct (thin)",
+   "flags": [],
+   "aabb_world": [
+    [
+     4.5073453054428105,
+     -0.6479280948638917,
+     -0.33513522148132324
+    ],
+    [
+     5.3398211956024175,
+     -0.2904505252838135,
+     1.8990995883941653
+    ]
+   ],
+   "n_views": 11,
+   "n_frames": 58
+  },
+  {
+   "id": 50,
+   "keep": false,
+   "reason": "inconsistent (23/27 frames clipped)",
+   "flags": [
+    "split 0.60"
+   ],
+   "aabb_world": [
+    [
+     4.803604841232301,
+     -0.5138740062713624,
+     2.2565771579742435
+    ],
+    [
+     5.6526140689849855,
+     0.20108113288879398,
+     2.658739423751831
+    ]
+   ],
+   "n_views": 2,
+   "n_frames": 91
+  },
+  {
+   "id": 51,
+   "keep": false,
+   "reason": "too_few_views (6 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     1.9209950895309449,
+     0.5585587024688721,
+     3.507748651504517
+    ],
+    [
+     2.658739423751831,
+     0.9160362720489503,
+     3.9099109172821045
+    ]
+   ],
+   "n_views": 6,
+   "n_frames": 97
+  },
+  {
+   "id": 52,
+   "keep": false,
+   "reason": "manual: ceiling light (thin)",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.20108113288879398,
+     -0.8266668796539307,
+     -4.043965005874634
+    ],
+    [
+     1.0500903606414795,
+     -0.5138740062713623,
+     -2.6587394237518316
+    ]
+   ],
+   "n_views": 9,
+   "n_frames": 37
+  },
+  {
+   "id": 53,
+   "keep": false,
+   "reason": "too_few_views (3 at stride 3)",
+   "flags": [
+    "split 0.50"
+   ],
+   "aabb_world": [
+    [
+     0.7372974872589111,
+     -1.0054056644439697,
+     -3.005492666244507
+    ],
+    [
+     1.8990995883941653,
+     -0.6032433986663819,
+     -1.899099588394165
+    ]
+   ],
+   "n_views": 3,
+   "n_frames": 47
+  },
+  {
+   "id": 54,
+   "keep": false,
+   "reason": "box_failed (11 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 15
+  },
+  {
+   "id": 55,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 11
+  },
+  {
+   "id": 56,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.8713515758514405,
+     0.5138740062713623,
+     -0.96072096824646
+    ],
+    [
+     -0.3351352214813233,
+     0.9160362720489503,
+     -0.5585587024688721
+    ]
+   ],
+   "n_views": 46,
+   "n_frames": 164
+  },
+  {
+   "id": 57,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.06702704429626466,
+     0.6926127910614014,
+     0.5138740062713623
+    ],
+    [
+     0.6032433986663819,
+     1.184144449234009,
+     1.184144449234009
+    ]
+   ],
+   "n_views": 44,
+   "n_frames": 182
+  },
+  {
+   "id": 58,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 59,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 60,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 61,
+   "keep": false,
+   "reason": "box_failed (15 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 15
+  },
+  {
+   "id": 62,
+   "keep": false,
+   "reason": "too_few_views (7 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     1.1841444492340087,
+     -1.2288291454315188,
+     0.5138740062713623
+    ],
+    [
+     2.7034241199493407,
+     -0.8713515758514404,
+     1.4522526264190676
+    ]
+   ],
+   "n_views": 7,
+   "n_frames": 45
+  },
+  {
+   "id": 63,
+   "keep": false,
+   "reason": "inconsistent (3/3 frames clipped)",
+   "flags": [],
+   "aabb_world": [
+    [
+     2.4800006389617923,
+     0.9607209682464599,
+     3.6105234527587893
+    ],
+    [
+     3.0921809768676756,
+     1.184144449234009,
+     3.865226221084595
+    ]
+   ],
+   "n_views": 0,
+   "n_frames": 11
+  },
+  {
+   "id": 64,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 15
+  },
+  {
+   "id": 65,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 66,
+   "keep": false,
+   "reason": "manual: box spans the ceiling around a hanging planter",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.11171174049377443,
+     -1.3181985378265382,
+     -0.8266668796539307
+    ],
+    [
+     1.0947750568389893,
+     -0.8713515758514404,
+     1.5863067150115968
+    ]
+   ],
+   "n_views": 16,
+   "n_frames": 97
+  },
+  {
+   "id": 67,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.7372974872589111,
+     0.7819821834564209,
+     0.06702704429626465
+    ],
+    [
+     1.943784284591675,
+     1.3181985378265382,
+     2.3906312465667723
+    ]
+   ],
+   "n_views": 26,
+   "n_frames": 215
+  },
+  {
+   "id": 68,
+   "keep": false,
+   "reason": "manual: artificial lawn, floor",
+   "flags": [],
+   "aabb_world": [
+    [
+     -5.697298765182495,
+     -0.06702704429626466,
+     0.4691893100738526
+    ],
+    [
+     -4.133334398269653,
+     0.5138740062713624,
+     3.1502710819244384
+    ]
+   ],
+   "n_views": 13,
+   "n_frames": 141
+  },
+  {
+   "id": 69,
+   "keep": false,
+   "reason": "too_few_views (3 at stride 3)",
+   "flags": [
+    "split 0.53"
+   ],
+   "aabb_world": [
+    [
+     -3.7311721324920657,
+     0.7372974872589111,
+     -3.5077486515045164
+    ],
+    [
+     -3.1055863857269292,
+     1.0947750568389893,
+     -3.060901689529419
+    ]
+   ],
+   "n_views": 3,
+   "n_frames": 74
+  },
+  {
+   "id": 70,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     1.6309914112091064,
+     0.5585587024688721,
+     3.3862062778472906
+    ],
+    [
+     2.3459465503692627,
+     0.8266668796539307,
+     4.031453290939331
+    ]
+   ],
+   "n_views": 19,
+   "n_frames": 79
+  },
+  {
+   "id": 71,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.5138740062713624,
+     0.6032433986663819,
+     -0.9964687252044678
+    ],
+    [
+     -0.02234234809875489,
+     0.8713515758514405,
+     -0.6032433986663819
+    ]
+   ],
+   "n_views": 19,
+   "n_frames": 72
+  },
+  {
+   "id": 72,
+   "keep": false,
+   "reason": "box_failed (1 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 14
+  },
+  {
+   "id": 73,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 19
+  },
+  {
+   "id": 74,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.11171174049377443,
+     0.6032433986663819,
+     -0.96072096824646
+    ],
+    [
+     0.4245046138763428,
+     1.0500903606414795,
+     -0.5138740062713623
+    ]
+   ],
+   "n_views": 43,
+   "n_frames": 164
+  },
+  {
+   "id": 75,
+   "keep": false,
+   "reason": "manual: wall panel / screen, part of the wall",
+   "flags": [],
+   "aabb_world": [
+    [
+     1.9437842845916748,
+     -0.379819917678833,
+     3.329009866714478
+    ],
+    [
+     3.641802740097046,
+     0.781982183456421,
+     4.043965005874634
+    ]
+   ],
+   "n_views": 24,
+   "n_frames": 115
+  },
+  {
+   "id": 76,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 77,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 12
+  },
+  {
+   "id": 78,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 79,
+   "keep": false,
+   "reason": "box_failed (16 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 22
+  },
+  {
+   "id": 80,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 81,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 82,
+   "keep": false,
+   "reason": "inconsistent (6/11 frames clipped)",
+   "flags": [
+    "split 0.39"
+   ],
+   "aabb_world": [
+    [
+     1.4522526264190674,
+     -2.4353159427642823,
+     1.4799571380615235
+    ],
+    [
+     2.1672077655792235,
+     -1.9884689807891844,
+     2.3906312465667723
+    ]
+   ],
+   "n_views": 2,
+   "n_frames": 19
+  },
+  {
+   "id": 83,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 10
+  },
+  {
+   "id": 84,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 10
+  },
+  {
+   "id": 85,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 86,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 87,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.5138740062713623,
+     0.6926127910614014,
+     -0.96072096824646
+    ],
+    [
+     1.065730004310609,
+     1.0947750568389893,
+     -0.40886497020721335
+    ]
+   ],
+   "n_views": 37,
+   "n_frames": 159
+  },
+  {
+   "id": 88,
+   "keep": false,
+   "reason": "manual: association switches between a pillow and a ceiling duct",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.02234234809875489,
+     0.6926127910614014,
+     -1.362883234024048
+    ],
+    [
+     0.46918931007385256,
+     1.0947750568389893,
+     -0.9160362720489502
+    ]
+   ],
+   "n_views": 34,
+   "n_frames": 230
+  },
+  {
+   "id": 89,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 90,
+   "keep": false,
+   "reason": "too_few_views (3 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     -2.149780734062195,
+     -1.1394597530364992,
+     -4.0265379743576055
+    ],
+    [
+     -1.1568867845535287,
+     -0.8266668796539307,
+     -2.9442746324539195
+    ]
+   ],
+   "n_views": 3,
+   "n_frames": 17
+  },
+  {
+   "id": 91,
+   "keep": false,
+   "reason": "manual: ceiling lights (thin)",
+   "flags": [],
+   "aabb_world": [
+    [
+     -2.301261854171753,
+     -1.6309914112091066,
+     -0.9160362720489503
+    ],
+    [
+     -1.4075679302215576,
+     -1.2288291454315186,
+     1.4075679302215578
+    ]
+   ],
+   "n_views": 9,
+   "n_frames": 71
+  },
+  {
+   "id": 92,
+   "keep": false,
+   "reason": "too_few_views (7 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.8713515758514404,
+     -1.4969373226165772,
+     0.6926127910614014
+    ],
+    [
+     2.83747820854187,
+     -0.7819821834564209,
+     2.122523069381714
+    ]
+   ],
+   "n_views": 7,
+   "n_frames": 44
+  },
+  {
+   "id": 93,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 94,
+   "keep": false,
+   "reason": "box_failed (1 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 11
+  },
+  {
+   "id": 95,
+   "keep": false,
+   "reason": "inconsistent (28/35 frames clipped)",
+   "flags": [],
+   "aabb_world": [
+    [
+     5.3188193883895885,
+     1.0054056644439697,
+     3.3973774518966677
+    ],
+    [
+     5.941724053382873,
+     1.362883234024048,
+     3.7758568286895753
+    ]
+   ],
+   "n_views": 3,
+   "n_frames": 64
+  },
+  {
+   "id": 96,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 97,
+   "keep": false,
+   "reason": "too_few_views (5 at stride 3)",
+   "flags": [
+    "split 0.49"
+   ],
+   "aabb_world": [
+    [
+     -0.6926127910614015,
+     0.6032433986663819,
+     3.0872656602859503
+    ],
+    [
+     -0.3351352214813233,
+     0.781982183456421,
+     3.7048081617355346
+    ]
+   ],
+   "n_views": 5,
+   "n_frames": 57
+  },
+  {
+   "id": 98,
+   "keep": false,
+   "reason": "inconsistent (8/11 frames clipped)",
+   "flags": [
+    "split 0.38"
+   ],
+   "aabb_world": [
+    [
+     0.06702704429626465,
+     -0.781982183456421,
+     -5.989536678314209
+    ],
+    [
+     0.33513522148132324,
+     -0.4245046138763428,
+     -5.384505891799927
+    ]
+   ],
+   "n_views": 1,
+   "n_frames": 21
+  },
+  {
+   "id": 99,
+   "keep": false,
+   "reason": "box_failed (23 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 12
+  },
+  {
+   "id": 100,
+   "keep": false,
+   "reason": "manual: ceiling lights and ducts (thin)",
+   "flags": [],
+   "aabb_world": [
+    [
+     -4.133334398269653,
+     -1.4522526264190676,
+     -4.693233641624452
+    ],
+    [
+     -3.150271081924439,
+     -1.0947750568389893,
+     -2.9715322971343996
+    ]
+   ],
+   "n_views": 10,
+   "n_frames": 43
+  },
+  {
+   "id": 101,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 102,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 14
+  },
+  {
+   "id": 103,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 104,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 105,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 10
+  },
+  {
+   "id": 106,
+   "keep": false,
+   "reason": "too_few_views (4 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.3351352214813233,
+     1.0500903606414795,
+     -1.9884689807891847
+    ],
+    [
+     1.4522526264190676,
+     1.6756761074066164,
+     -1.362883234024048
+    ]
+   ],
+   "n_views": 4,
+   "n_frames": 64
+  },
+  {
+   "id": 107,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     2.345946550369263,
+     0.6032433986663819,
+     3.552433347702027
+    ],
+    [
+     3.1265881929397583,
+     0.96072096824646,
+     3.9099109172821045
+    ]
+   ],
+   "n_views": 8,
+   "n_frames": 87
+  },
+  {
+   "id": 108,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 109,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 110,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 15
+  },
+  {
+   "id": 111,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 112,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 12
+  },
+  {
+   "id": 113,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 114,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 10
+  },
+  {
+   "id": 115,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 116,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 117,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 118,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 119,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 120,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 121,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 122,
+   "keep": false,
+   "reason": "too_few_views (3 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     -1.8544148921966555,
+     -1.1260543441772461,
+     -3.597118043899536
+    ],
+    [
+     -1.362883234024048,
+     -0.8713515758514404,
+     -2.806198921203614
+    ]
+   ],
+   "n_views": 3,
+   "n_frames": 29
+  },
+  {
+   "id": 123,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 124,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 125,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 10
+  },
+  {
+   "id": 126,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 127,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 128,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 129,
+   "keep": false,
+   "reason": "box_failed (8 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 14
+  },
+  {
+   "id": 130,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 131,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 132,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 133,
+   "keep": false,
+   "reason": "box_failed (3 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 18
+  },
+  {
+   "id": 134,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 17
+  },
+  {
+   "id": 135,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 136,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 137,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 138,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 139,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 140,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     -0.6479280948638917,
+     0.6479280948638916,
+     -0.6032433986663819
+    ],
+    [
+     0.022342348098754884,
+     0.96072096824646,
+     -0.11171174049377443
+    ]
+   ],
+   "n_views": 31,
+   "n_frames": 130
+  },
+  {
+   "id": 141,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 142,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 143,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 144,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 145,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 146,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 147,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 11
+  },
+  {
+   "id": 148,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 149,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 150,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 151,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 152,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 153,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 154,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 155,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 156,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 157,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 158,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 159,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 160,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 161,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 162,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 12
+  },
+  {
+   "id": 163,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 164,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 165,
+   "keep": false,
+   "reason": "box_failed (14 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 34
+  },
+  {
+   "id": 166,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 167,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 168,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 169,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 170,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 171,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 172,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 173,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 174,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 11
+  },
+  {
+   "id": 175,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 176,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 177,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 178,
+   "keep": false,
+   "reason": "box_failed (3 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 13
+  },
+  {
+   "id": 179,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 180,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 181,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 182,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 183,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 184,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 185,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 186,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 187,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 188,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 189,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 190,
+   "keep": false,
+   "reason": "too_few_views (1 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     3.150271081924439,
+     -2.3459465503692627,
+     1.4969373226165772
+    ],
+    [
+     3.4232945756912234,
+     -1.9437842845916748,
+     2.524685335159302
+    ]
+   ],
+   "n_views": 1,
+   "n_frames": 10
+  },
+  {
+   "id": 191,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 192,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 193,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 194,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 195,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 196,
+   "keep": false,
+   "reason": "box_failed (15 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 16
+  },
+  {
+   "id": 197,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 198,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 199,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 200,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 201,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 202,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 203,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 204,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 205,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 206,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 207,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 208,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 209,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 210,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 211,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 212,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 213,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 214,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 215,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 15
+  },
+  {
+   "id": 216,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 217,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 218,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 219,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 220,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 221,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 222,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     4.77634717655182,
+     1.6756761074066162,
+     -1.8990995883941653
+    ],
+    [
+     6.233515119552613,
+     2.1672077655792235,
+     -1.2288291454315186
+    ]
+   ],
+   "n_views": 19,
+   "n_frames": 67
+  },
+  {
+   "id": 223,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 9
+  },
+  {
+   "id": 224,
+   "keep": true,
+   "reason": "manual: back sofa row, only 4 views at stride 3 (below min_views 8); kept as a low-view case",
+   "flags": [],
+   "aabb_world": [
+    [
+     -1.362883234024048,
+     0.6926127910614014,
+     -0.9160362720489503
+    ],
+    [
+     1.4969373226165772,
+     1.5863067150115968,
+     0.11171174049377443
+    ]
+   ],
+   "n_views": 4,
+   "n_frames": 90
+  },
+  {
+   "id": 225,
+   "keep": true,
+   "reason": "auto: kept",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.8266668796539307,
+     0.7372974872589111,
+     -0.781982183456421
+    ],
+    [
+     1.4075679302215578,
+     1.2136363487243667,
+     -0.37981991767883305
+    ]
+   ],
+   "n_views": 25,
+   "n_frames": 123
+  },
+  {
+   "id": 226,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 227,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 10
+  },
+  {
+   "id": 228,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 229,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 230,
+   "keep": false,
+   "reason": "box_failed (7 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 30
+  },
+  {
+   "id": 231,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 232,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 233,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 234,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 12
+  },
+  {
+   "id": 235,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 236,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 237,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 238,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 239,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 240,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 12
+  },
+  {
+   "id": 241,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 242,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 243,
+   "keep": false,
+   "reason": "inconsistent (90/90 frames clipped)",
+   "flags": [
+    "split 0.32"
+   ],
+   "aabb_world": [
+    [
+     -6.144145727157593,
+     -0.8204110221862794,
+     1.2735138416290284
+    ],
+    [
+     -5.786668157577515,
+     -0.5138740062713623,
+     2.7034241199493407
+    ]
+   ],
+   "n_views": 0,
+   "n_frames": 186
+  },
+  {
+   "id": 244,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 245,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 246,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 247,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 248,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 249,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 250,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 251,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 252,
+   "keep": false,
+   "reason": "too_few_views (4 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     -5.518559980392456,
+     -1.4075679302215578,
+     3.060901689529419
+    ],
+    [
+     -5.148570695877075,
+     -1.1394597530364992,
+     3.373694562911987
+    ]
+   ],
+   "n_views": 4,
+   "n_frames": 18
+  },
+  {
+   "id": 253,
+   "keep": false,
+   "reason": "too_few_views (5 at stride 3)",
+   "flags": [],
+   "aabb_world": [
+    [
+     0.7819821834564209,
+     -0.5138740062713624,
+     -6.412253904342651
+    ],
+    [
+     1.8544148921966555,
+     2.077838373184204,
+     -5.563244676589966
+    ]
+   ],
+   "n_views": 5,
+   "n_frames": 54
+  },
+  {
+   "id": 254,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 8
+  },
+  {
+   "id": 255,
+   "keep": false,
+   "reason": "box_failed (0 voxels)",
+   "flags": [],
+   "aabb_world": null,
+   "n_views": 0,
+   "n_frames": 11
+  }
+ ]
+}
