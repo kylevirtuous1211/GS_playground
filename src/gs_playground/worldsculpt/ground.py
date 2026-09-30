@@ -329,7 +329,7 @@ def estimate_box(pts: np.ndarray, pfi: np.ndarray, n_frames: int, E: float, p: P
     centres = (np.stack(np.unravel_index(chosen, dims), 1) + origin + 0.5) * vox
     lo = np.percentile(centres, 1, 0) - vox
     hi = np.percentile(centres, 99, 0) + vox
-    out.update(box=[lo.tolist(), hi.tolist()], voxels=int(len(chosen)))
+    out.update(box=[lo.tolist(), hi.tolist()], voxels=int(len(chosen)), centres=centres)
     return out
 
 

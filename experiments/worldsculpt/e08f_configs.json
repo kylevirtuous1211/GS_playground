@@ -1,0 +1,23 @@
+{
+ "note": "E08f Stage B arms, fixed in PREREG_E08f.md. One change from E08e's default per config. 'case' names the crop set: base reuses E08e's crops; the others get their own.",
+ "objects": [6, 9, 18, 20, 21, 22, 56, 67, 74, 222],
+ "cases": {
+  "base": "outputs/worldsculpt/NCHC/nchc_sofa_20260727_143647",
+  "erode4": "outputs/worldsculpt/NCHC/sweep/erode4",
+  "dilate4": "outputs/worldsculpt/NCHC/sweep/dilate4",
+  "nofit": "outputs/worldsculpt/NCHC/sweep/nofit"
+ },
+ "configs": [
+  {"name": "default_s42", "case": "base", "seed": 42},
+  {"name": "default_s0", "case": "base", "seed": 0},
+  {"name": "default_s1", "case": "base", "seed": 1},
+  {"name": "views12", "case": "base", "max_views": 12},
+  {"name": "views6", "case": "base", "max_views": 6},
+  {"name": "views3", "case": "base", "max_views": 3},
+  {"name": "views1", "case": "base", "max_views": 1},
+  {"name": "fps", "case": "base", "view_select": "fps"},
+  {"name": "erode4", "case": "erode4"},
+  {"name": "dilate4", "case": "dilate4"},
+  {"name": "nofit", "case": "nofit"}
+ ]
+}
