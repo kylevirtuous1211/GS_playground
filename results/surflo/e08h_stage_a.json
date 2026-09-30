@@ -1,0 +1,148 @@
+{
+ "entry": "E08h",
+ "stage": "A",
+ "prereg": "experiments/surflo/PREREG_E08h.md",
+ "arms": {
+  "guided_default": {
+   "n": 3,
+   "runs": [
+    {
+     "run": "run1",
+     "ode_s": 86.92415571212769,
+     "peak_vram_ode_gib": 12.77734375,
+     "outputs_present": {
+      "mesh.ply": true,
+      "point_cloud_normals.ply": true,
+      "point_cloud_rgb.ply": true,
+      "mesh_textured.ply": true
+     },
+     "counts": {
+      "vertex": 1579351,
+      "face": 3156513
+     },
+     "sha_mesh.ply": "89f6bbd82fe3314c"
+    },
+    {
+     "run": "run2",
+     "ode_s": 86.04527497291565,
+     "peak_vram_ode_gib": 12.77734375,
+     "outputs_present": {
+      "mesh.ply": true,
+      "point_cloud_normals.ply": true,
+      "point_cloud_rgb.ply": true,
+      "mesh_textured.ply": true
+     },
+     "counts": {
+      "vertex": 1593176,
+      "face": 3184113
+     },
+     "sha_mesh.ply": "51da4e9ec6a8ba36"
+    },
+    {
+     "run": "run3",
+     "ode_s": 78.11450171470642,
+     "peak_vram_ode_gib": 12.39453125,
+     "outputs_present": {
+      "mesh.ply": true,
+      "point_cloud_normals.ply": true,
+      "point_cloud_rgb.ply": true,
+      "mesh_textured.ply": true
+     },
+     "counts": {
+      "vertex": 1579352,
+      "face": 3156480
+     },
+     "sha_mesh.ply": "b378286a67ec34b9"
+    }
+   ],
+   "theirs_h100": {
+    "ode_s": 45.0,
+    "vram_gib": 14.0
+   },
+   "ode_s_median": 86.04527497291565,
+   "ode_s_range": [
+    78.11450171470642,
+    86.92415571212769
+   ],
+   "peak_vram_gib_median": 12.77734375,
+   "peak_vram_gib_range": [
+    12.39453125,
+    12.77734375
+   ],
+   "ode_ratio_to_theirs": 1.9121172216203477,
+   "vram_ratio_to_theirs": 0.9126674107142857,
+   "identical_outputs_across_runs": false,
+   "criteria": {
+    "1_outputs_present": true,
+    "2_time_within_5x": true,
+    "3_vram_within_30pct": true
+   }
+  },
+  "plain": {
+   "n": 3,
+   "runs": [
+    {
+     "run": "run1",
+     "ode_s": 17.152705430984497,
+     "peak_vram_ode_gib": 10.57421875,
+     "outputs_present": {
+      "final.ply": true
+     },
+     "counts": {
+      "vertex": 100000
+     },
+     "sha_final.ply": "b208ff4dea3ac9de"
+    },
+    {
+     "run": "run2",
+     "ode_s": 17.145785808563232,
+     "peak_vram_ode_gib": 10.57421875,
+     "outputs_present": {
+      "final.ply": true
+     },
+     "counts": {
+      "vertex": 100000
+     },
+     "sha_final.ply": "b208ff4dea3ac9de"
+    },
+    {
+     "run": "run3",
+     "ode_s": 17.08925485610962,
+     "peak_vram_ode_gib": 10.57421875,
+     "outputs_present": {
+      "final.ply": true
+     },
+     "counts": {
+      "vertex": 100000
+     },
+     "sha_final.ply": "b208ff4dea3ac9de"
+    }
+   ],
+   "theirs_h100": {
+    "ode_s": 8.0,
+    "vram_gib": 8.5
+   },
+   "ode_s_median": 17.145785808563232,
+   "ode_s_range": [
+    17.08925485610962,
+    17.152705430984497
+   ],
+   "peak_vram_gib_median": 10.57421875,
+   "peak_vram_gib_range": [
+    10.57421875,
+    10.57421875
+   ],
+   "ode_ratio_to_theirs": 2.143223226070404,
+   "vram_ratio_to_theirs": 1.2440257352941178,
+   "identical_outputs_across_runs": true,
+   "criteria": {
+    "1_outputs_present": true,
+    "2_time_within_5x": true,
+    "3_vram_within_30pct": true
+   }
+  }
+ },
+ "criterion_4_mesh_by_eye": "pass: in guided_default/run1's mesh the round garden table, the pot on it and the ground plane (lawn and paved patio) are all clearly present; evidence outputs/surflo/garden_sample/criterion4_mesh_zoom.png (judged 2026-09-30)",
+ "passes_1_to_3": true,
+ "passes": true
+}

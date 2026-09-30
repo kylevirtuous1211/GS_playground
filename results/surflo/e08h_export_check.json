@@ -1,0 +1,63 @@
+{
+ "entry": "E08h",
+ "prereg": "experiments/surflo/PREREG_E08h.md",
+ "pass_db": 40.0,
+ "null_margin_db": 5.0,
+ "runs": [
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/garden_sample/guided_default/run1/sample",
+   "gaussians": 200665,
+   "cameras": 16,
+   "psnr_vs_surflo_render_db": {
+    "median": 59.23269004647064,
+    "min": 12.300397728794913
+   },
+   "null_dc_only_db": {
+    "median": 26.5676796966195,
+    "min": 12.258372517452294
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 29.209966938170325,
+    "min": 12.597397510099151
+   },
+   "passes": true
+  },
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/garden_sample/guided_default/run2/sample",
+   "gaussians": 201585,
+   "cameras": 16,
+   "psnr_vs_surflo_render_db": {
+    "median": 59.176637465309625,
+    "min": 57.59161384503051
+   },
+   "null_dc_only_db": {
+    "median": 26.711243938518365,
+    "min": 23.142541205298592
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 29.357811607535304,
+    "min": 26.819962200550407
+   },
+   "passes": true
+  },
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/garden_sample/guided_default/run3/sample",
+   "gaussians": 200818,
+   "cameras": 16,
+   "psnr_vs_surflo_render_db": {
+    "median": 59.05685314266671,
+    "min": 57.228162392252116
+   },
+   "null_dc_only_db": {
+    "median": 26.68462825948799,
+    "min": 23.111932958936684
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 29.253688587399488,
+    "min": 26.98204040550482
+   },
+   "passes": true
+  }
+ ],
+ "all_pass": true
+}
