@@ -1,9 +1,9 @@
-"""The scene viewer's up axis: pitched cameras must not tilt the room."""
+"""display_frame: pitched cameras must not tilt the room."""
 
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from gs_playground.worldsculpt.scene_viewer import display_frame
+from gs_playground.frames import display_frame
 
 
 def cameras(up: np.ndarray, pitch_deg: float, yaws: np.ndarray) -> np.ndarray:
