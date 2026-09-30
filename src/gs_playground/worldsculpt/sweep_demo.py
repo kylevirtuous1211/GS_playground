@@ -63,7 +63,7 @@ th, td { text-align:left; padding:4px 8px; border-bottom:1px solid var(--grid); 
 th { color:var(--ink-2); font-weight:600; }
 details { margin-top:12px; } summary { cursor:pointer; color:var(--ink-2); }
 .tablewrap { overflow-x:auto; }
-.sil { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr)); }
+.sil { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr)); margin-bottom:14px; }
 .sil figure { margin:0; } .sil img { width:100%; border-radius:6px; display:block; }
 .sil figcaption { font-size:12px; color:var(--ink-2); margin-top:3px; }
 .notes { margin-top:36px; border-top:1px solid var(--grid); padding-top:14px; color:var(--ink-2); font-size:13.5px; max-width:84ch; }
@@ -213,7 +213,7 @@ def reading_chart(summary: dict, metric: str, title: str, results: dict, objects
     deltas = {c: [results[c][str(k)][metric] - mean[k] for k in mean
                   if results[c][str(k)].get(metric) is not None] for c in cfgs}
     ext = max([abs(v) for d in deltas.values() for v in d] + [spread, 0.05]) * 1.1
-    W, rowh, L, R, T = 760, 30, 90, 150, 30
+    W, rowh, L, R, T = 760, 30, 90, 200, 30
     H = T + rowh * len(cfgs) + 26
     x = lambda v: L + (W - L - R) * (v + ext) / (2 * ext)
     parts = [f'<text class="ttl" x="0" y="14">{esc(title)}</text>',
@@ -243,7 +243,7 @@ def reading_chart(summary: dict, metric: str, title: str, results: dict, objects
 def views_curve(results: dict, objects: list, metric: str, title: str) -> str:
     """Per object in gray, the median in the accent; seed range at the default 20 views."""
     arms = [("views1", 1), ("views3", 3), ("views6", 6), ("views12", 12), ("default_s42", 20)]
-    W, H, L, B, T = 380, 210, 36, 28, 24
+    W, H, L, B, T = 380, 226, 36, 44, 24
     xs = [L + (W - L - 12) * i / (len(arms) - 1) for i in range(len(arms))]
     y = lambda v: H - B - (H - B - T) * v
     parts = [f'<text class="ttl" x="0" y="12">{esc(title)}</text>']
@@ -272,10 +272,27 @@ def views_curve(results: dict, objects: list, metric: str, title: str) -> str:
             continue
         parts.append(hit(cx - 20, T - 6, 40, H - B - T + 6, f"{v:.3f}", f"{title}, {n} view(s), median of {len(objects)} objects"))
         parts.append(f'<circle class="mark" cx="{cx:.1f}" cy="{y(v):.1f}" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>')
-    parts.append(f'<text class="val" x="{xs[0]:.1f}" y="{y(med[0]) - 9:.1f}" text-anchor="middle">{med[0]:.2f}</text>')
+    parts.append(f'<text class="val" x="{xs[0] + 9:.1f}" y="{y(med[0]) + 16:.1f}" text-anchor="start">{med[0]:.2f}</text>')
     parts.append(f'<text class="val" x="{xs[-1] - 4:.1f}" y="{y(med[-1]) - 9:.1f}" text-anchor="end">{med[-1]:.2f}</text>')
     parts.append(f'<text x="{(xs[0] + xs[-1]) / 2:.1f}" y="{H - 2}" text-anchor="middle">views given (max_views)</text>')
     return f'<svg viewBox="0 0 {W} {H}" role="img" aria-label="{esc(title)}">{"".join(parts)}</svg>'
+
+
+def object_window(mask: np.ndarray, w: int, h: int, pad: float = 0.9, min_side: int = 140):
+    """A square window around the object, so a small object is legible."""
+    ys, xs = np.nonzero(mask)
+    cx, cy = (xs.min() + xs.max()) / 2, (ys.min() + ys.max()) / 2
+    side = max(min_side, (1 + pad) * max(xs.max() - xs.min(), ys.max() - ys.min()))
+    side = min(side, w, h)
+    x0 = int(np.clip(cx - side / 2, 0, w - side))
+    y0 = int(np.clip(cy - side / 2, 0, h - side))
+    return x0, y0, int(side)
+
+
+def crop_to(img: np.ndarray, window) -> np.ndarray:
+    import cv2
+    x0, y0, side = window
+    return cv2.resize(img[y0:y0 + side, x0:x0 + side], (320, 320), interpolation=cv2.INTER_AREA)
 
 
 def silhouettes(b: dict, args, out: Path, picks: list[int], cfgs: list[str]) -> str:
@@ -300,6 +317,7 @@ def silhouettes(b: dict, args, out: Path, picks: list[int], cfgs: list[str]) -> 
         cam = g.scaled(scene.cams[stem], w, h)
         base = np.asarray(Image.fromarray(scene.image(stem)).resize((w, h))).copy()
         contours, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        crop = object_window(mask, w, h)
         figs = []
         for c in cfgs:
             case = Path(configs["cases"][next(x["case"] for x in configs["configs"] if x["name"] == c)])
@@ -310,6 +328,7 @@ def silhouettes(b: dict, args, out: Path, picks: list[int], cfgs: list[str]) -> 
                 sil = s.silhouette(s.sample_surface(verts, faces, 120_000), cam, w, h)
                 img[sil] = (0.45 * img[sil] + 0.55 * np.array([42, 120, 214])).astype(np.uint8)
             cv2.drawContours(img, contours, -1, (255, 255, 255), 2)
+            img = crop_to(img, crop)
             name = f"sil/obj{k:02d}_{c}.jpg"
             Image.fromarray(img).save(out / name, quality=85)
             m = b["results"][c][str(k)]
@@ -318,7 +337,7 @@ def silhouettes(b: dict, args, out: Path, picks: list[int], cfgs: list[str]) -> 
                         f'completeness {num(m.get("completeness"), ".2f")} · held-out IoU {num(iou, ".2f") or "-"}'
                         f'</figcaption></figure>')
         rows.append(f'<p class="rowlabel">object {k} <span>held-out frame {esc(stem)}: white outline = our mask, '
-                    f'blue = the mesh\'s silhouette</span></p><div class="sil">{"".join(figs)}</div>')
+                    f'blue = the mesh\'s silhouette, cropped around the object</span></p><div class="sil">{"".join(figs)}</div>')
     return "".join(rows)
 
 
