@@ -15,20 +15,27 @@ index d43b033..0849911 100644
  ply:
    binary: true
 diff --git a/scripts/infer.py b/scripts/infer.py
-index dfca48f..52591fc 100644
+index dfca48f..2a753c3 100644
 --- a/scripts/infer.py
 +++ b/scripts/infer.py
-@@ -288,6 +288,49 @@ def _filter_kwargs_to_signature(fn, kwargs: Dict[str, Any]) -> Dict[str, Any]:
+@@ -288,6 +288,56 @@ def _filter_kwargs_to_signature(fn, kwargs: Dict[str, Any]) -> Dict[str, Any]:
      return kwargs
  
  
-+def _vram_mark() -> float:
-+    """Peak reserved VRAM so far in GiB, then reset the peak (GS_playground)."""
++def _vram_start() -> None:
++    """Open a peak-VRAM window (GS_playground): drop the allocator cache the
++    DA3 expert leaves behind, so it is not charged to the ODE, then reset."""
++    if torch.cuda.is_available():
++        torch.cuda.empty_cache()
++        torch.cuda.reset_peak_memory_stats()
++
++
++def _vram_peaks() -> Dict[str, float]:
++    """Peak reserved and allocated VRAM in GiB since `_vram_start`."""
 +    if not torch.cuda.is_available():
-+        return 0.0
-+    peak = torch.cuda.max_memory_reserved() / 2**30
-+    torch.cuda.reset_peak_memory_stats()
-+    return float(peak)
++        return {}
++    return {"peak_vram_ode_gib": torch.cuda.max_memory_reserved() / 2**30,
++            "peak_alloc_ode_gib": torch.cuda.max_memory_allocated() / 2**30}
 +
 +
 +def _save_guided_state(
@@ -68,19 +75,19 @@ index dfca48f..52591fc 100644
  def _run_guided(
      model, batch: dict, *, scene_idx: int, guided_kwargs: Dict[str, Any],
  ) -> Dict[str, Any]:
-@@ -613,6 +656,7 @@ def main(cfg: DictConfig) -> None:
+@@ -613,6 +663,7 @@ def main(cfg: DictConfig) -> None:
      if mode == "plain":
          # Time only the ODE inference (no experts / meshing in plain mode).
          _cuda_sync()
-+        info["peak_vram_before_ode_gib"] = _vram_mark()
++        _vram_start()
          t_ode = time.time()
          res = _run_plain(
              model, batch, scene_idx=scene_idx, plain_cfg=cfg.plain,
-@@ -621,12 +665,18 @@ def main(cfg: DictConfig) -> None:
+@@ -621,12 +672,18 @@ def main(cfg: DictConfig) -> None:
          )
          _cuda_sync()
          info["ode_inference_s"] = float(time.time() - t_ode)
-+        info["peak_vram_ode_gib"] = _vram_mark()
++        info.update(_vram_peaks())
          _log.info(
              f"[infer] ODE inference finished in {info['ode_inference_s']:.1f}s."
          )
@@ -95,18 +102,18 @@ index dfca48f..52591fc 100644
      else:
          guided_kwargs = OmegaConf.to_container(cfg.get("guided"), resolve=True)
          if guided_kwargs is None:
-@@ -645,16 +695,23 @@ def main(cfg: DictConfig) -> None:
+@@ -645,16 +702,23 @@ def main(cfg: DictConfig) -> None:
          # Time ONLY the ODE inference (guidance flow + the extra polish
          # iterations): after the priors are ready, and before meshing.
          _cuda_sync()
-+        info["peak_vram_before_ode_gib"] = _vram_mark()
++        _vram_start()
          t_ode = time.time()
          result = _run_guided(
              model, batch, scene_idx=scene_idx, guided_kwargs=guided_kwargs,
          )
          _cuda_sync()
          info["ode_inference_s"] = float(time.time() - t_ode)
-+        info["peak_vram_ode_gib"] = _vram_mark()
++        info.update(_vram_peaks())
          _log.info(
              f"[infer] ODE inference finished in {info['ode_inference_s']:.1f}s "
              f"(after monodepth/normal priors, before meshing)."
