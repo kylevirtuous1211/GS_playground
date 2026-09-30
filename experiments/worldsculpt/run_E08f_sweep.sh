@@ -83,13 +83,15 @@ for cfg in c["configs"]:
 PY
 while IFS=$'\t' read -r name case seed views select; do
     echo "== $name: case $case seed $seed max_views $views view_select $select"
-    CUDA_VISIBLE_DEVICES="${GPU:-0}" python "$CLONE/reconstruct_batch.py" \
+    # upstream resolves its base weights as pretrained/Pixal3D relative to the
+    # clone, which is where inference.sh runs it from
+    ( cd "$CLONE" && CUDA_VISIBLE_DEVICES="${GPU:-0}" python reconstruct_batch.py \
         --case_root "$ROOT/$case" --instances "$SUBSET" --recon_subdir "_sweep_$name" \
         --views all --no-ema --vis_ss --sampler official --no_tex --no_glb \
         --seed "$seed" --max_views "$views" --view_select "$select" \
         --ss_config "$SS_DIR/config.json" --ss_ckpt_dir "$SS_DIR/ckpts" --ss_step 15000 \
         --shape_config "$SHAPE_DIR/config.json" --shape_ckpt_dir "$SHAPE_DIR/ckpts" --shape_step 15000 \
-        > "$SWEEP/$name.log" 2>&1 || echo "   FAILED: see $SWEEP/$name.log"
+        > "$SWEEP/$name.log" 2>&1 ) || { echo "   FAILED: see $SWEEP/$name.log"; exit 1; }
     echo "   $(ls "$ROOT/$case/_sweep_$name"/*/mesh.pt 2>/dev/null | wc -l) meshes"
 done < "$SWEEP/plan.tsv"
 
