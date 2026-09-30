@@ -1,0 +1,48 @@
+{
+ "entry": "E08h",
+ "lane": "post-hoc diagnostic, NOT pre-registered",
+ "what": "guided mesh.ply sampled uniformly by area (100k, trimesh seed 0), scored exactly as Stage B",
+ "why": "Stage B scored densified Gaussian centres, whose density follows texture, not surface",
+ "runs": {
+  "guided_default_16": {
+   "seed42": {
+    "chamfer_norm": 0.01097479606738058,
+    "precision": 0.7526461482048035,
+    "recall": 0.47900116443634033,
+    "f1": 0.5854247808456421
+   },
+   "seed0": {
+    "chamfer_norm": 0.011054791324863922,
+    "precision": 0.7571951150894165,
+    "recall": 0.47800198197364807,
+    "f1": 0.5860453844070435
+   },
+   "seed1": {
+    "chamfer_norm": 0.011115536941536823,
+    "precision": 0.7501010298728943,
+    "recall": 0.4789176285266876,
+    "f1": 0.5845909714698792
+   }
+  },
+  "guided_long_32": {
+   "seed42": {
+    "chamfer_norm": 0.010040047943804505,
+    "precision": 0.8038493990898132,
+    "recall": 0.5026904344558716,
+    "f1": 0.6185612082481384
+   },
+   "seed0": {
+    "chamfer_norm": 0.009939847887366512,
+    "precision": 0.8076879382133484,
+    "recall": 0.5025265216827393,
+    "f1": 0.619569718837738
+   },
+   "seed1": {
+    "chamfer_norm": 0.009856829233936285,
+    "precision": 0.8113411068916321,
+    "recall": 0.5103940367698669,
+    "f1": 0.6266061067581177
+   }
+  }
+ }
+}

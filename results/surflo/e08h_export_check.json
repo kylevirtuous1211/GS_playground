@@ -57,6 +57,114 @@
     "min": 26.98204040550482
    },
    "passes": true
+  },
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/nchc_sofa/guided_default_16/seed0/images",
+   "gaussians": 94459,
+   "cameras": 16,
+   "psnr_vs_surflo_render_db": {
+    "median": 60.49825567146212,
+    "min": 21.013294274113804
+   },
+   "null_dc_only_db": {
+    "median": 31.564151110479195,
+    "min": 20.551321071998064
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 35.9011671601323,
+    "min": 32.78286198375694
+   },
+   "passes": true
+  },
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/nchc_sofa/guided_default_16/seed1/images",
+   "gaussians": 91323,
+   "cameras": 16,
+   "psnr_vs_surflo_render_db": {
+    "median": 60.613301778064724,
+    "min": 20.665351446871398
+   },
+   "null_dc_only_db": {
+    "median": 31.489954183405672,
+    "min": 20.232220624813408
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 35.38864459440632,
+    "min": 32.69814246210345
+   },
+   "passes": true
+  },
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/nchc_sofa/guided_default_16/seed42/images",
+   "gaussians": 91542,
+   "cameras": 16,
+   "psnr_vs_surflo_render_db": {
+    "median": 60.652316163933655,
+    "min": 21.223722815446358
+   },
+   "null_dc_only_db": {
+    "median": 31.72305653691432,
+    "min": 20.824600061038794
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 35.64198884409586,
+    "min": 32.86764200313562
+   },
+   "passes": true
+  },
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/nchc_sofa/guided_long_32/seed0/images",
+   "gaussians": 576633,
+   "cameras": 32,
+   "psnr_vs_surflo_render_db": {
+    "median": 61.86198753765417,
+    "min": 13.229630996721111
+   },
+   "null_dc_only_db": {
+    "median": 30.43517928312287,
+    "min": 13.468774679810416
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 34.487061631335266,
+    "min": 13.36138423271666
+   },
+   "passes": true
+  },
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/nchc_sofa/guided_long_32/seed1/images",
+   "gaussians": 570009,
+   "cameras": 32,
+   "psnr_vs_surflo_render_db": {
+    "median": 62.38769473093474,
+    "min": 13.891596323348555
+   },
+   "null_dc_only_db": {
+    "median": 30.300614446171412,
+    "min": 14.168705071394863
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 34.47592297105396,
+    "min": 14.108633912344038
+   },
+   "passes": true
+  },
+  {
+   "run": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/nchc_sofa/guided_long_32/seed42/images",
+   "gaussians": 572282,
+   "cameras": 32,
+   "psnr_vs_surflo_render_db": {
+    "median": 62.7580959434915,
+    "min": 13.826703816021055
+   },
+   "null_dc_only_db": {
+    "median": 30.273104259004988,
+    "min": 14.018697203813504
+   },
+   "fit_psnr_vs_inputs_db_reported_only": {
+    "median": 34.868611274763126,
+    "min": 14.260100482429277
+   },
+   "passes": true
   }
  ],
  "all_pass": true
