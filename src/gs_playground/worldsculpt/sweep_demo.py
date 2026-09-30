@@ -55,6 +55,8 @@ svg text.ttl { fill:var(--ink-2); font-weight:600; }
 #tip { position:fixed; pointer-events:none; background:var(--surface); color:var(--ink); border:1px solid var(--border);
   border-radius:6px; padding:6px 9px; font-size:12.5px; box-shadow:0 4px 14px rgba(0,0,0,.12); display:none; max-width:280px; z-index:9; }
 #tip b { display:block; font-size:14px; }
+.retracted { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--ink);
+  border-radius:8px; padding:12px 16px; margin:40px 0 0; max-width:92ch; }
 .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-2); margin:6px 0 0; }
 .legend i { display:inline-block; width:14px; height:3px; vertical-align:middle; margin-right:6px; border-radius:2px; }
 .legend i.box { height:10px; }
@@ -388,6 +390,16 @@ def stage_b_section(b: dict, sil_html: str) -> str:
         '(the shape stage itself is nondeterministic at a fixed seed; see the notes).</p>')
 
 
+#: shown above Stage B until it is rerun with the fixed runner (LOG.md E08g).
+STAGE_B_RETRACTED = (
+    '<div class="retracted" role="note"><b>Retracted: everything in Stage B.</b> Every mesh below was decoded '
+    'with the shape decoder\'s sparse convolutions at random initialisation. The runner selected the spconv '
+    'backend, whose parameter names the checkpoint does not match, and the loader skips mismatches silently, so '
+    'each object came out as thousands of millimetre-sized blobs. The verdicts compare that output with itself, '
+    'and the earlier finding that the shape stage is not reproducible at a fixed seed was the random '
+    'initialisation. Stage A never touches the model and stands. LOG.md E08g has the evidence.</div>')
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--stage-a", required=True, type=Path)
@@ -407,7 +419,7 @@ def main() -> None:
         picks = [k for k in (56, 20, 67) if k in b["objects"]]
         sil = silhouettes(b, args, args.out, picks,
                           ["default_s42", "views1", "views3", "erode4", "dilate4", "nofit"])
-        body += stage_b_section(b, sil)
+        body += STAGE_B_RETRACTED + stage_b_section(b, sil)
     notes = [
         "<b>Exploratory.</b> Arms, metrics, nulls and reading rules were pre-registered in "
         "<code>experiments/worldsculpt/PREREG_E08f.md</code> before any sweep run. One scene, one capture, ten "
@@ -419,13 +431,9 @@ def main() -> None:
         "Held-out IoU compares against HQ-SAM's predicted mask, a reference rather than ground truth; the box-hull "
         "IoU in the table is its null.",
         "Units are COLMAP units; this capture has no metric scale.",
-        "<b>WorldSculpt's shape stage is not reproducible at a fixed seed.</b> The same command run twice on one "
-        "object gave 120,370 and then 31,136 faces from identical Stage 1 voxels, so the three default seeds "
-        "measure run-to-run variation as well as seed variation. Face counts are not read as quality.",
         "Completeness uses a tolerance of 2% of the box diagonal, which for most objects is below the voxel size "
         "of the observed points, so its absolute value is capped well below 1; read it relative to the seeds. A "
-        "post-hoc variant with the tolerance floored at half a voxel (in the table) gives the same verdicts. "
-        "Mesh fragmentation, pre-registered, could not be measured: the raw output is unwelded patches.",
+        "post-hoc variant with the tolerance floored at half a voxel (in the table) gives the same verdicts.",
     ]
     page = ('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             '<title>WorldSculpt Parameter Sweep</title>'

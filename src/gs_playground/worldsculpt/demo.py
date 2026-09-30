@@ -121,6 +121,10 @@ PAGES = {
                  "pipeline: the original frame first, then what the composed meshes "
                  "look like from that same camera.",
         "notes": [
+            "<b>Rerun 2026-09-30.</b> Earlier versions of this page showed meshes "
+            "decoded with the shape decoder's convolutions at random "
+            "initialisation, thousands of millimetre-sized blobs per object "
+            "(<code>LOG.md</code> E08g).",
             "A reproduction arm on the authors' data, not a baseline. No number "
             "here compares methods.",
             "WorldSculpt consumes instance masks and 3D boxes, which their "
@@ -143,6 +147,10 @@ PAGES = {
                  "strip below is rendered by WorldSculpt's own pipeline: the frame "
                  "first, then its meshes from the same camera.",
         "notes": [
+            "<b>Rerun 2026-09-30.</b> Earlier versions of this page showed meshes "
+            "decoded with the shape decoder's convolutions at random "
+            "initialisation, thousands of millimetre-sized blobs per object "
+            "(<code>LOG.md</code> E08g).",
             "<b>Masks are predicted, not annotated.</b> They are HQ-SAM label maps "
             "that Inpaint360GS associated across views in an earlier project "
             "(EditReadyGS), at 636x358, with specks removed, upsampled, clipped to "
