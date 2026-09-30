@@ -1,0 +1,121 @@
+diff --git a/configs/infer.yaml b/configs/infer.yaml
+index d43b033..0849911 100644
+--- a/configs/infer.yaml
++++ b/configs/infer.yaml
+@@ -69,6 +69,11 @@ source:
+ # Gaussian set (this threshold never touches mesh.ply).
+ filtered_centers_opacity_threshold: 0.1
+ 
++# GS_playground: also save the fitted Gaussians, refined cameras and
++# supervision images to guided_state.pt; in plain mode, VGGT's cameras to
++# plain_state.pt.
++save_guided_state: false
++
+ # PLY writer settings.
+ ply:
+   binary: true
+diff --git a/scripts/infer.py b/scripts/infer.py
+index dfca48f..52591fc 100644
+--- a/scripts/infer.py
++++ b/scripts/infer.py
+@@ -288,6 +288,49 @@ def _filter_kwargs_to_signature(fn, kwargs: Dict[str, Any]) -> Dict[str, Any]:
+     return kwargs
+ 
+ 
++def _vram_mark() -> float:
++    """Peak reserved VRAM so far in GiB, then reset the peak (GS_playground)."""
++    if not torch.cuda.is_available():
++        return 0.0
++    peak = torch.cuda.max_memory_reserved() / 2**30
++    torch.cuda.reset_peak_memory_stats()
++    return float(peak)
++
++
++def _save_guided_state(
++    path: Path, *, batch: dict, scene_idx: int, result: Dict[str, Any],
++    selected: list,
++) -> None:
++    """Everything needed to rebuild the fitted 3DGS outside Surflo (GS_playground).
++
++    Guided: the Gaussians as the guided inference returns them (world space,
++    scales already divided by scene_scale), the refined cameras they were
++    rendered against, and the supervision images, in the order of ``selected``.
++    Plain (``result`` empty): only VGGT's cameras, which is what aligns a plain
++    point cloud to anything else.
++    """
++    cams = build_refined_cameras_from_guided_result(
++        batch, scene_idx, result, apply_camera_correction=bool(result), data_device="cpu",
++    )
++    keys = ("aux_means", "aux_scales", "aux_quats", "aux_opacities",
++            "aux_colors", "aux_colors_sh", "aux_exposure_coeffs")
++    state: Dict[str, Any] = {
++        k: result[k].detach().cpu() for k in keys if result.get(k) is not None
++    }
++    if result:
++        state["supervision_images"] = [im.detach().cpu() for im in result["supervision_images"]]
++    state["cameras"] = [
++        dict(R=np.asarray(c.R), T=np.asarray(c.T), FoVx=float(c.FoVx), FoVy=float(c.FoVy),
++             width=int(c.image_width), height=int(c.image_height),
++             image_name=str(c.image_name))
++        for c in cams
++    ]
++    state["selected_images"] = [str(p) for p in selected]
++    torch.save(state, path)
++    _log.info(f"[infer] wrote {path.name}: "
++              f"{state['aux_means'].shape[0] if result else 0} Gaussians, {len(cams)} cameras.")
++
++
+ def _run_guided(
+     model, batch: dict, *, scene_idx: int, guided_kwargs: Dict[str, Any],
+ ) -> Dict[str, Any]:
+@@ -613,6 +656,7 @@ def main(cfg: DictConfig) -> None:
+     if mode == "plain":
+         # Time only the ODE inference (no experts / meshing in plain mode).
+         _cuda_sync()
++        info["peak_vram_before_ode_gib"] = _vram_mark()
+         t_ode = time.time()
+         res = _run_plain(
+             model, batch, scene_idx=scene_idx, plain_cfg=cfg.plain,
+@@ -621,12 +665,18 @@ def main(cfg: DictConfig) -> None:
+         )
+         _cuda_sync()
+         info["ode_inference_s"] = float(time.time() - t_ode)
++        info["peak_vram_ode_gib"] = _vram_mark()
+         _log.info(
+             f"[infer] ODE inference finished in {info['ode_inference_s']:.1f}s."
+         )
+         info.update(_save_plain_outputs(
+             scene_dir, plain_result=res, plain_cfg=cfg.plain, ply_cfg=cfg.ply,
+         ))
++        if bool(cfg.get("save_guided_state", False)):
++            _save_guided_state(
++                scene_dir / "plain_state.pt", batch=batch, scene_idx=scene_idx,
++                result={}, selected=selected,
++            )
+     else:
+         guided_kwargs = OmegaConf.to_container(cfg.get("guided"), resolve=True)
+         if guided_kwargs is None:
+@@ -645,16 +695,23 @@ def main(cfg: DictConfig) -> None:
+         # Time ONLY the ODE inference (guidance flow + the extra polish
+         # iterations): after the priors are ready, and before meshing.
+         _cuda_sync()
++        info["peak_vram_before_ode_gib"] = _vram_mark()
+         t_ode = time.time()
+         result = _run_guided(
+             model, batch, scene_idx=scene_idx, guided_kwargs=guided_kwargs,
+         )
+         _cuda_sync()
+         info["ode_inference_s"] = float(time.time() - t_ode)
++        info["peak_vram_ode_gib"] = _vram_mark()
+         _log.info(
+             f"[infer] ODE inference finished in {info['ode_inference_s']:.1f}s "
+             f"(after monodepth/normal priors, before meshing)."
+         )
++        if bool(cfg.get("save_guided_state", False)):
++            _save_guided_state(
++                scene_dir / "guided_state.pt", batch=batch, scene_idx=scene_idx,
++                result=result, selected=selected,
++            )
+         # Mesh extraction always uses the full Gaussian set; the opacity cull
+         # (filtered_centers_opacity_threshold) only trims the saved
+         # point_cloud_{normals,rgb}.ply, never mesh.ply.
