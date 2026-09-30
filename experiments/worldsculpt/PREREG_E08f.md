@@ -90,3 +90,10 @@ Neither changes a pre-registered reading; both are recorded here so nothing is s
    Upstream remeshes only when it writes a GLB, which the sweep does not do. The metric is dropped from the reading rather than redefined.
 2. **The completeness tolerance is below the reference's own quantisation.** tau = 2% of the box diagonal is 0.016-0.054 units, while the observed points are voxel centres at E/400 = 0.045 (half-diagonal 0.039), so absolute completeness is capped well below 1 even for a perfect surface and favours large objects.
    The pre-registered metric and its verdicts stand as the result. A **post-hoc** variant with tau floored at half a voxel diagonal (`completeness_posthoc_voxel_tau`) was added only to test whether the verdicts depend on this: they do not (the same three configs change, the same five stay within seed noise).
+
+## Retraction, 2026-09-30, after all of the above
+
+Stage B is retracted (`LOG.md` E08g).
+Every mesh it scored was decoded with the shape decoder's 40 sparse convs at random initialisation, because the runner inherited `SPARSE_CONV_BACKEND=spconv`.
+The amendment above was that fault, not upstream: with `flex_gemm`, two runs at one seed are bitwise identical, so a rerun can restore the original "same vertex counts" sanity check.
+Stage A never touches the model and stands.
