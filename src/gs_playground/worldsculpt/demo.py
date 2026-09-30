@@ -96,14 +96,17 @@ def copy_image(source: Path, out: Path, max_width: int = 1800) -> str | None:
     return f"images/{name}"
 
 
-def section(title: str, sub: str, cards: list[tuple[str, str]]) -> str:
+def section(title: str, sub: str, cards: list[tuple[str, str]],
+            min_width: int = 300) -> str:
+    """A card grid; wide multi-panel strips need a wide `min_width` to be legible."""
     if not cards:
         return ""
     body = "".join(
         f'<div class="card"><img src="{src}" alt=""><div class="cap">{cap}</div></div>'
         for src, cap in cards)
     return (f"<h2>{title}</h2><p class='sub'>{sub}</p>"
-            f"<div class='pair'>{body}</div>")
+            f"<div class='pair' style='grid-template-columns:repeat(auto-fit, "
+            f"minmax(min({min_width}px, 100%), 1fr))'>{body}</div>")
 
 
 #: page text per run. Each page says on itself what was done to its inputs.
@@ -254,12 +257,12 @@ def main() -> None:
     page = page.replace("__BODY__",
                         section("Per view", "The comparison the method owes: "
                                 "its own output, from the camera the input "
-                                "frame came from.", strips)
+                                "frame came from.", strips, min_width=900)
                         + section("The whole scene", "Composition and layout.",
                                   overview)
                         + section("What it was given", "The input each object was "
                                   "conditioned on: three of its frames with our mask "
-                                  "tinted and our box in magenta.", given))
+                                  "tinted and our box in magenta.", given, min_width=520))
     page = page.replace("__NOTES__", "".join(f"<li>{n}</li>" for n in text["notes"]))
     (args.out / "index.html").write_text(page)
 
