@@ -76,6 +76,30 @@ def render(cloud: GaussianCloud, cam: Camera,
     return img.clamp(0.0, 1.0)
 
 
+@torch.no_grad()
+def render_depth(cloud: GaussianCloud, cam: Camera,
+                 device: str = "cuda") -> tuple[torch.Tensor, torch.Tensor]:
+    """-> (expected z-depth [H, W], alpha [H, W]).
+
+    gsplat's "ED" divides accumulated depth by alpha, so a faint layer still
+    reports a confident-looking depth; callers gate on alpha.
+    """
+    cloud = cloud.to(device)
+    depth, alphas, _ = rasterization(
+        means=cloud.means,
+        quats=torch.nn.functional.normalize(cloud.quats, dim=1),
+        scales=torch.exp(cloud.log_scales),
+        opacities=cloud.opacities,
+        colors=cloud.colors,
+        viewmats=cam.viewmat[None].to(device),
+        Ks=cam.K[None].to(device),
+        width=cam.width,
+        height=cam.height,
+        render_mode="ED",
+    )
+    return depth[0, ..., 0], alphas[0, ..., 0]
+
+
 def psnr(a: torch.Tensor, b: torch.Tensor) -> float:
     mse = torch.mean((a - b) ** 2).item()
     return 99.0 if mse == 0 else 10.0 * math.log10(1.0 / mse)
