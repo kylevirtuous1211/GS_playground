@@ -13,6 +13,7 @@ Showing the result on its own is enough; a **comparison** is owed only when the 
 | E08c WorldSculpt | a Marble living room taken apart into 13 object meshes, each view beside the frame it came from; the room's walls and floor are visibly absent | `python -m http.server -d outputs/worldsculpt/viewer` | `gs_playground.worldsculpt.demo` | `LOG.md` E08c |
 | E08d WorldGrow prompts | eight prompt/guidance arms at four fixed seeds, each seed's column comparable down the page, plus one orbitable splat per arm; IoU and CLIP counts against the released setting | `python -m http.server -d outputs/worldgrow/e08d_prompts/viewer` | `gs_playground.worldgrow.prompt_probe` | `LOG.md` E08d |
 | E08e WorldSculpt on NCHC sofa | our own lounge capture taken apart into 24 object meshes, each per-view strip beside the frame it came from, plus what each object was given (our mask and box) | `python -m http.server -d outputs/worldsculpt/NCHC/viewer` | `gs_playground.worldsculpt.demo --page nchc` | `LOG.md` E08e |
+| E08f WorldSculpt parameter sweep | which knobs change how many objects come out (Stage A, 256 label ids) and how complete their meshes are (Stage B, 10 objects x 11 configs, against the seed band), plus held-out silhouettes | `python -m http.server -d outputs/worldsculpt/NCHC/sweep/viewer` | `gs_playground.worldsculpt.sweep_demo` | `LOG.md` E08f |
 
 ## Rebuilding a viewer
 
