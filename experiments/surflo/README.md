@@ -16,6 +16,9 @@ bash tools/setup/surflo_env.sh                        # once: env, CUDA extensio
 hf download AntoineGuedon/Surflo-v0 surflo_v0.pt --local-dir data/models/surflo
 bash experiments/surflo/run_E08h_surflo.sh A          # the authors' garden sample
 bash experiments/surflo/run_E08h_surflo.sh B          # NCHC sofa; runs only if A passed
+bash tools/fetch/fetch_mipnerf360.sh                  # once: official Mip-NeRF 360 into ~/datasets
+bash experiments/surflo/run_E08i_perscene_garden.sh   # 3DGS and 2DGS cost on garden, beside it
+bash experiments/surflo/run_E08j_views_sweep.sh       # 16-161 views: cost and novel-view PSNR
 ```
 
 Each run is upstream's own `scripts/infer.py`, with our patch's `save_guided_state=true`.
@@ -28,3 +31,6 @@ Outputs per run: `mesh.ply`, `mesh_textured.ply`, `point_cloud_{normals,rgb}.ply
 - Depth-Anything-3, which every guided preset but `no_expert` uses, imports `addict`, and nothing upstream installs it.
 - Guided mode is not bitwise reproducible at a fixed seed; plain mode is.
 - Its renderer draws Gaussians without the 0.3 px low-pass most viewers add; render the export with gsplat `eps2d=0` to match it exactly.
+- Guided mode refines a focal length per input view (about 2% spread). A novel-view evaluation that fixes the median focal and refines only the pose loses up to 1.2 dB on SuRFLo's own input views; refine a focal scale too (E08j).
+- Memory grows with the view count (22 GiB reserved in the ODE stage at 64 views), and the Depth-Anything-3 guidance before the ODE peaks higher still: 161 views ran out of memory on a 48 GB card with 7 GB taken by other processes (E08j).
+- To compare against a 3DGS trained at full resolution, do not render it at SuRFLo's 518 width: zoom-out dilation costs it about 8.6 dB. Render at its training resolution and downscale like the ground truth (E08j, Amendment 1).
