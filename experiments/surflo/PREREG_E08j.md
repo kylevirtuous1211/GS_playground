@@ -57,3 +57,29 @@ Made after an adversarial review of the evaluation code (25 agents, every findin
 5. **Data**, not a protocol change: the share copy of garden was deleted on 2026-10-02 (Taiwan time), so the inputs, ground truth and Parser cameras come from the official release (`~/datasets/mipnerf360`, zip MD5 verified).
    Its `images`, `images_4` and `sparse/0/*.bin` are byte-identical to the share copy by that copy's own SHA-256 receipt, and the `images_4_png` gsplat derives from it is byte-identical to the one E08i's 3DGS trained on.
    The 161-image input pool is a directory of hardlinks, `~/datasets/mipnerf360/derived/garden_train161_images_4`, not symlinks under `data/` (the storage policy forbids per-file symlinks); same 161 files.
+
+## Amendment 2, 2026-10-01, after sanity check 2 failed and before any test PSNR was computed
+
+Sanity check 2 failed at N = 16 (seed 42): SuRFLo's own cameras scored 28.76 dB on its input views, the test path 27.53 dB, a gap of 1.23 dB; N = 32 and 64 passed (0.45 and 0.23 dB).
+As pre-registered, the evaluation stopped there and no test view was rendered (`results/surflo/e08j_views_sweep.json` holds only the sanity block and the sweep status).
+
+A probe on the input views only (`probes/surflo/e08j_sanity2_gap.py`, `results/surflo/e08j_sanity2_gap_probe.json`) located the whole gap in the intrinsics:
+
+| N = 16, input views, median PSNR | dB |
+|---|---|
+| own cameras, raw | 28.76 |
+| test path, median K, 200 steps of pose refinement | 27.53 |
+| test path, **each view's own K**, 200 steps | 28.77 |
+| test path, median K, 1000 steps | 27.52 |
+
+The Sim(3) alignment is not the cause (centre residual 0.5% of the camera extent, rotation offset median 0.23 deg), nor is the refinement budget.
+SuRFLo refines a focal length per input view (spread about 2.3% around the median at every N), which a pose-only refinement cannot absorb; per view the loss ranges from 0 to 4.6 dB.
+
+Amended: the test-time refinement also optimises one focal scale per view (fx and fy multiplied by the same factor, principal point fixed), with the same 200 Adam steps and learning rate on its logarithm.
+gsplat gives no gradient for the intrinsics, so that one scalar's gradient is a central finite difference of the same L1 loss (step 1e-3 in log scale); the final render uses the refined focal exactly.
+It applies to both arms, SuRFLo and the 3DGS baseline, so the comparison stays symmetric; for 3DGS, whose COLMAP intrinsics are shared and known, it is one extra degree of freedom it does not need.
+Sanity check 2 is rerun with the amended refinement and the same 1 dB threshold, and still gates every test number.
+The raw (unrefined) numbers are unchanged: median K for SuRFLo, the Parser's K for 3DGS.
+
+Also recorded here, not a change: N = 161, seed 42 ran out of GPU memory after 92 s, in SuRFLo's monocular-depth normal guidance, needing 2.86 GiB more with 38.4 GiB in use, while two other processes held 7.1 GiB of the 48 GB card (`gpu_before.csv`); the cap skipped seeds 0 and 1 as pre-registered.
+Whether N = 161 fits on an otherwise empty 48 GB card is therefore not tested by this sweep.

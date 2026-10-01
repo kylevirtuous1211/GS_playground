@@ -1,0 +1,142 @@
+{
+ "entry": "E08j",
+ "prereg": "experiments/surflo/PREREG_E08j.md (with Amendment 1)",
+ "eval_size": [
+  518,
+  322
+ ],
+ "test_views": [
+  "DSC07956.JPG",
+  "DSC07964.JPG",
+  "DSC07972.JPG",
+  "DSC07980.JPG",
+  "DSC07988.JPG",
+  "DSC07996.JPG",
+  "DSC08004.JPG",
+  "DSC08012.JPG",
+  "DSC08020.JPG",
+  "DSC08028.JPG",
+  "DSC08036.JPG",
+  "DSC08044.JPG",
+  "DSC08052.JPG",
+  "DSC08060.JPG",
+  "DSC08068.JPG",
+  "DSC08076.JPG",
+  "DSC08084.JPG",
+  "DSC08092.JPG",
+  "DSC08100.JPG",
+  "DSC08108.JPG",
+  "DSC08116.JPG",
+  "DSC08124.JPG",
+  "DSC08132.JPG",
+  "DSC08140.JPG"
+ ],
+ "sweep": [
+  {
+   "n": 16,
+   "seed": 0,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n16/seed0",
+   "status": "done",
+   "wall_s": 122
+  },
+  {
+   "n": 16,
+   "seed": 1,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n16/seed1",
+   "status": "done",
+   "wall_s": 118
+  },
+  {
+   "n": 16,
+   "seed": 42,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n16/seed42",
+   "status": "done",
+   "wall_s": 124
+  },
+  {
+   "n": 32,
+   "seed": 0,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n32/seed0",
+   "status": "done",
+   "wall_s": 128
+  },
+  {
+   "n": 32,
+   "seed": 1,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n32/seed1",
+   "status": "done",
+   "wall_s": 127
+  },
+  {
+   "n": 32,
+   "seed": 42,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n32/seed42",
+   "status": "done",
+   "wall_s": 127
+  },
+  {
+   "n": 64,
+   "seed": 0,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n64/seed0",
+   "status": "done",
+   "wall_s": 137
+  },
+  {
+   "n": 64,
+   "seed": 1,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n64/seed1",
+   "status": "done",
+   "wall_s": 142
+  },
+  {
+   "n": 64,
+   "seed": 42,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n64/seed42",
+   "status": "done",
+   "wall_s": 137
+  },
+  {
+   "n": 161,
+   "seed": 0,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n161/seed0",
+   "status": "skipped by the pre-registered cap: seed 42 ran out of GPU memory after 92 s: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.86 GiB. GPU 0 has a total capacity of 47.37 GiB of which 1.86 GiB is free. Process 3173543 has 1.19 GiB memory in use. Process 3174725 h",
+   "wall_s": null
+  },
+  {
+   "n": 161,
+   "seed": 1,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n161/seed1",
+   "status": "skipped by the pre-registered cap: seed 42 ran out of GPU memory after 92 s: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.86 GiB. GPU 0 has a total capacity of 47.37 GiB of which 1.86 GiB is free. Process 3173543 has 1.19 GiB memory in use. Process 3174725 h",
+   "wall_s": null
+  },
+  {
+   "n": 161,
+   "seed": 42,
+   "dir": "/home/intern_2603056/Desktop/GS_playground/outputs/surflo/views_sweep/n161/seed42",
+   "status": "failed: seed 42 ran out of GPU memory after 92 s: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.86 GiB. GPU 0 has a total capacity of 47.37 GiB of which 1.86 GiB is free. Process 3173543 has 1.19 GiB memory in use. Process 3174725 h",
+   "wall_s": 92
+  }
+ ],
+ "sanity_2": {
+  "n16": {
+   "own_cameras_db": 28.761806626777272,
+   "test_path_db": 27.530845948123513,
+   "gap_db": 1.2309606786537586,
+   "passes": false
+  },
+  "n32": {
+   "own_cameras_db": 26.470028284938152,
+   "test_path_db": 26.01805866154894,
+   "gap_db": 0.45196962338921054,
+   "passes": true
+  },
+  "n64": {
+   "own_cameras_db": 25.742131600930534,
+   "test_path_db": 25.507616406397908,
+   "gap_db": 0.23451519453262648,
+   "passes": true
+  }
+ },
+ "runs": {},
+ "n161_capped": "seed 42 ran out of GPU memory after 92 s: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.86 GiB. GPU 0 has a total capacity of 47.37 GiB of which 1.86 GiB is free. Process 3173543 has 1.19 GiB memory in use. Process 3174725 h"
+}
