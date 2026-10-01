@@ -35,3 +35,25 @@ On Mip-NeRF 360 garden, as SuRFLo is given more views (up to the full standard t
 
 Descriptive: per N, the median and range over the three seeds of time, peak VRAM and test PSNR (with and without pose refinement), set beside 3DGS's test PSNR.
 Named differences: SuRFLo is evaluated at 518x322 because that is the only resolution it fits; 3DGS is re-rendered at that resolution for the comparison, though it was trained at 1297x840. The per-image exposure SuRFLo learns has no value for a test view, so test renders use none. SuRFLo drops far background by design, which full-image PSNR counts against it.
+
+## Amendment 1, 2026-10-01, before any SuRFLo run of this sweep
+
+Made after an adversarial review of the evaluation code (25 agents, every finding put to a refuter) and before any SuRFLo inference for E08j; no SuRFLo test number existed when it was written.
+
+1. **The 3DGS baseline is rendered at its training resolution, then put through the ground truth's own operation.**
+   The review measured the pre-registered method on E08i's 3DGS: rendering it natively at 518x322 (intrinsics scaled, `eps2d` 0.3) scores a median 22.89 dB raw on the test views, against 31.45 dB when the same model is rendered at 1297x840 and then downscaled exactly as the ground truth is (PIL bicubic to 518x335, crop to 518x322); per-view gap median 8.6 dB, range 2.8 to 10.5.
+   The cause is the known zoom-out dilation of 3DGS (Mip-Splatting): renders come out brighter and thickened (mean intensity 0.415 against 0.379 for the ground truth), and pose refinement cannot undo it.
+   The pre-registered method would set SuRFLo beside a baseline handicapped by a renderer artifact, not by its reconstruction.
+   Disclosure: these baseline numbers were seen before this amendment, and the change raises the baseline, which works against SuRFLo in the comparison.
+   Amended: render at the Parser's resolution with its own intrinsics, quantise to 8 bits, apply the same resize and crop as the ground truth, score; pose refinement for the baseline runs at that training resolution against the full-resolution test image.
+   The pre-registered native-518 variant is still computed and reported, labelled as such.
+   SuRFLo is unchanged: it was fit at exactly the evaluation resolution, so its native render is already the like-for-like one.
+   The principle for both: each model is rendered at the resolution it was fit at, then put through the ground truth's operation.
+2. **SSIM is reported with and without pose refinement**, as section "Metrics" implies; the code computed it only with.
+3. **Sanity check 2 gates**: it runs on every seed-42 run before any test view is evaluated, and if any gap exceeds 1 dB the evaluation writes only the sanity block and stops with an error.
+4. **The cap, as written above, applies only to seed 42 at N = 161**, and the failure branch only to running out of GPU memory (`CUDA out of memory` / `OutOfMemoryError` in its log); any other failure, or a failure of seed 0 or 1, stops the sweep as at every other N.
+   The GPU is shared, so the compute processes on it are recorded before each run.
+   Skipped and failed runs are written into the results JSON with their reason, and the per-N median and range over seeds are computed by the evaluation, not by hand.
+5. **Data**, not a protocol change: the share copy of garden was deleted on 2026-10-02 (Taiwan time), so the inputs, ground truth and Parser cameras come from the official release (`~/datasets/mipnerf360`, zip MD5 verified).
+   Its `images`, `images_4` and `sparse/0/*.bin` are byte-identical to the share copy by that copy's own SHA-256 receipt, and the `images_4_png` gsplat derives from it is byte-identical to the one E08i's 3DGS trained on.
+   The 161-image input pool is a directory of hardlinks, `~/datasets/mipnerf360/derived/garden_train161_images_4`, not symlinks under `data/` (the storage policy forbids per-file symlinks); same 161 files.
