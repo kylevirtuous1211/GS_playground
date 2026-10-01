@@ -35,6 +35,8 @@ EVAL_WIDTH = 518
 TTO_STEPS = 200
 TTO_LR = 1e-3
 SANITY_DB = 1.0
+#: Amendment 2: central-difference step for the focal scale, in log scale
+FOCAL_FD_STEP = 1e-3
 
 
 # --------------------------------------------------------------------------- gt
@@ -117,11 +119,16 @@ def render_c2w(cloud, c2w, K, width: int, height: int, sh_degree: int, eps2d: fl
 
 
 def refine(cloud, c2w, K, target, width, height, sh_degree, eps2d, steps=TTO_STEPS):
-    """Per-view 6-DoF pose correction, Gaussians frozen, L1 to the test image."""
+    """Per-view pose and focal-scale correction, Gaussians frozen, L1 to the test image.
+
+    Returns (c2w, K). gsplat has no gradient for the intrinsics, so the one focal
+    scalar's gradient is a central finite difference of the same loss (Amendment 2).
+    """
     import torch
     w = torch.zeros(3, device=c2w.device, dtype=c2w.dtype, requires_grad=True)
     dt = torch.zeros(3, device=c2w.device, dtype=c2w.dtype, requires_grad=True)
-    opt = torch.optim.Adam([w, dt], lr=TTO_LR)
+    log_focal = torch.zeros(1, device=c2w.device, dtype=c2w.dtype, requires_grad=True)
+    opt = torch.optim.Adam([w, dt, log_focal], lr=TTO_LR)
 
     def posed():
         out = c2w.clone()
@@ -129,13 +136,26 @@ def refine(cloud, c2w, K, target, width, height, sh_degree, eps2d, steps=TTO_STE
         out[:3, 3] = c2w[:3, 3] + dt
         return out
 
+    def focal(log_scale: float):
+        out = K.clone()
+        out[0, 0] *= math.exp(log_scale)
+        out[1, 1] *= math.exp(log_scale)
+        return out
+
+    def loss_at(pose, log_scale: float):
+        return (render_c2w(cloud, pose, focal(log_scale), width, height, sh_degree, eps2d) - target).abs().mean()
+
     for _ in range(steps):
         opt.zero_grad()
-        loss = (render_c2w(cloud, posed(), K, width, height, sh_degree, eps2d) - target).abs().mean()
-        loss.backward()
+        current = float(log_focal)
+        loss_at(posed(), current).backward()
+        with torch.no_grad():
+            pose = posed()
+            log_focal.grad = ((loss_at(pose, current + FOCAL_FD_STEP) - loss_at(pose, current - FOCAL_FD_STEP))
+                              / (2 * FOCAL_FD_STEP)).reshape(1)
         opt.step()
     with torch.no_grad():
-        return posed()
+        return posed(), focal(float(log_focal))
 
 
 # ---------------------------------------------------------------------- eval
@@ -157,9 +177,9 @@ def evaluate(views, cloud, target_of, sh_degree, eps2d, tto: bool, *, to_eval=No
             raw = to_eval(render_c2w(cloud, c2w, K, w, h, sh_degree, eps2d))
         row = {"name": name, "psnr_raw": psnr(raw, score), "ssim_raw": ssim(raw, score)}
         if tto:
-            fine = refine(cloud, c2w, K, target, w, h, sh_degree, eps2d)
+            fine, fine_K = refine(cloud, c2w, K, target, w, h, sh_degree, eps2d)
             with torch.no_grad():
-                img = to_eval(render_c2w(cloud, fine, K, w, h, sh_degree, eps2d))
+                img = to_eval(render_c2w(cloud, fine, fine_K, w, h, sh_degree, eps2d))
             row.update(psnr_tto=psnr(img, score), ssim_tto=ssim(img, score))
         rows.append(row)
     keys = [k for k in rows[0] if k != "name"]

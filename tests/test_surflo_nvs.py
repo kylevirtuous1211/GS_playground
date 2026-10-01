@@ -53,3 +53,26 @@ def test_sweep_status_reaches_the_per_n_reading(tmp_path):
     table = per_n(entries, runs)
     assert table["16"]["seeds_done"] == 2 and table["16"]["wall_s"] == {"median": 110.0, "range": [100, 120]}
     assert table["161"] == {"seeds_done": 0, "not_done": {"0": entries[2]["status"]}}
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="needs CUDA")
+def test_refine_recovers_a_focal_the_pose_cannot():
+    """Amendment 2: the finite-difference focal scale finds a 2% zoom."""
+    from gs_playground.gs.ply import GaussianCloud
+    from gs_playground.surflo.nvs import refine, render_c2w
+    gen = torch.Generator().manual_seed(0)
+    n = 20000
+    means = torch.rand(n, 3, generator=gen) * torch.tensor([4.0, 3.0, 2.0]) - torch.tensor([2.0, 1.5, -2.0])
+    cloud = GaussianCloud(means=means, f_dc=torch.randn(n, 3, generator=gen),
+                          opacity_logit=torch.full((n,), 2.0), log_scales=torch.full((n, 3), -3.5),
+                          quats=torch.tensor([[1.0, 0, 0, 0]]).repeat(n, 1),
+                          f_rest=torch.zeros(n, 15, 3)).to("cuda")
+    width, height = 160, 120
+    K = torch.tensor([[150.0, 0, width / 2], [0, 150.0, height / 2], [0, 0, 1]]).cuda()
+    zoomed = K.clone()
+    zoomed[:2, :2] *= 1.02
+    eye = torch.eye(4).cuda()
+    with torch.no_grad():
+        target = render_c2w(cloud, eye, zoomed, width, height, 3, 0.0)
+    _, fine_K = refine(cloud, eye, K, target, width, height, 3, 0.0)
+    assert abs(float(fine_K[0, 0] / K[0, 0]) - 1.02) < 0.004
