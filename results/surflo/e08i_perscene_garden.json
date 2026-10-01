@@ -1,0 +1,41 @@
+{
+ "entry": "E08i",
+ "prereg": "experiments/surflo/PREREG_E08i.md",
+ "lane": "cost measurement",
+ "gpu": "RTX 6000 Ada",
+ "min_psnr_db": 25.0,
+ "arms": {
+  "2dgs": {
+   "training_time_s": 1381.2080280780792,
+   "wall_clock_s": 1433,
+   "peak_alloc_gib": 6.056660175323486,
+   "peak_process_gib_nvidia_smi": 9.41015625,
+   "gaussians": 3448642,
+   "heldout_psnr_db": 26.835094451904297,
+   "heldout_ssim": 0.8425806760787964,
+   "heldout_lpips": 0.10123878717422485,
+   "valid": true
+  },
+  "3dgs": {
+   "training_time_s": 2142.6066200733185,
+   "wall_clock_s": 2324,
+   "peak_alloc_gib": 10.765964031219482,
+   "peak_process_gib_nvidia_smi": 16.818359375,
+   "gaussians": 6606688,
+   "heldout_psnr_db": 27.647361755371094,
+   "heldout_ssim": 0.8707764148712158,
+   "heldout_lpips": 0.07095286250114441,
+   "valid": true
+  }
+ },
+ "surflo_same_gpu_e08h": {
+  "guided_default": {
+   "ode_s_median": 86.04527497291565,
+   "peak_vram_reserved_gib_median": 12.77734375
+  },
+  "plain": {
+   "ode_s_median": 17.145785808563232,
+   "peak_vram_reserved_gib_median": 10.57421875
+  }
+ }
+}

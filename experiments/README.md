@@ -30,6 +30,7 @@ It is not allowed to be the place a model or a dataset is defined.
 | E08f | `worldsculpt` | which parameters change object count and mesh completeness? | count: views needed (stride, min_views); completeness: only 1 view and mask erosion/dilation beat seed noise; **shape stage nondeterministic at a fixed seed** (Stage B and that finding retracted by E08g: random conv weights) |
 | E08g | `worldsculpt` | why did WorldSculpt's meshes look like dust? | **our bug**: spconv backend left the shape decoder's convs at random init; fixed, E08c/E08e rerun, deterministic |
 | E08h | `surflo` | does SuRFLo reproduce on its own garden sample, and how does it do on our sofa? | **reproduces** (runtime/VRAM/outputs; accuracy not attempted, no GT released); 3DGS export exact (59-63 dB); sofa: unguided F1 0.87 vs guided 0.58, cause untested |
+| E08i | `surflo` | what does per-scene optimisation cost on garden here, beside SuRFLo? | 3DGS 35.7 min / 10.8 GiB, 2DGS 23.0 min / 6.1 GiB (both valid, PSNR 27.6 / 26.8); SuRFLo 16-25x faster guided, 80-125x plain; memory about the same |
 
 ## Methods
 
