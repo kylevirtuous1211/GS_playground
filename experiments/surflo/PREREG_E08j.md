@@ -83,3 +83,10 @@ The raw (unrefined) numbers are unchanged: median K for SuRFLo, the Parser's K f
 
 Also recorded here, not a change: N = 161, seed 42 ran out of GPU memory after 92 s, in SuRFLo's monocular-depth normal guidance, needing 2.86 GiB more with 38.4 GiB in use, while two other processes held 7.1 GiB of the 48 GB card (`gpu_before.csv`); the cap skipped seeds 0 and 1 as pre-registered.
 Whether N = 161 fits on an otherwise empty 48 GB card is therefore not tested by this sweep.
+
+## Amendment 3, 2026-10-02, post-hoc: N = 161 on an empty card, written before that run
+
+The sweep's N = 161 arm ran out of memory while two other processes held 7.1 GiB of the 48 GB card (Amendment 2), so it measured the shared card, not SuRFLo.
+With the user's go-ahead those processes were stopped, and N = 161 is rerun as a **post-hoc arm, labelled so**, with nothing else changed: same preset, seeds {42, 0, 1}, the same cap (seed 42 out of memory or over 20 minutes skips seeds 0 and 1), the same evaluation, with sanity check 2 on seed 42 gating its test numbers.
+It goes to its own output root (`outputs/surflo/views_sweep_n161_posthoc/`) and results file (`results/surflo/e08j_n161_posthoc.json`), so the original failure stays on record; the 3DGS baseline is not recomputed (it is in `results/surflo/e08j_views_sweep.json`).
+If it runs out of memory on the empty 48 GB card too, that is the answer for this card, and the arm moves to a larger GPU on the nano4 cluster; its time is then not comparable to the other N (a different GPU), only its memory and novel-view PSNR are.

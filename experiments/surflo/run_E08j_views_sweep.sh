@@ -5,6 +5,8 @@
 #
 #   bash tools/fetch/fetch_mipnerf360.sh                # once: the dataset
 #   bash experiments/surflo/run_E08j_views_sweep.sh
+#   E08J_NS=161 E08J_OUT=outputs/surflo/views_sweep_n161_posthoc E08J_RESULTS=results/surflo/e08j_n161_posthoc.json \
+#       E08J_BASELINE= bash experiments/surflo/run_E08j_views_sweep.sh     # Amendment 3
 #
 # A run directory with a `done` marker is skipped, so a stopped sweep resumes.
 set -euo pipefail
@@ -23,8 +25,9 @@ GARDEN="$ROOT/data/mipnerf360/garden"   # data/mipnerf360 links the whole datase
 [ -d "$GARDEN/sparse/0" ] || { echo "data/mipnerf360 must link $DS/360_v2" >&2; exit 1; }
 CLONE="$ROOT/third_party/clones/surflo"
 CKPT="$ROOT/data/models/surflo/surflo_v0.pt"
-BASELINE="$ROOT/outputs/surflo/perscene_garden/3dgs/ply/point_cloud_29999.ply"   # E08i
-OUT="$ROOT/outputs/surflo/views_sweep"
+BASELINE="${E08J_BASELINE-$ROOT/outputs/surflo/perscene_garden/3dgs/ply/point_cloud_29999.ply}"   # E08i; empty: skip
+OUT="$ROOT/${E08J_OUT:-outputs/surflo/views_sweep}"
+RESULTS="$ROOT/${E08J_RESULTS:-results/surflo/e08j_views_sweep.json}"
 mkdir -p "$OUT"
 source tools/stamp_provenance.sh
 stamp_provenance "$OUT" surflo
@@ -61,7 +64,7 @@ infer() {
 
 echo "== SuRFLo, guided default, N x seeds {42, 0, 1}"
 OOM='OutOfMemoryError|CUDA out of memory'
-for n in 16 32 64 161; do
+for n in ${E08J_NS:-16 32 64 161}; do
     for seed in 42 0 1; do
         run="$OUT/n$n/seed$seed"
         # the cap (Amendment 1): seed 42 at N = 161 out of memory or over 20 min skips seeds 0 and 1
@@ -92,4 +95,4 @@ done
 
 echo "== novel views (sanity 2 first, then the test views, the E08i 3DGS beside them)"
 puffin_py -m gs_playground.surflo.nvs eval --gt "$OUT/gt.npz" --data-dir "$GARDEN" \
-    --sweep-root "$OUT" --baseline-ply "$BASELINE" --out "$ROOT/results/surflo/e08j_views_sweep.json"
+    --sweep-root "$OUT" ${BASELINE:+--baseline-ply "$BASELINE"} --out "$RESULTS"
