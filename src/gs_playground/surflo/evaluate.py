@@ -133,24 +133,40 @@ def reference_points(model_dir: Path, depth_dir: Path) -> "np.ndarray":
     return np.concatenate(pts).astype(np.float32)
 
 
-def score_run(scene: Path, ref, box, colmap_centres: dict, device: str = "cuda") -> dict:
+def camera_centres(scene: Path) -> dict:
+    """A run's own camera centres by image stem, from guided_state.pt or plain_state.pt."""
     import numpy as np
     import torch
-    import trimesh
-    from surflo.metrics.eval_alignment import (apply_similarity, chamfer_and_fscore,
-                                               umeyama_alignment, voxel_downsample)
     guided = (scene / "guided_state.pt").exists()
     state = torch.load(scene / ("guided_state.pt" if guided else "plain_state.pt"),
                        map_location="cpu", weights_only=False)
+    return {Path(p).stem: -np.asarray(c["R"]) @ np.asarray(c["T"])
+            for p, c in zip(state["selected_images"], state["cameras"])}
+
+
+def aligned_cloud(scene: Path, centres: dict):
+    """A run's point cloud (guided: the opacity-culled centres; plain: final.ply) mapped
+    into the frame of `centres` (image stem -> camera centre) by Umeyama on its own
+    camera centres. Returns (points [P, 3] float64, Sim(3) scale, camera residuals)."""
+    import numpy as np
+    import torch
+    import trimesh
+    from surflo.metrics.eval_alignment import apply_similarity, umeyama_alignment
+    guided = (scene / "guided_state.pt").exists()
     cloud = scene / ("point_cloud_normals.ply" if guided else "final.ply")
     pred = torch.as_tensor(np.asarray(trimesh.load(cloud).vertices), dtype=torch.float64)
-    stems = [Path(p).stem for p in state["selected_images"]]
-    ours = torch.tensor(np.stack([-np.asarray(c["R"]) @ np.asarray(c["T"]) for c in state["cameras"]]),
-                        dtype=torch.float64)
-    theirs = torch.tensor(np.stack([colmap_centres[s] for s in stems]), dtype=torch.float64)
+    own = camera_centres(scene)
+    stems = list(own)
+    ours = torch.tensor(np.stack([own[s] for s in stems]), dtype=torch.float64)
+    theirs = torch.tensor(np.stack([centres[s] for s in stems]), dtype=torch.float64)
     s, R, t = umeyama_alignment(ours, theirs)
-    cam_residual = (apply_similarity(ours, s, R, t) - theirs).norm(dim=1)
-    pred = apply_similarity(pred, s, R, t)
+    return apply_similarity(pred, s, R, t), float(s), (apply_similarity(ours, s, R, t) - theirs).norm(dim=1)
+
+
+def score_run(scene: Path, ref, box, colmap_centres: dict, device: str = "cuda") -> dict:
+    from surflo.metrics.eval_alignment import chamfer_and_fscore, voxel_downsample
+    pred, s, cam_residual = aligned_cloud(scene, colmap_centres)
+    stems = list(camera_centres(scene))
     lo, hi = box
     keep = ((pred >= lo) & (pred <= hi)).all(dim=1)
     diag = float((hi - lo).norm())
@@ -159,7 +175,7 @@ def score_run(scene: Path, ref, box, colmap_centres: dict, device: str = "cuda")
     m = chamfer_and_fscore(pred_ds, ref_ds, tau=TAU_FRAC * diag)
     return {
         "scene": str(scene), "views": len(stems), "pred_points": int(pred.shape[0]),
-        "pred_in_box": int(keep.sum()), "umeyama_scale": float(s),
+        "pred_in_box": int(keep.sum()), "umeyama_scale": s,
         "camera_residual_over_diag": float(cam_residual.mean() / diag),
         "chamfer_norm": m.chamfer_mean / diag, "precision": m.precision,
         "recall": m.recall, "f1": m.f_score,
