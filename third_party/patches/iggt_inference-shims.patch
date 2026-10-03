@@ -1,0 +1,65 @@
+diff --git a/iggt/heads/adaptor.py b/iggt/heads/adaptor.py
+index 02e556d..811dd08 100644
+--- a/iggt/heads/adaptor.py
++++ b/iggt/heads/adaptor.py
+@@ -3,7 +3,9 @@ from torch import nn, Tensor
+ from torch.nn import functional as F
+ from typing import List, Tuple
+ from .utils import create_uv_grid, position_grid_to_embed
+-from detectron2.layers import ShapeSpec
++# GS_playground: detectron2's ShapeSpec is a plain record; no detectron2 needed for inference
++from collections import namedtuple
++ShapeSpec = namedtuple("ShapeSpec", ["channels", "height", "width", "stride"], defaults=[None] * 4)
+ from sam2.modeling.position_encoding import PositionEmbeddingSine
+ 
+ class Projects(nn.Module):
+diff --git a/iggt/heads/block.py b/iggt/heads/block.py
+index 8a4d997..f821e69 100644
+--- a/iggt/heads/block.py
++++ b/iggt/heads/block.py
+@@ -36,8 +36,10 @@ except ImportError:
+ 
+ try:
+     from apex.normalization import FusedRMSNorm as RMSNorm
+-except:
+-    from src.model.norm import RMSNorm
++except ImportError:
++    # GS_playground: the fallback module does not exist in the repo; torch's RMSNorm at apex's default eps
++    import functools
++    RMSNorm = functools.partial(nn.RMSNorm, eps=1e-5)
+ 
+ from pdb import set_trace as st
+ 
+diff --git a/iggt/heads/window_sa.py b/iggt/heads/window_sa.py
+index 1b889a3..2561eb5 100644
+--- a/iggt/heads/window_sa.py
++++ b/iggt/heads/window_sa.py
+@@ -1,7 +1,14 @@
+ import math
+ import torch
+ import torch.nn as nn
+-from basicsr.archs.arch_util import to_2tuple, trunc_normal_
++# GS_playground: the two basicsr helpers, from torch (basicsr 1.4.2 breaks on torchvision >= 0.17)
++from torch.nn.init import trunc_normal_
++
++
++def to_2tuple(x):
++    return tuple(x) if isinstance(x, (tuple, list)) else (x, x)
++
++
+ from einops import rearrange
+ from iggt.heads.block import MemEffAttention
+ 
+diff --git a/iggt/models/vggt.py b/iggt/models/vggt.py
+index 3b0a412..2fb3724 100644
+--- a/iggt/models/vggt.py
++++ b/iggt/models/vggt.py
+@@ -2,7 +2,7 @@ from typing import List, Optional
+ import torch
+ from torch import nn, Tensor
+ from huggingface_hub import PyTorchModelHubMixin  # used for model hub
+-from transformers import Mask2FormerConfig
++# GS_playground: Mask2FormerConfig was imported but never used; transformers is not needed for inference
+ 
+ from iggt.models.aggregator import Aggregator
+ from iggt.heads.camera_head import CameraHead
