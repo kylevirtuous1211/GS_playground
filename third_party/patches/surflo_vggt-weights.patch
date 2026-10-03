@@ -1,0 +1,55 @@
+--- a/configs/infer.yaml
++++ b/configs/infer.yaml
+@@ -74,6 +74,10 @@
+ # plain_state.pt.
+ save_guided_state: false
+ 
++# GS_playground: replace the VGGT backbone's weights after loading `ckpt`, with
++# another checkpoint of the same architecture (e.g. IGGT's); null keeps VGGT-1B.
++vggt_weights: null
++
+ # PLY writer settings.
+ ply:
+   binary: true
+--- a/scripts/infer.py
++++ b/scripts/infer.py
+@@ -633,6 +633,11 @@
+         cfg.model, ckpt_path=cfg.get("ckpt"), device=device,
+         use_ema=bool(cfg.get("use_ema", True)),
+     )
++    # GS_playground: swap the VGGT backbone for another checkpoint of the same
++    # architecture, after the Surflo checkpoint (which also holds `vggt.*`).
++    if cfg.get("vggt_weights", None) is not None:
++        from surflo.model.loader import load_vggt_weights
++        load_vggt_weights(model.vggt, str(cfg.vggt_weights))
+ 
+     # ---- Build the (single-scene) batch from the image folder ----
+     src = cfg.source
+--- a/surflo/model/loader.py
++++ b/surflo/model/loader.py
+@@ -60,6 +60,25 @@
+         _log.info("Loaded training weights.")
+ 
+ 
++def load_vggt_weights(vggt: torch.nn.Module, path: str) -> list:
++    """Replace the VGGT backbone's weights with another VGGT-architecture
++    checkpoint (GS_playground), e.g. IGGT's fine-tuned backbone.
++
++    A ``module.`` (DataParallel) prefix is stripped. Keys outside VGGT (IGGT's
++    ``part_head.*`` / ``part_adaptor.*``) are dropped and returned; every VGGT
++    parameter and buffer must be present with its shape (``strict=True``), so a
++    wrong prefix fails loudly instead of leaving the backbone untouched.
++    """
++    state = torch.load(path, map_location="cpu", mmap=True, weights_only=True)
++    state = {k.removeprefix("module."): v for k, v in state.items()}
++    own = vggt.state_dict()
++    dropped = sorted(k for k in state if k not in own)
++    vggt.load_state_dict({k: v for k, v in state.items() if k in own}, strict=True)
++    _log.info(f"Loaded VGGT weights from {path} ({len(own)} tensors); "
++              f"dropped {len(dropped)} keys outside VGGT.")
++    return dropped
++
++
+ def load_model(
+     model_cfg: DictConfig,
+     ckpt_path: Optional[str] = None,

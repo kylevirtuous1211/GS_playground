@@ -1,0 +1,26 @@
+{
+ "vggt_tensors": 1797,
+ "iggt_keys_outside_vggt": [
+  "part_adaptor",
+  "part_head"
+ ],
+ "iggt_extra_key_count": 256,
+ "loaded_equals_checkpoint": true,
+ "shipped_vs_hub_vggt1b_max_abs": {
+  "aggregator": 0.0,
+  "camera_head": 0.0,
+  "point_head": 0.0,
+  "depth_head": 0.0,
+  "track_head": 0.0
+ },
+ "shipped_equals_hub_vggt1b": true,
+ "iggt_vs_shipped_max_abs": {
+  "aggregator": 0.00017054006457328796,
+  "camera_head": 0.00015757232904434204,
+  "point_head": 0.0,
+  "depth_head": 0.00020839135686401278,
+  "track_head": 0.0
+ },
+ "swap_is_real": true,
+ "passes": true
+}
