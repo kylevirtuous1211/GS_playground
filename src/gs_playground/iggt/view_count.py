@@ -114,6 +114,16 @@ def spp_image(scene: str, name: str) -> Path:
 
 
 # -------------------------------------------------------------------- VGGT
+def vggt_cameras(model, images, dtype):
+    """VGGT's pose encoding exactly as its forward computes it (aggregator under autocast, camera head
+    with autocast off), without the depth, point and track heads, which never touch it (Amendment 2)."""
+    import torch
+    with torch.no_grad(), torch.amp.autocast("cuda", dtype=dtype):
+        tokens, _ = model.aggregator(images)
+        with torch.amp.autocast("cuda", enabled=False):
+            return model.camera_head(tokens)[-1]
+
+
 def run_vggt(out: Path) -> None:
     import time
     import torch
@@ -136,17 +146,15 @@ def run_vggt(out: Path) -> None:
             images = load_and_preprocess_images([str(images_dir / b) for b in batch], mode="no_stretch",
                                                 target_size=518, rotate_portrait=True).cuda()[None]
             if warm:
-                with torch.no_grad(), torch.amp.autocast("cuda", dtype=dtype):
-                    model(images)
+                vggt_cameras(model, images, dtype)
                 warm = False
             torch.cuda.reset_peak_memory_stats()
             torch.cuda.synchronize()
             t0 = time.time()
-            with torch.no_grad(), torch.amp.autocast("cuda", dtype=dtype):
-                pred = model(images)
+            pose_enc = vggt_cameras(model, images, dtype)
             torch.cuda.synchronize()
             seconds = time.time() - t0
-            extrinsic, intrinsic = pose_encoding_to_extri_intri(pred["pose_enc"], images.shape[-2:])
+            extrinsic, intrinsic = pose_encoding_to_extri_intri(pose_enc, images.shape[-2:])
             pos = [batch.index(a) for a in anchors]
             E = extrinsic[0, pos].float().cpu().numpy()
             fx = intrinsic[0, pos, 0, 0].float().cpu().numpy()
@@ -164,7 +172,7 @@ def run_vggt(out: Path) -> None:
                   f" focal {rows[-1]['focal_err_pct_median']:+.2f}%", flush=True)
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(json.dumps({"entry": "E08m", "part": 1, "rows": rows}, indent=1))
-            del pred
+            del pose_enc
     out.write_text(json.dumps({"entry": "E08m", "part": 1, "rows": rows,
                                "reading": read_vggt(rows)}, indent=1))
 

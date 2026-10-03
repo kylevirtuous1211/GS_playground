@@ -50,3 +50,11 @@ T-mIoU therefore measures IGGT's features together with its demo clustering, and
 
 Added, before any run: a clustering-free quality metric on the same ScanNet++ anchors, **centroid mIoU**: each ground-truth instance (>= 200 pixels over the anchors) has as centroid the mean of IGGT's features over its pixels; every pixel of those instances is assigned to the nearest centroid by cosine; the score is the mean IoU over the instances.
 It is read with the same rule as T-mIoU (N = 32 against N = 12, at least 4 of 5 scenes beyond their N = 12 range over draws), and both verdicts are reported; if they disagree, that is the result.
+
+## Amendment 2, 2026-10-03, after part 1 ran out of memory, before any reading
+
+Part 1 ran out of GPU memory at N = 128 on its first scene (bicycle) while another user process held 18 GB of the 48 GB card; VGGT's full forward had peaked at 24.9 GiB at N = 96.
+VGGT's camera prediction depends only on its aggregator and camera head; the depth, point and track heads the full forward also runs never touch it.
+Part 1 therefore runs the aggregator (bf16 autocast) and the camera head (autocast off), exactly as VGGT's forward runs them; on an 8-frame bicycle batch this gives a pose encoding bitwise equal to the full forward's.
+The camera metrics are unchanged by construction; the reported peak memory and time are now those of this camera-only pass.
+The 19 rows already written (bicycle, N <= 96) are discarded and recomputed this way, so every row shares one definition; no reading had been made from them.
