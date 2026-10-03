@@ -1,0 +1,24 @@
+--- a/iggt/models/vggt.py
++++ b/iggt/models/vggt.py
+@@ -199,8 +199,12 @@
+                 predictions["depth_conf"] = depth_conf
+ 
+             if self.point_head is not None:
++                # GS_playground: frames_chunk_size=None. Above 12 frames the chunked path returns only the
++                # features (and fails to concatenate them); the head acts per frame, so no chunking is the
++                # same computation, and it is the path IGGT already takes for 12 frames or fewer.
+                 pts3d, pts3d_conf, point_feat = self.point_head(
+-                    aggregated_tokens_list, images=images, patch_start_idx=patch_start_idx
++                    aggregated_tokens_list, images=images, patch_start_idx=patch_start_idx,
++                    frames_chunk_size=None,
+                 )
+                 predictions["world_points"] = pts3d
+                 predictions["world_points_conf"] = pts3d_conf
+@@ -214,6 +218,7 @@
+             # Use the new PartHead if both projector_feat and depth_feat are available
+             part_feat = self.part_head(
+                 list(output.values()), point_feature=point_feat, images=images, patch_start_idx=patch_start_idx,
++                frames_chunk_size=None,   # GS_playground: its chunked path slices the adaptor maps on the wrong axis
+             )
+             predictions["part_feat"] = part_feat
+ 
