@@ -114,12 +114,47 @@ def spp_image(scene: str, name: str) -> Path:
 
 
 # -------------------------------------------------------------------- VGGT
+def aggregator_last_layer(agg, images):
+    """VGGT's Aggregator.forward, operation for operation, returning only the last layer's tokens: the
+    camera head reads nothing else, and holding all 24 layers is what ran out of memory (Amendment 3)."""
+    import torch
+    from surflo.nn.vggt.models.aggregator import slice_expand_and_flatten
+    B, S, C_in, H, W = images.shape
+    images = (images - agg._resnet_mean) / agg._resnet_std
+    images = images.view(B * S, C_in, H, W)
+    patch_tokens = agg.patch_embed(images)
+    if isinstance(patch_tokens, dict):
+        patch_tokens = patch_tokens["x_norm_patchtokens"]
+    camera_token = slice_expand_and_flatten(agg.camera_token, B, S)
+    register_token = slice_expand_and_flatten(agg.register_token, B, S)
+    tokens = torch.cat([camera_token, register_token, patch_tokens], dim=1)
+    pos = None
+    if agg.rope is not None:
+        pos = agg.position_getter(B * S, H // agg.patch_size, W // agg.patch_size, device=images.device)
+    if agg.patch_start_idx > 0:
+        pos = pos + 1
+        pos_special = torch.zeros(B * S, agg.patch_start_idx, 2).to(images.device).to(pos.dtype)
+        pos = torch.cat([pos_special, pos], dim=1)
+    _, P, C = tokens.shape
+    frame_idx = global_idx = 0
+    for _ in range(agg.aa_block_num):
+        for attn_type in agg.aa_order:
+            if attn_type == "frame":
+                tokens, frame_idx, frame_inter = agg._process_frame_attention(tokens, B, S, P, C, frame_idx, pos=pos)
+            elif attn_type == "global":
+                tokens, global_idx, global_inter = agg._process_global_attention(tokens, B, S, P, C, global_idx,
+                                                                                 pos=pos)
+            else:
+                raise ValueError(f"Unknown attention type: {attn_type}")
+    return [torch.cat([frame_inter[-1], global_inter[-1]], dim=-1)]
+
+
 def vggt_cameras(model, images, dtype):
     """VGGT's pose encoding exactly as its forward computes it (aggregator under autocast, camera head
-    with autocast off), without the depth, point and track heads, which never touch it (Amendment 2)."""
+    with autocast off), without the other heads (Amendment 2) or the unused layers (Amendment 3)."""
     import torch
     with torch.no_grad(), torch.amp.autocast("cuda", dtype=dtype):
-        tokens, _ = model.aggregator(images)
+        tokens = aggregator_last_layer(model.aggregator, images)
         with torch.amp.autocast("cuda", enabled=False):
             return model.camera_head(tokens)[-1]
 

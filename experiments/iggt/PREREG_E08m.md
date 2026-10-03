@@ -58,3 +58,11 @@ VGGT's camera prediction depends only on its aggregator and camera head; the dep
 Part 1 therefore runs the aggregator (bf16 autocast) and the camera head (autocast off), exactly as VGGT's forward runs them; on an 8-frame bicycle batch this gives a pose encoding bitwise equal to the full forward's.
 The camera metrics are unchanged by construction; the reported peak memory and time are now those of this camera-only pass.
 The 19 rows already written (bicycle, N <= 96) are discarded and recomputed this way, so every row shares one definition; no reading had been made from them.
+
+## Amendment 3, 2026-10-03, after part 1 ran out of memory again, before any reading
+
+The camera-only pass of Amendment 2 peaked as high as the full forward (24.9 GiB at N = 96): the memory is VGGT's aggregator holding the tokens of all 24 layers, and N = 128 again ran out beside the other process's 18 GB.
+The camera head reads only the last layer.
+Part 1 now runs the aggregator operation for operation (the same calls to its own blocks), returning only the last layer.
+Checked before use: its pose encoding is bitwise equal to the full forward's at N = 8 and at N = 96 (the largest that fits either way), and its peak at N = 96 is 9.9 GiB instead of 24.9.
+The reported memory and time are those of this pass. The rows written so far (bicycle, N <= 96) are discarded and recomputed; no reading had been made from them.
