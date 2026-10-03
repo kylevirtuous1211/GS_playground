@@ -44,3 +44,11 @@ If SuRFLo's VGGT-1B is replaced by IGGT's backbone, how far do the tokens and th
 - Agreement (metric 3): the swap is within SuRFLo's own variation if the cross-backbone agreement is no lower than the lowest cross-seed agreement of the VGGT arm.
 - **Compatible**, the answer to the question: no guided metric changed on any of the four scenes, and the cross-backbone agreement is within SuRFLo's own variation on every scene.
 - Token drift is descriptive; it is read against the autocast-vs-fp32 scale, without a threshold.
+
+## Amendment 1, 2026-10-03, during the runs, before any metric was computed
+
+One run (825d228aec, IGGT, guided, seed 1) spun on one CPU thread for 90 minutes in SuRFLo's mesh extraction (the Delaunay step of the wrapping mesh), after its guided state and point clouds had been written; the same step took 2.6 s on that scene's seed 0.
+It was stopped and is rerun from scratch.
+No E08l metric uses `mesh.ply`: geometry is scored on `point_cloud_normals.ply` / `final.ply`, novel views on the exported Gaussians, and all of these are written before meshing; the ODE time is measured before it too.
+So mesh extraction (`mesh.enabled=false`) is switched off for the remaining runs, which changes nothing measured; the runs already finished keep their meshes.
+The hang is recorded, not explained: one occurrence, in the IGGT arm, whose cause (degenerate pivots, or the non-deterministic guided fit) this experiment cannot separate.

@@ -53,7 +53,8 @@ infer() {
     rm -rf "$out" && mkdir -p "$out"
     local args=(mode="$mode" ckpt="$CKPT" source.image_folder="${FOLDER[$scene]}"
                 source.n_images=16 num_query_points=100000 seed="$seed"
-                output_dir="$out" hydra.run.dir="$out/hydra" save_guided_state=true)
+                output_dir="$out" hydra.run.dir="$out/hydra" save_guided_state=true
+                mesh.enabled=false)   # Amendment 1: no metric uses mesh.ply; one run hung in it
     if [ "$mode" = guided ]; then args+=(guided=default); fi
     if [ "$backbone" = iggt ]; then args+=(vggt_weights="$IGGT"); fi
     echo "   $out"
