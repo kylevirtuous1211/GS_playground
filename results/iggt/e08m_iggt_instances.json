@@ -1,0 +1,2166 @@
+{
+ "entry": "E08m",
+ "part": 2,
+ "rows": [
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 0.9999998211860657,
+   "ari_to_n4": 1.0,
+   "clusters": 32
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9953367710113525,
+   "ari_to_n4": 0.9001436144246854,
+   "clusters": 37
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9966728091239929,
+   "ari_to_n4": 0.9265836484884847,
+   "clusters": 31
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9894345998764038,
+   "ari_to_n4": 0.866265409729909,
+   "clusters": 42
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.988317608833313,
+   "ari_to_n4": 0.7629798444141274,
+   "clusters": 36
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9908679723739624,
+   "ari_to_n4": 0.9010270476061273,
+   "clusters": 38
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.983441174030304,
+   "ari_to_n4": 0.9233313795470548,
+   "clusters": 36
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9874721765518188,
+   "ari_to_n4": 0.8650207274759718,
+   "clusters": 40
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9751477837562561,
+   "ari_to_n4": 0.8710242519849557,
+   "clusters": 36
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9826116561889648,
+   "ari_to_n4": 0.9122233780812756,
+   "clusters": 34
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9850589632987976,
+   "ari_to_n4": 0.8707921228193376,
+   "clusters": 33
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9819412231445312,
+   "ari_to_n4": 0.8841119399012668,
+   "clusters": 36
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9774730801582336,
+   "ari_to_n4": 0.7729193299065584,
+   "clusters": 39
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9825899600982666,
+   "ari_to_n4": 0.8830143414722424,
+   "clusters": 40
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9791350960731506,
+   "ari_to_n4": 0.762115370876036,
+   "clusters": 35
+  },
+  {
+   "scene": "bicycle",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9779322147369385,
+   "ari_to_n4": 0.8656710129136581,
+   "clusters": 33
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 0.9999997019767761,
+   "ari_to_n4": 1.0,
+   "clusters": 70
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9802868962287903,
+   "ari_to_n4": 0.9739300742348632,
+   "clusters": 62
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.983788251876831,
+   "ari_to_n4": 0.7553657767016599,
+   "clusters": 65
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9667667150497437,
+   "ari_to_n4": 0.9641118503882331,
+   "clusters": 62
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9558831453323364,
+   "ari_to_n4": 0.7455410962149305,
+   "clusters": 58
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9675689935684204,
+   "ari_to_n4": 0.9751282690343805,
+   "clusters": 66
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9567818641662598,
+   "ari_to_n4": 0.7563706146742311,
+   "clusters": 60
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9520896673202515,
+   "ari_to_n4": 0.9647492886459009,
+   "clusters": 57
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9521612524986267,
+   "ari_to_n4": 0.7089593541970182,
+   "clusters": 63
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9651431441307068,
+   "ari_to_n4": 0.9753178571417594,
+   "clusters": 61
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9556763768196106,
+   "ari_to_n4": 0.9555814365010674,
+   "clusters": 55
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9521611928939819,
+   "ari_to_n4": 0.7458203262244604,
+   "clusters": 63
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.949640691280365,
+   "ari_to_n4": 0.9732040465759505,
+   "clusters": 55
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9576365351676941,
+   "ari_to_n4": 0.96822891176433,
+   "clusters": 56
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9569976925849915,
+   "ari_to_n4": 0.9764067154953995,
+   "clusters": 59
+  },
+  {
+   "scene": "bonsai",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9462701678276062,
+   "ari_to_n4": 0.7459192373768924,
+   "clusters": 56
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 1.000000238418579,
+   "ari_to_n4": 1.0,
+   "clusters": 80
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9867485761642456,
+   "ari_to_n4": 0.6856571743555968,
+   "clusters": 66
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9943363070487976,
+   "ari_to_n4": 0.5748989999058183,
+   "clusters": 71
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.975360631942749,
+   "ari_to_n4": 0.7739695637560734,
+   "clusters": 66
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.975166380405426,
+   "ari_to_n4": 0.7233319254761669,
+   "clusters": 69
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.979710042476654,
+   "ari_to_n4": 0.7846450451456461,
+   "clusters": 71
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9601535797119141,
+   "ari_to_n4": 0.696851432757493,
+   "clusters": 56
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9758260846138,
+   "ari_to_n4": 0.7332044291241644,
+   "clusters": 63
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9776407480239868,
+   "ari_to_n4": 0.7232629935192451,
+   "clusters": 67
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9647036194801331,
+   "ari_to_n4": 0.7632244241675223,
+   "clusters": 66
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9775395393371582,
+   "ari_to_n4": 0.7310514226392266,
+   "clusters": 61
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9662301540374756,
+   "ari_to_n4": 0.5725498573334254,
+   "clusters": 62
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9567574262619019,
+   "ari_to_n4": 0.7186165002247447,
+   "clusters": 61
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9780078530311584,
+   "ari_to_n4": 0.6020992266745433,
+   "clusters": 58
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9732201099395752,
+   "ari_to_n4": 0.44947703549746376,
+   "clusters": 60
+  },
+  {
+   "scene": "counter",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9672991037368774,
+   "ari_to_n4": 0.6973361065162369,
+   "clusters": 55
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 1.0,
+   "ari_to_n4": 1.0,
+   "clusters": 49
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9918579459190369,
+   "ari_to_n4": 0.9746826977753419,
+   "clusters": 46
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9879518747329712,
+   "ari_to_n4": 0.9506468076265557,
+   "clusters": 44
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9851899743080139,
+   "ari_to_n4": 0.9509063723117672,
+   "clusters": 45
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9633051753044128,
+   "ari_to_n4": 0.9357768060645515,
+   "clusters": 41
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9678584933280945,
+   "ari_to_n4": 0.9450487004202109,
+   "clusters": 45
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.968677818775177,
+   "ari_to_n4": 0.9453619684594712,
+   "clusters": 46
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9568009376525879,
+   "ari_to_n4": 0.9164460255308202,
+   "clusters": 39
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9476240873336792,
+   "ari_to_n4": 0.9462544273820443,
+   "clusters": 44
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9564138054847717,
+   "ari_to_n4": 0.9300801030791912,
+   "clusters": 38
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9315984845161438,
+   "ari_to_n4": 0.9426465445012499,
+   "clusters": 37
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9348403811454773,
+   "ari_to_n4": 0.9475584960106392,
+   "clusters": 37
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9432711005210876,
+   "ari_to_n4": 0.9401676707992982,
+   "clusters": 41
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.94263756275177,
+   "ari_to_n4": 0.9275848179556462,
+   "clusters": 43
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9502544403076172,
+   "ari_to_n4": 0.9226690256308452,
+   "clusters": 42
+  },
+  {
+   "scene": "garden",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9527554512023926,
+   "ari_to_n4": 0.9421812420954575,
+   "clusters": 34
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 0.9999998211860657,
+   "ari_to_n4": 1.0,
+   "clusters": 63
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9930214285850525,
+   "ari_to_n4": 0.7540106650618091,
+   "clusters": 62
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.992742657661438,
+   "ari_to_n4": 0.7675991778167282,
+   "clusters": 61
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9969940185546875,
+   "ari_to_n4": 0.8841415774699686,
+   "clusters": 45
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9928674101829529,
+   "ari_to_n4": 0.7433799393871539,
+   "clusters": 52
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.992716908454895,
+   "ari_to_n4": 0.7575117837588083,
+   "clusters": 61
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9944906830787659,
+   "ari_to_n4": 0.686452047715935,
+   "clusters": 56
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9918627142906189,
+   "ari_to_n4": 0.7591770295196243,
+   "clusters": 53
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9905548095703125,
+   "ari_to_n4": 0.7573547387182751,
+   "clusters": 59
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.993081271648407,
+   "ari_to_n4": 0.7587949334792721,
+   "clusters": 54
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9879565834999084,
+   "ari_to_n4": 0.7627977969759123,
+   "clusters": 53
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9897610545158386,
+   "ari_to_n4": 0.7550705877170977,
+   "clusters": 59
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9886716604232788,
+   "ari_to_n4": 0.7616928833559773,
+   "clusters": 54
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9862053394317627,
+   "ari_to_n4": 0.7599599995208348,
+   "clusters": 52
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9870173931121826,
+   "ari_to_n4": 0.7561290238060606,
+   "clusters": 46
+  },
+  {
+   "scene": "kitchen",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9859098792076111,
+   "ari_to_n4": 0.7453132270667525,
+   "clusters": 58
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 0.9999996423721313,
+   "ari_to_n4": 1.0,
+   "clusters": 78
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9847307801246643,
+   "ari_to_n4": 0.958948475304601,
+   "clusters": 75
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9810594320297241,
+   "ari_to_n4": 0.9289232080061672,
+   "clusters": 84
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9768365621566772,
+   "ari_to_n4": 0.9359050738089869,
+   "clusters": 69
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9828382134437561,
+   "ari_to_n4": 0.9415058902707466,
+   "clusters": 72
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9631261825561523,
+   "ari_to_n4": 0.943864564060973,
+   "clusters": 77
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9883076548576355,
+   "ari_to_n4": 0.9279456163251028,
+   "clusters": 69
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9808954000473022,
+   "ari_to_n4": 0.9322843546386613,
+   "clusters": 74
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.983077883720398,
+   "ari_to_n4": 0.9379143217987198,
+   "clusters": 75
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.979040265083313,
+   "ari_to_n4": 0.9307639417928087,
+   "clusters": 72
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9652758240699768,
+   "ari_to_n4": 0.8934412812768772,
+   "clusters": 76
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9767500758171082,
+   "ari_to_n4": 0.9350407398352223,
+   "clusters": 75
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9819875955581665,
+   "ari_to_n4": 0.940123727262704,
+   "clusters": 72
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.979231059551239,
+   "ari_to_n4": 0.9127116192281919,
+   "clusters": 73
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9777240753173828,
+   "ari_to_n4": 0.9070120797518357,
+   "clusters": 73
+  },
+  {
+   "scene": "room",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9794046878814697,
+   "ari_to_n4": 0.9365497708187739,
+   "clusters": 78
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 1.000000238418579,
+   "ari_to_n4": 1.0,
+   "clusters": 71
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9793534874916077,
+   "ari_to_n4": 0.6893971894058462,
+   "clusters": 63
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9769799113273621,
+   "ari_to_n4": 0.5400015179834968,
+   "clusters": 62
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.981033444404602,
+   "ari_to_n4": 0.7135998005172008,
+   "clusters": 61
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9762870073318481,
+   "ari_to_n4": 0.5326511115500114,
+   "clusters": 72
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9696909189224243,
+   "ari_to_n4": 0.620461981267408,
+   "clusters": 68
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9722822904586792,
+   "ari_to_n4": 0.6115423868133867,
+   "clusters": 67
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9795745611190796,
+   "ari_to_n4": 0.5945993513570309,
+   "clusters": 68
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9714621901512146,
+   "ari_to_n4": 0.6019466046243274,
+   "clusters": 61
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9657003879547119,
+   "ari_to_n4": 0.5734759260746722,
+   "clusters": 65
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9534665942192078,
+   "ari_to_n4": 0.5646482625713715,
+   "clusters": 64
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9514481425285339,
+   "ari_to_n4": 0.5757871856461767,
+   "clusters": 59
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9615359306335449,
+   "ari_to_n4": 0.5482622673251683,
+   "clusters": 65
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9636849761009216,
+   "ari_to_n4": 0.6825953931732243,
+   "clusters": 64
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9580830335617065,
+   "ari_to_n4": 0.6056492690870361,
+   "clusters": 57
+  },
+  {
+   "scene": "stump",
+   "dataset": "mipnerf360",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9526123404502869,
+   "ari_to_n4": 0.4450549625210904,
+   "clusters": 65
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 1.0000001192092896,
+   "ari_to_n4": 1.0,
+   "clusters": 28,
+   "t_miou": 0.24556106427061095,
+   "gt_instances": 8,
+   "centroid_miou": 0.7685457076303696
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9954018592834473,
+   "ari_to_n4": 0.8940794389551293,
+   "clusters": 26,
+   "t_miou": 0.22952686846754855,
+   "gt_instances": 8,
+   "centroid_miou": 0.7663567202136063
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9911882281303406,
+   "ari_to_n4": 0.654602626176058,
+   "clusters": 25,
+   "t_miou": 0.3324024717315688,
+   "gt_instances": 8,
+   "centroid_miou": 0.7473527003799891
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9950809478759766,
+   "ari_to_n4": 0.9387382913022997,
+   "clusters": 25,
+   "t_miou": 0.2396160779674636,
+   "gt_instances": 8,
+   "centroid_miou": 0.76244678479056
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9938510060310364,
+   "ari_to_n4": 0.6504657600775618,
+   "clusters": 27,
+   "t_miou": 0.2486452345745105,
+   "gt_instances": 8,
+   "centroid_miou": 0.7758315452183016
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9955798387527466,
+   "ari_to_n4": 0.8581956455409385,
+   "clusters": 22,
+   "t_miou": 0.2401354359757522,
+   "gt_instances": 8,
+   "centroid_miou": 0.738129533865699
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.994562566280365,
+   "ari_to_n4": 0.8952845902881421,
+   "clusters": 27,
+   "t_miou": 0.23435890739264795,
+   "gt_instances": 8,
+   "centroid_miou": 0.805422234505461
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9921413660049438,
+   "ari_to_n4": 0.8589013543544807,
+   "clusters": 22,
+   "t_miou": 0.24066039613831838,
+   "gt_instances": 8,
+   "centroid_miou": 0.7811482709828088
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9942631721496582,
+   "ari_to_n4": 0.8538979767849685,
+   "clusters": 25,
+   "t_miou": 0.2349334533827004,
+   "gt_instances": 8,
+   "centroid_miou": 0.7744219374269509
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9943123459815979,
+   "ari_to_n4": 0.8481422633837664,
+   "clusters": 26,
+   "t_miou": 0.2315278437026717,
+   "gt_instances": 8,
+   "centroid_miou": 0.7943672246138191
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9921756982803345,
+   "ari_to_n4": 0.8633168526995751,
+   "clusters": 26,
+   "t_miou": 0.23350659598827736,
+   "gt_instances": 8,
+   "centroid_miou": 0.7155005059232284
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9938384294509888,
+   "ari_to_n4": 0.892774916807262,
+   "clusters": 26,
+   "t_miou": 0.24028567429654094,
+   "gt_instances": 8,
+   "centroid_miou": 0.7814925556697485
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9922604560852051,
+   "ari_to_n4": 0.8711002077882622,
+   "clusters": 22,
+   "t_miou": 0.23102496322088723,
+   "gt_instances": 8,
+   "centroid_miou": 0.7839969169478604
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9921100735664368,
+   "ari_to_n4": 0.8587473703518278,
+   "clusters": 21,
+   "t_miou": 0.23531782777928903,
+   "gt_instances": 8,
+   "centroid_miou": 0.7522247801015935
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9936023354530334,
+   "ari_to_n4": 0.8806107514609937,
+   "clusters": 19,
+   "t_miou": 0.24228703460447618,
+   "gt_instances": 8,
+   "centroid_miou": 0.795673760381834
+  },
+  {
+   "scene": "825d228aec",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.993438184261322,
+   "ari_to_n4": 0.8538420599476412,
+   "clusters": 21,
+   "t_miou": 0.24215780929394262,
+   "gt_instances": 8,
+   "centroid_miou": 0.7960676552251176
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 1.0000004768371582,
+   "ari_to_n4": 1.0,
+   "clusters": 48,
+   "t_miou": 0.5476667884788998,
+   "gt_instances": 15,
+   "centroid_miou": 0.740284705794561
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9774197340011597,
+   "ari_to_n4": 0.8088791378468234,
+   "clusters": 49,
+   "t_miou": 0.6205939377128841,
+   "gt_instances": 15,
+   "centroid_miou": 0.7255029866740637
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.982101321220398,
+   "ari_to_n4": 0.7214790190284193,
+   "clusters": 52,
+   "t_miou": 0.5914758823330895,
+   "gt_instances": 15,
+   "centroid_miou": 0.734869423850655
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9820523262023926,
+   "ari_to_n4": 0.8248945433911318,
+   "clusters": 49,
+   "t_miou": 0.6193579004168938,
+   "gt_instances": 15,
+   "centroid_miou": 0.736749265433131
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9706590175628662,
+   "ari_to_n4": 0.8194220758863585,
+   "clusters": 45,
+   "t_miou": 0.61184948024204,
+   "gt_instances": 15,
+   "centroid_miou": 0.7437965796138734
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9819068312644958,
+   "ari_to_n4": 0.8077171672092187,
+   "clusters": 49,
+   "t_miou": 0.6362903462484346,
+   "gt_instances": 15,
+   "centroid_miou": 0.7291208828317383
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9784126281738281,
+   "ari_to_n4": 0.7864436464135919,
+   "clusters": 45,
+   "t_miou": 0.6345731498201167,
+   "gt_instances": 15,
+   "centroid_miou": 0.7394018488321633
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9688349962234497,
+   "ari_to_n4": 0.797244305058087,
+   "clusters": 46,
+   "t_miou": 0.583921786524977,
+   "gt_instances": 15,
+   "centroid_miou": 0.7386057908638641
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9751397967338562,
+   "ari_to_n4": 0.8064204132013155,
+   "clusters": 48,
+   "t_miou": 0.606825143930898,
+   "gt_instances": 15,
+   "centroid_miou": 0.73454815972481
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9760870337486267,
+   "ari_to_n4": 0.7774420703613941,
+   "clusters": 48,
+   "t_miou": 0.6306893557676889,
+   "gt_instances": 15,
+   "centroid_miou": 0.7329313860705362
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9681132435798645,
+   "ari_to_n4": 0.8069234190775683,
+   "clusters": 46,
+   "t_miou": 0.591889568912056,
+   "gt_instances": 15,
+   "centroid_miou": 0.7328627343739357
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9631736278533936,
+   "ari_to_n4": 0.8058010455577195,
+   "clusters": 45,
+   "t_miou": 0.5923915231876044,
+   "gt_instances": 15,
+   "centroid_miou": 0.7676673977943433
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9750420451164246,
+   "ari_to_n4": 0.8101646691061001,
+   "clusters": 44,
+   "t_miou": 0.59158655560908,
+   "gt_instances": 15,
+   "centroid_miou": 0.7176288013615781
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9664584994316101,
+   "ari_to_n4": 0.8090597825799546,
+   "clusters": 46,
+   "t_miou": 0.5872837180344811,
+   "gt_instances": 15,
+   "centroid_miou": 0.7171675466419135
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.965061604976654,
+   "ari_to_n4": 0.8075176876765284,
+   "clusters": 47,
+   "t_miou": 0.5900048113540733,
+   "gt_instances": 15,
+   "centroid_miou": 0.7153012307956881
+  },
+  {
+   "scene": "6115eddb86",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9672572016716003,
+   "ari_to_n4": 0.805652752390404,
+   "clusters": 46,
+   "t_miou": 0.6009662689989591,
+   "gt_instances": 15,
+   "centroid_miou": 0.7420366188765861
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 0.9999998211860657,
+   "ari_to_n4": 1.0,
+   "clusters": 55,
+   "t_miou": 0.7612093478643777,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9831622242927551,
+   "ari_to_n4": 0.7280140694456928,
+   "clusters": 49,
+   "t_miou": 0.6393206657713605,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9426037669181824,
+   "ari_to_n4": 0.9200140702547296,
+   "clusters": 54,
+   "t_miou": 0.7625459797451014,
+   "gt_instances": 3,
+   "centroid_miou": 0.9985494330889407
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9809632897377014,
+   "ari_to_n4": 0.8842412037197382,
+   "clusters": 55,
+   "t_miou": 0.5698072361575117,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.983849048614502,
+   "ari_to_n4": 0.8913908405332925,
+   "clusters": 56,
+   "t_miou": 0.7449961089889051,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.96389240026474,
+   "ari_to_n4": 0.9113727937790258,
+   "clusters": 54,
+   "t_miou": 0.7601134529283202,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9853067398071289,
+   "ari_to_n4": 0.946489487951152,
+   "clusters": 54,
+   "t_miou": 0.7097186102085774,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9834463000297546,
+   "ari_to_n4": 0.8877810153495991,
+   "clusters": 56,
+   "t_miou": 0.7553759132937995,
+   "gt_instances": 3,
+   "centroid_miou": 0.9982374637169613
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.967003345489502,
+   "ari_to_n4": 0.8667316159030286,
+   "clusters": 54,
+   "t_miou": 0.7340155773420118,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.974923849105835,
+   "ari_to_n4": 0.9407440510408486,
+   "clusters": 51,
+   "t_miou": 0.5547499835013041,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9730327725410461,
+   "ari_to_n4": 0.919127305774061,
+   "clusters": 49,
+   "t_miou": 0.7629068903098556,
+   "gt_instances": 3,
+   "centroid_miou": 0.9982374637169613
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9731928110122681,
+   "ari_to_n4": 0.8520879052163246,
+   "clusters": 56,
+   "t_miou": 0.7178954840826745,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9816213846206665,
+   "ari_to_n4": 0.9223475784090014,
+   "clusters": 53,
+   "t_miou": 0.7348634454623012,
+   "gt_instances": 3,
+   "centroid_miou": 0.9988615636011963
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9750142693519592,
+   "ari_to_n4": 0.8732129457665863,
+   "clusters": 52,
+   "t_miou": 0.7608811385337692,
+   "gt_instances": 3,
+   "centroid_miou": 0.9985494330889407
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.97813880443573,
+   "ari_to_n4": 0.9178885021900741,
+   "clusters": 53,
+   "t_miou": 0.7396515311959905,
+   "gt_instances": 3,
+   "centroid_miou": 0.997925655247471
+  },
+  {
+   "scene": "13c3e046d7",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9743059277534485,
+   "ari_to_n4": 0.7389353644150803,
+   "clusters": 51,
+   "t_miou": 0.739299348588435,
+   "gt_instances": 3,
+   "centroid_miou": 0.997925655247471
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 0.9999998807907104,
+   "ari_to_n4": 1.0,
+   "clusters": 67,
+   "t_miou": 0.27982366091958205,
+   "gt_instances": 34,
+   "centroid_miou": 0.7115778656589439
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9697676301002502,
+   "ari_to_n4": 0.6030661249145409,
+   "clusters": 62,
+   "t_miou": 0.25348512658731054,
+   "gt_instances": 34,
+   "centroid_miou": 0.746153007967818
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9567525386810303,
+   "ari_to_n4": 0.5940451656185062,
+   "clusters": 58,
+   "t_miou": 0.293135315735094,
+   "gt_instances": 34,
+   "centroid_miou": 0.7639059245300927
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9753264784812927,
+   "ari_to_n4": 0.8950353420249317,
+   "clusters": 60,
+   "t_miou": 0.28084996605950074,
+   "gt_instances": 34,
+   "centroid_miou": 0.7602845972721143
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9641037583351135,
+   "ari_to_n4": 0.6021845519754082,
+   "clusters": 56,
+   "t_miou": 0.26802328066838477,
+   "gt_instances": 34,
+   "centroid_miou": 0.7829927201990893
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9452537894248962,
+   "ari_to_n4": 0.592071464369658,
+   "clusters": 60,
+   "t_miou": 0.26818093489882555,
+   "gt_instances": 34,
+   "centroid_miou": 0.7500223086710935
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9658482670783997,
+   "ari_to_n4": 0.696176190255454,
+   "clusters": 63,
+   "t_miou": 0.3009244256810989,
+   "gt_instances": 34,
+   "centroid_miou": 0.7199189055984638
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.957459568977356,
+   "ari_to_n4": 0.7546381434196656,
+   "clusters": 57,
+   "t_miou": 0.27539944358280527,
+   "gt_instances": 34,
+   "centroid_miou": 0.7694714069507446
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.9490796327590942,
+   "ari_to_n4": 0.5825476796130185,
+   "clusters": 56,
+   "t_miou": 0.2656943605857057,
+   "gt_instances": 34,
+   "centroid_miou": 0.7655337525141457
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9343742728233337,
+   "ari_to_n4": 0.7638279933934231,
+   "clusters": 62,
+   "t_miou": 0.2925597878003469,
+   "gt_instances": 34,
+   "centroid_miou": 0.8092919890241396
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9147238731384277,
+   "ari_to_n4": 0.6932082773150966,
+   "clusters": 59,
+   "t_miou": 0.2970952169874351,
+   "gt_instances": 34,
+   "centroid_miou": 0.8202781419015208
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9448782801628113,
+   "ari_to_n4": 0.5726637301503287,
+   "clusters": 58,
+   "t_miou": 0.21834718826235097,
+   "gt_instances": 34,
+   "centroid_miou": 0.7688567340526538
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9180344343185425,
+   "ari_to_n4": 0.7686173335443921,
+   "clusters": 61,
+   "t_miou": 0.28088070316132646,
+   "gt_instances": 34,
+   "centroid_miou": 0.81259885082797
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9073173403739929,
+   "ari_to_n4": 0.6746933033054942,
+   "clusters": 62,
+   "t_miou": 0.25954034311845525,
+   "gt_instances": 34,
+   "centroid_miou": 0.833044664792313
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9363445043563843,
+   "ari_to_n4": 0.7476578982727676,
+   "clusters": 59,
+   "t_miou": 0.26918530323957257,
+   "gt_instances": 34,
+   "centroid_miou": 0.8052718798520123
+  },
+  {
+   "scene": "09c1414f1b",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9215810298919678,
+   "ari_to_n4": 0.7614811542791748,
+   "clusters": 57,
+   "t_miou": 0.27880245128656045,
+   "gt_instances": 34,
+   "centroid_miou": 0.8091788111662236
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 4,
+   "seed": 0,
+   "cosine_to_n4": 0.9999996423721313,
+   "ari_to_n4": 1.0,
+   "clusters": 44,
+   "t_miou": 0.49966179439478553,
+   "gt_instances": 29,
+   "centroid_miou": 0.7323672030222741
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 0,
+   "cosine_to_n4": 0.9949013590812683,
+   "ari_to_n4": 0.9643088961236056,
+   "clusters": 42,
+   "t_miou": 0.4856959947387131,
+   "gt_instances": 29,
+   "centroid_miou": 0.7279290335363614
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 1,
+   "cosine_to_n4": 0.9908349514007568,
+   "ari_to_n4": 0.9311009567715717,
+   "clusters": 41,
+   "t_miou": 0.48484230331527234,
+   "gt_instances": 29,
+   "centroid_miou": 0.7311914475164605
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 8,
+   "seed": 2,
+   "cosine_to_n4": 0.9946800470352173,
+   "ari_to_n4": 0.6445287850397675,
+   "clusters": 37,
+   "t_miou": 0.42102903983607676,
+   "gt_instances": 29,
+   "centroid_miou": 0.7107502006975828
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 0,
+   "cosine_to_n4": 0.9916613101959229,
+   "ari_to_n4": 0.5500941721890567,
+   "clusters": 37,
+   "t_miou": 0.4455807284432454,
+   "gt_instances": 29,
+   "centroid_miou": 0.7218766673278986
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 1,
+   "cosine_to_n4": 0.9941834211349487,
+   "ari_to_n4": 0.709808988954137,
+   "clusters": 41,
+   "t_miou": 0.430525734737076,
+   "gt_instances": 29,
+   "centroid_miou": 0.7268539875774421
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 12,
+   "seed": 2,
+   "cosine_to_n4": 0.9925888776779175,
+   "ari_to_n4": 0.9230325517654047,
+   "clusters": 41,
+   "t_miou": 0.44619612130838593,
+   "gt_instances": 29,
+   "centroid_miou": 0.7072337582672428
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 0,
+   "cosine_to_n4": 0.9895802736282349,
+   "ari_to_n4": 0.9520480761822612,
+   "clusters": 38,
+   "t_miou": 0.48239416936972473,
+   "gt_instances": 29,
+   "centroid_miou": 0.7299505790972656
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 1,
+   "cosine_to_n4": 0.989960789680481,
+   "ari_to_n4": 0.9596740563554682,
+   "clusters": 39,
+   "t_miou": 0.4332314012934671,
+   "gt_instances": 29,
+   "centroid_miou": 0.7214231708633069
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 16,
+   "seed": 2,
+   "cosine_to_n4": 0.9920221567153931,
+   "ari_to_n4": 0.8802520146296565,
+   "clusters": 43,
+   "t_miou": 0.47189013454030543,
+   "gt_instances": 29,
+   "centroid_miou": 0.7263791665354499
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 0,
+   "cosine_to_n4": 0.9882462024688721,
+   "ari_to_n4": 0.7080624644227352,
+   "clusters": 41,
+   "t_miou": 0.45537513782627326,
+   "gt_instances": 29,
+   "centroid_miou": 0.7385710732256224
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 1,
+   "cosine_to_n4": 0.9900761246681213,
+   "ari_to_n4": 0.9462633965864411,
+   "clusters": 39,
+   "t_miou": 0.4578313422698772,
+   "gt_instances": 29,
+   "centroid_miou": 0.732667089268459
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 24,
+   "seed": 2,
+   "cosine_to_n4": 0.9887117743492126,
+   "ari_to_n4": 0.7126469162989844,
+   "clusters": 43,
+   "t_miou": 0.4599185502034191,
+   "gt_instances": 29,
+   "centroid_miou": 0.7309436306263981
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 0,
+   "cosine_to_n4": 0.9811404347419739,
+   "ari_to_n4": 0.9513007398510681,
+   "clusters": 40,
+   "t_miou": 0.47170712772564255,
+   "gt_instances": 29,
+   "centroid_miou": 0.7304131165344906
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 1,
+   "cosine_to_n4": 0.9872342944145203,
+   "ari_to_n4": 0.7141504145879206,
+   "clusters": 39,
+   "t_miou": 0.44698143493665066,
+   "gt_instances": 29,
+   "centroid_miou": 0.730034410595748
+  },
+  {
+   "scene": "1ada7a0617",
+   "dataset": "scannetpp",
+   "n": 32,
+   "seed": 2,
+   "cosine_to_n4": 0.9844077825546265,
+   "ari_to_n4": 0.7096784225908307,
+   "clusters": 37,
+   "t_miou": 0.4650903631569941,
+   "gt_instances": 29,
+   "centroid_miou": 0.7332829163127145
+  }
+ ],
+ "reading": {
+  "t_miou": {
+   "per_scene": {
+    "825d228aec": {
+     "median": {
+      "4": 0.24556106427061095,
+      "8": 0.2396160779674636,
+      "12": 0.2401354359757522,
+      "16": 0.2349334533827004,
+      "24": 0.23350659598827736,
+      "32": 0.24215780929394262
+     },
+     "range_at_12": 0.01428632718186254,
+     "declines": false
+    },
+    "6115eddb86": {
+     "median": {
+      "4": 0.5476667884788998,
+      "8": 0.6193579004168938,
+      "12": 0.6345731498201167,
+      "16": 0.606825143930898,
+      "24": 0.591889568912056,
+      "32": 0.5900048113540733
+     },
+     "range_at_12": 0.024440866006394613,
+     "declines": true
+    },
+    "13c3e046d7": {
+     "median": {
+      "4": 0.7612093478643777,
+      "8": 0.6393206657713605,
+      "12": 0.7449961089889051,
+      "16": 0.7340155773420118,
+      "24": 0.7348634454623012,
+      "32": 0.7396515311959905
+     },
+     "range_at_12": 0.050394842719742816,
+     "declines": false
+    },
+    "09c1414f1b": {
+     "median": {
+      "4": 0.27982366091958205,
+      "8": 0.28084996605950074,
+      "12": 0.26818093489882555,
+      "16": 0.27539944358280527,
+      "24": 0.28088070316132646,
+      "32": 0.26918530323957257
+     },
+     "range_at_12": 0.03290114501271413,
+     "declines": false
+    },
+    "1ada7a0617": {
+     "median": {
+      "4": 0.49966179439478553,
+      "8": 0.48484230331527234,
+      "12": 0.4455807284432454,
+      "16": 0.47189013454030543,
+      "24": 0.4578313422698772,
+      "32": 0.4650903631569941
+     },
+     "range_at_12": 0.015670386571309924,
+     "declines": false
+    }
+   },
+   "median_at_12": 0.4455807284432454,
+   "median_at_32": 0.4650903631569941,
+   "scenes_declining": 1,
+   "verdict": "no decline measured up to 32 frames"
+  },
+  "centroid_miou": {
+   "per_scene": {
+    "825d228aec": {
+     "median": {
+      "4": 0.7685457076303696,
+      "8": 0.76244678479056,
+      "12": 0.7758315452183016,
+      "16": 0.7811482709828088,
+      "24": 0.7814925556697485,
+      "32": 0.795673760381834
+     },
+     "range_at_12": 0.067292700639762,
+     "declines": false
+    },
+    "6115eddb86": {
+     "median": {
+      "4": 0.740284705794561,
+      "8": 0.734869423850655,
+      "12": 0.7394018488321633,
+      "16": 0.73454815972481,
+      "24": 0.7328627343739357,
+      "32": 0.7171675466419135
+     },
+     "range_at_12": 0.014675696782135095,
+     "declines": true
+    },
+    "13c3e046d7": {
+     "median": {
+      "4": 0.9988615636011963,
+      "8": 0.9988615636011963,
+      "12": 0.9988615636011963,
+      "16": 0.9988615636011963,
+      "24": 0.9988615636011963,
+      "32": 0.997925655247471
+     },
+     "range_at_12": 0.0,
+     "declines": true
+    },
+    "09c1414f1b": {
+     "median": {
+      "4": 0.7115778656589439,
+      "8": 0.7602845972721143,
+      "12": 0.7500223086710935,
+      "16": 0.7694714069507446,
+      "24": 0.81259885082797,
+      "32": 0.8091788111662236
+     },
+     "range_at_12": 0.06307381460062544,
+     "declines": false
+    },
+    "1ada7a0617": {
+     "median": {
+      "4": 0.7323672030222741,
+      "8": 0.7279290335363614,
+      "12": 0.7218766673278986,
+      "16": 0.7263791665354499,
+      "24": 0.732667089268459,
+      "32": 0.7304131165344906
+     },
+     "range_at_12": 0.019620229310199355,
+     "declines": false
+    }
+   },
+   "median_at_12": 0.7500223086710935,
+   "median_at_32": 0.795673760381834,
+   "scenes_declining": 2,
+   "verdict": "no decline measured up to 32 frames"
+  },
+  "stability_median": {
+   "mipnerf360": {
+    "4": {
+     "cosine": 0.9999998211860657,
+     "ari": 1.0
+    },
+    "8": {
+     "cosine": 0.9851899743080139,
+     "ari": 0.8841415774699686
+    },
+    "12": {
+     "cosine": 0.975166380405426,
+     "ari": 0.7629798444141274
+    },
+    "16": {
+     "cosine": 0.9758260846138,
+     "ari": 0.8650207274759718
+    },
+    "24": {
+     "cosine": 0.9652758240699768,
+     "ari": 0.7729193299065584
+    },
+    "32": {
+     "cosine": 0.9732201099395752,
+     "ari": 0.762115370876036
+    }
+   },
+   "scannetpp": {
+    "4": {
+     "cosine": 0.9999998807907104,
+     "ari": 1.0
+    },
+    "8": {
+     "cosine": 0.982101321220398,
+     "ari": 0.8248945433911318
+    },
+    "12": {
+     "cosine": 0.983849048614502,
+     "ari": 0.8077171672092187
+    },
+    "16": {
+     "cosine": 0.9760870337486267,
+     "ari": 0.8538979767849685
+    },
+    "24": {
+     "cosine": 0.9750420451164246,
+     "ari": 0.8101646691061001
+    },
+    "32": {
+     "cosine": 0.9750142693519592,
+     "ari": 0.8075176876765284
+    }
+   }
+  }
+ }
+}
