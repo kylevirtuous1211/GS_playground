@@ -66,5 +66,6 @@ import json, sys
 from pathlib import Path
 res = Path(sys.argv[1])
 print("verdict part 1 (VGGT):", json.loads((res / "e08m_vggt_cameras.json").read_text())["reading"]["verdict"])
-print("verdict part 2b (IGGT):", json.loads((res / "e08m_iggt_instances.json").read_text())["reading"]["verdict"])
+r = json.loads((res / "e08m_iggt_instances.json").read_text())["reading"]
+print("verdict part 2b (IGGT), T-mIoU:", r["t_miou"]["verdict"], "/ centroid mIoU:", r["centroid_miou"]["verdict"])
 EOF

@@ -66,3 +66,26 @@ def test_t_miou_matches_one_to_one_across_views():
     flipped = gt.copy()
     flipped[1] = 3 - gt[1]                                           # ids swapped in the second view
     assert t_miou(flipped, gt, valid)["t_miou"] < 0.6               # inconsistent across views is penalised
+
+
+def test_read_vggt_counts_a_short_scene_at_its_largest_batch():
+    from gs_playground.iggt.view_count import read_vggt
+    rows = [{"scene": s, "n": n, "seed": k, "auc30": a}
+            for s, top in (("a", 128), ("b", 128), ("c", 125))
+            for n in (8, 24, top) for k, a in ((0, 0.8), (1, 0.82), (2, 0.81))]
+    r = read_vggt(rows)
+    assert r["median_over_scenes"]["128"]["scenes_at_fewer_frames"] == ["c"]
+    assert r["median_over_scenes"]["128"]["range"] == [0.81, 0.81] and r["scenes_declining"] == 0
+    assert r["verdict"] == "no decline measured up to 128 frames"
+
+
+def test_centroid_miou_needs_no_clustering():
+    from gs_playground.iggt.view_count import centroid_miou
+    gt = np.zeros((2, 20, 20), dtype=int)
+    gt[:, :10], gt[:, 10:] = 1, 2
+    valid = np.ones_like(gt, dtype=bool)
+    separable = np.zeros((2, 20, 20, 8))
+    separable[gt == 1, 0], separable[gt == 2, 1] = 1.0, 1.0
+    assert centroid_miou(separable, gt, valid)["centroid_miou"] == 1.0
+    same = np.ones((2, 20, 20, 8)) / np.sqrt(8)            # one feature everywhere: instances indistinguishable
+    assert centroid_miou(same, gt, valid)["centroid_miou"] < 0.6

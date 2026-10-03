@@ -124,6 +124,7 @@ def run_vggt(out: Path) -> None:
     dtype = torch.bfloat16 if torch.cuda.get_device_capability()[0] >= 8 else torch.float16
     rows = json.loads(out.read_text())["rows"] if out.exists() else []
     done = {(r["scene"], r["n"], r["seed"]) for r in rows}
+    warm = True   # one untimed forward first, so CUDA and kernel set-up is not charged to a row
     for scene in MIP_SCENES:
         gt = colmap_poses(MIPNERF360 / scene)
         images_dir = MIPNERF360 / scene / "images_4"
@@ -134,6 +135,10 @@ def run_vggt(out: Path) -> None:
                 continue
             images = load_and_preprocess_images([str(images_dir / b) for b in batch], mode="no_stretch",
                                                 target_size=518, rotate_portrait=True).cuda()[None]
+            if warm:
+                with torch.no_grad(), torch.amp.autocast("cuda", dtype=dtype):
+                    model(images)
+                warm = False
             torch.cuda.reset_peak_memory_stats()
             torch.cuda.synchronize()
             t0 = time.time()
@@ -176,14 +181,20 @@ def read_vggt(rows: list[dict]) -> dict:
         scenes[scene] = {"auc30_median": {str(n): median(v) for n, v in sorted(by_n.items())},
                          "largest_n": top, "range_at_24": max(at24) - min(at24),
                          "declines": median(by_n[top]) < median(at24) - (max(at24) - min(at24))}
-    summary = {str(n): median(s["auc30_median"][str(n)] for s in scenes.values() if str(n) in s["auc30_median"])
-               for n in VGGT_NS if all(str(n) in s["auc30_median"] or n > s["largest_n"] for s in scenes.values())}
+    # per N, the median and range over scenes; at the largest N each scene contributes its largest
+    # batch (stump: all 125 frames), as pre-registered
+    def at(s, n):
+        return s["auc30_median"][str(min(n, s["largest_n"]))]
+    summary = {str(n): {"median": median(at(s, n) for s in scenes.values()),
+                        "range": [min(at(s, n) for s in scenes.values()), max(at(s, n) for s in scenes.values())],
+                        "scenes_at_fewer_frames": sorted(k for k, s in scenes.items() if s["largest_n"] < n)}
+               for n in VGGT_NS if all(str(min(n, s["largest_n"])) in s["auc30_median"] for s in scenes.values())}
     top_median = median(s["auc30_median"][str(s["largest_n"])] for s in scenes.values())
     declining = sum(s["declines"] for s in scenes.values())
     return {"per_scene": scenes, "median_over_scenes": summary,
             "median_over_scenes_at_largest_n": top_median, "scenes_declining": declining,
             "verdict": "degrades beyond its training range"
-            if top_median < summary[str(VGGT_TRAINED_MAX)] and declining >= 5
+            if top_median < summary[str(VGGT_TRAINED_MAX)]["median"] and declining >= 5
             else "no decline measured up to 128 frames"}
 
 
@@ -301,21 +312,24 @@ def cluster_anchors(npz: Path) -> tuple[np.ndarray, np.ndarray]:
     Returns (features [A, H, W, 8], labels [A, H, W])."""
     from sklearn.cluster import HDBSCAN
     from sklearn.neighbors import NearestNeighbors
-    from gs_playground.iggt.instances import CLUSTER_STRIDE, KNN, MIN_CLUSTER_SIZE, MIN_SAMPLES, SMOOTH_STRIDE
+    from gs_playground.iggt.instances import (CLUSTER_EPS, CLUSTER_STRIDE, KNN, MIN_CLUSTER_SIZE, MIN_SAMPLES,
+                                              SMOOTH_STRIDE)
     data = np.load(npz)
     feats, points = data["features"].astype(np.float32), data["points"]
     a, h, w, c = feats.shape
-    _, idx = NearestNeighbors(n_neighbors=KNN).fit(points.reshape(-1, 3)).kneighbors(
+    # KNN neighbours other than the pixel itself (the demo's knn_graph(loop=False)); not re-normalised, as the demo
+    _, idx = NearestNeighbors(n_neighbors=KNN + 1).fit(points.reshape(-1, 3)).kneighbors(
         points[:, ::SMOOTH_STRIDE, ::SMOOTH_STRIDE].reshape(-1, 3))
-    smooth = feats.reshape(-1, c)[idx].mean(1)
-    smooth /= np.linalg.norm(smooth, axis=1, keepdims=True)
+    smooth = feats.reshape(-1, c)[idx[:, 1:]].mean(1)
     hs, ws = feats[:, ::SMOOTH_STRIDE, ::SMOOTH_STRIDE].shape[1:3]
     smooth = smooth.reshape(a, hs, ws, c)
     step = CLUSTER_STRIDE // SMOOTH_STRIDE
     sample = smooth[:, ::step, ::step].reshape(-1, c)
     scale = CLUSTER_STRIDE ** 2
-    labels = HDBSCAN(min_cluster_size=max(2, MIN_CLUSTER_SIZE // scale),
-                     min_samples=max(1, MIN_SAMPLES // scale)).fit_predict(sample)
+    labels = HDBSCAN(min_cluster_size=max(2, MIN_CLUSTER_SIZE // scale), min_samples=max(1, MIN_SAMPLES // scale),
+                     cluster_selection_epsilon=CLUSTER_EPS).fit_predict(sample)
+    if (labels < 0).all():   # the demo's fallback: one instance
+        labels[:] = 0
     kept = labels >= 0
     _, nearest = NearestNeighbors(n_neighbors=1).fit(sample[kept]).kneighbors(smooth.reshape(-1, c))
     small = labels[kept][nearest[:, 0]].reshape(a, hs, ws)
@@ -346,6 +360,23 @@ def t_miou(labels: np.ndarray, gt: np.ndarray, valid: np.ndarray) -> dict:
     return {"t_miou": float(matched.mean()) if len(gt_ids) else float("nan"), "gt_instances": len(gt_ids)}
 
 
+def centroid_miou(features: np.ndarray, gt: np.ndarray, valid: np.ndarray) -> dict:
+    """Clustering-free (Amendment 1): each GT instance's mean feature over the anchor frames is its centroid;
+    every pixel of a counted instance goes to the nearest centroid (cosine); mean IoU over those instances."""
+    true = gt[valid]
+    feats = features[valid].astype(np.float64)
+    ids = [g for g in np.unique(true) if g > 0 and (true == g).sum() >= MIN_INSTANCE_PIXELS]
+    if not ids:
+        return {"centroid_miou": float("nan")}
+    keep = np.isin(true, ids)
+    true, feats = true[keep], feats[keep]
+    centroids = np.stack([feats[true == g].mean(0) for g in ids])
+    centroids /= np.linalg.norm(centroids, axis=1, keepdims=True)
+    assigned = np.asarray(ids)[np.argmax(feats @ centroids.T, axis=1)]
+    ious = [((assigned == g) & (true == g)).sum() / ((assigned == g) | (true == g)).sum() for g in ids]
+    return {"centroid_miou": float(np.mean(ious))}
+
+
 def analyse(out_dir: Path, out: Path) -> None:
     rows = []
     for scene in MIP_SCENES + SPP_SCENES:
@@ -360,32 +391,38 @@ def analyse(out_dir: Path, out: Path) -> None:
             if gt is not None:
                 assert list(np.load(npz)["anchors"]) == list(gt["anchors"])
                 row.update(t_miou(labels, gt["masks"], gt["hit"]))
+                row.update(centroid_miou(feat, gt["masks"], gt["hit"]))
             rows.append(row)
             print(scene, row["n"], row["seed"], {k: round(v, 4) for k, v in row.items() if isinstance(v, float)}, flush=True)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({"entry": "E08m", "part": 2, "rows": rows, "reading": read_iggt(rows)}, indent=1))
 
 
-def read_iggt(rows: list[dict]) -> dict:
+def read_quality(rows: list[dict], metric: str) -> dict:
+    """The pre-registered 2b rule, for one metric (T-mIoU; Amendment 1 adds centroid mIoU)."""
     per = {}
     for r in rows:
         if r["dataset"] == "scannetpp":
-            per.setdefault(r["scene"], {}).setdefault(r["n"], []).append(r["t_miou"])
+            per.setdefault(r["scene"], {}).setdefault(r["n"], []).append(r[metric])
     scenes = {}
     for scene, by_n in per.items():
         at12, at32 = by_n[IGGT_TRAINED_MAX], by_n[max(IGGT_NS)]
-        scenes[scene] = {"t_miou_median": {str(n): median(v) for n, v in sorted(by_n.items())},
+        scenes[scene] = {"median": {str(n): median(v) for n, v in sorted(by_n.items())},
                          "range_at_12": max(at12) - min(at12),
                          "declines": median(at32) < median(at12) - (max(at12) - min(at12))}
-    m12 = median(s["t_miou_median"][str(IGGT_TRAINED_MAX)] for s in scenes.values())
-    m32 = median(s["t_miou_median"][str(max(IGGT_NS))] for s in scenes.values())
+    m12 = median(s["median"][str(IGGT_TRAINED_MAX)] for s in scenes.values())
+    m32 = median(s["median"][str(max(IGGT_NS))] for s in scenes.values())
     declining = sum(s["declines"] for s in scenes.values())
+    return {"per_scene": scenes, "median_at_12": m12, "median_at_32": m32, "scenes_declining": declining,
+            "verdict": "degrades beyond its training range" if m32 < m12 and declining >= 4
+            else "no decline measured up to 32 frames"}
+
+
+def read_iggt(rows: list[dict]) -> dict:
     stability = {}
     for r in rows:
         stability.setdefault(r["dataset"], {}).setdefault(r["n"], []).append((r["cosine_to_n4"], r["ari_to_n4"]))
-    return {"per_scene": scenes, "median_at_12": m12, "median_at_32": m32, "scenes_declining": declining,
-            "verdict": "degrades beyond its training range" if m32 < m12 and declining >= 4
-            else "no decline measured up to 32 frames",
+    return {"t_miou": read_quality(rows, "t_miou"), "centroid_miou": read_quality(rows, "centroid_miou"),
             "stability_median": {d: {str(n): {"cosine": median(v[0] for v in vals), "ari": median(v[1] for v in vals)}
                                      for n, vals in sorted(by_n.items())} for d, by_n in stability.items()}}
 

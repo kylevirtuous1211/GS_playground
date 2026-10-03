@@ -29,7 +29,7 @@ CKPT = ROOT / "data/models/iggt/iggt_checkpoint.pth"
 SIZE = (504, 336)
 MAX_VIEWS = 12
 KNN = 20
-MIN_CLUSTER_SIZE, MIN_SAMPLES = 500, 100
+MIN_CLUSTER_SIZE, MIN_SAMPLES, CLUSTER_EPS = 500, 100, 0.06   # eps: a feature distance, not scaled
 #: pixel strides that keep the CPU smoothing and clustering tractable
 SMOOTH_STRIDE, CLUSTER_STRIDE = 2, 4
 
@@ -96,9 +96,9 @@ def render(npz: Path, out: Path) -> None:
     # 3D smoothing, as IGGT's demo: average each pixel's feature over its k nearest 3D neighbours
     sub = (slice(None), slice(None, None, SMOOTH_STRIDE), slice(None, None, SMOOTH_STRIDE))
     xyz, feat = points[sub].reshape(-1, 3), features[sub].reshape(-1, c)
-    _, idx = NearestNeighbors(n_neighbors=KNN).fit(xyz).kneighbors(xyz)
-    smooth = feat[idx].mean(1)
-    smooth /= np.linalg.norm(smooth, axis=1, keepdims=True)
+    # KNN neighbours other than the point itself, as the demo's knn_graph(loop=False); not re-normalised
+    _, idx = NearestNeighbors(n_neighbors=KNN + 1).fit(xyz).kneighbors(xyz)
+    smooth = feat[idx[:, 1:]].mean(1)
     hs, ws = features[sub].shape[1:3]
     smooth = smooth.reshape(n, hs, ws, c)
     # HDBSCAN on a coarser subsample; demo sizes scaled by the pixel fraction; every pixel then
@@ -106,8 +106,10 @@ def render(npz: Path, out: Path) -> None:
     step = CLUSTER_STRIDE // SMOOTH_STRIDE
     sample = smooth[:, ::step, ::step].reshape(-1, c)
     scale = (SMOOTH_STRIDE * step) ** 2
-    labels = HDBSCAN(min_cluster_size=max(2, MIN_CLUSTER_SIZE // scale),
-                     min_samples=max(1, MIN_SAMPLES // scale)).fit_predict(sample)
+    labels = HDBSCAN(min_cluster_size=max(2, MIN_CLUSTER_SIZE // scale), min_samples=max(1, MIN_SAMPLES // scale),
+                     cluster_selection_epsilon=CLUSTER_EPS).fit_predict(sample)
+    if (labels < 0).all():   # the demo's fallback: one instance
+        labels[:] = 0
     kept = labels >= 0
     _, nearest = NearestNeighbors(n_neighbors=1).fit(sample[kept]).kneighbors(smooth.reshape(-1, c))
     label_maps = labels[kept][nearest[:, 0]].reshape(n, hs, ws)
@@ -126,7 +128,8 @@ def render(npz: Path, out: Path) -> None:
     summary = {"views": [str(x) for x in data["names"]], "size": [w, h], "clusters": int(labels.max() + 1),
                "noise_fraction_of_sample": float((~kept).mean()), "knn": KNN,
                "smooth_stride": SMOOTH_STRIDE, "cluster_stride": CLUSTER_STRIDE,
-               "min_cluster_size": max(2, MIN_CLUSTER_SIZE // scale), "min_samples": max(1, MIN_SAMPLES // scale)}
+               "min_cluster_size": max(2, MIN_CLUSTER_SIZE // scale), "min_samples": max(1, MIN_SAMPLES // scale),
+               "cluster_selection_epsilon": CLUSTER_EPS}
     (out / "summary.json").write_text(json.dumps(summary, indent=1))
     print(json.dumps(summary))
 

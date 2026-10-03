@@ -37,3 +37,16 @@ Instances are formed as in IGGT's demo, on the anchor frames only: L2-normalised
 1. The IGGT fix: on one 8-frame input, the patched model's instance features are bitwise equal to the unpatched model's (the path below 13 frames is untouched); on one 16-frame input, permuting frames 2 to 16 permutes the instance features accordingly (VGGT's global attention is permutation-equivariant apart from the first frame, and the heads act per frame), to within bf16 noise (cosine similarity of every frame's features >= 0.999).
 2. The camera metric: fed the COLMAP poses as its own prediction it scores AUC@30 = 1 and zero errors; fed a known rotation perturbation it reports that angle.
 3. The ground-truth masks: on every anchor frame the mesh is hit on at least 90% of pixels, and one overlay per scene is saved and looked at before any T-mIoU is read.
+
+## Amendment 1, 2026-10-03, after a code review and before any E08m run
+
+An adversarial review of the code (22 agents, each finding put to a refuter) found three defects, fixed before anything ran:
+- The clustering did not match the text above ("as in IGGT's demo"): it left out the demo's HDBSCAN `cluster_selection_epsilon` of 0.06, re-normalised the 3D-averaged features, and counted each pixel among its own 20 neighbours. It now passes epsilon 0.06 (a feature distance, so not scaled with the subsample), does not re-normalise, and excludes the pixel itself.
+- VGGT's first forward pass in a process carried CUDA set-up in its time; one untimed pass now comes first.
+- The part-1 summary lacked the range over scenes and dropped stump from the N = 128 row; it now gives median and range per N, with stump's 125-frame batch standing in at 128, labelled.
+
+What the demo's clustering does, seen on garden at 12 frames (outputs/iggt/garden, the qualitative render made before this experiment; garden is one of the seven stability scenes, not a T-mIoU scene): with epsilon 0.06 the table, the pot and the ground fall into one cluster holding 46% of the pixels at the pixel stride used here and 47% at half that stride, so the merge comes from the demo's procedure, not from the subsample; without epsilon the same features gave 290 clusters. HDBSCAN at full resolution is not feasible here (109 s at a quarter of the pixels, per run).
+T-mIoU therefore measures IGGT's features together with its demo clustering, and can move when a merge flips for reasons unrelated to the features.
+
+Added, before any run: a clustering-free quality metric on the same ScanNet++ anchors, **centroid mIoU**: each ground-truth instance (>= 200 pixels over the anchors) has as centroid the mean of IGGT's features over its pixels; every pixel of those instances is assigned to the nearest centroid by cosine; the score is the mean IoU over the instances.
+It is read with the same rule as T-mIoU (N = 32 against N = 12, at least 4 of 5 scenes beyond their N = 12 range over draws), and both verdicts are reported; if they disagree, that is the result.
