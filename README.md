@@ -31,10 +31,10 @@ Each project's README has the details: what it does, what we added, the numbers 
 ## Running it
 
 ```bash
-bash tools/setup/clone_upstream.sh                    # every pin in third_party/PINS.tsv, patches applied
-bash tools/setup/puffin_world_env.sh                  # the base env (python 3.10, torch 2.7, cu126)
-bash tools/setup/surflo_env.sh                        # SuRFLo and IGGT
-bash tools/setup/worldsculpt_env.sh                   # WorldSculpt, layered on the base env
+bash tools/setup/clone_upstream.sh      # pinned upstream clones, patched
+bash tools/setup/puffin_world_env.sh    # base env: python 3.10, torch 2.7, cu126
+bash tools/setup/surflo_env.sh          # SuRFLo and IGGT
+bash tools/setup/worldsculpt_env.sh     # WorldSculpt, on the base env
 ```
 
 - Each method's README in [`experiments/`](experiments/) gives its weights, its runners and the traps we hit.

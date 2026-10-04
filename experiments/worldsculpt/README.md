@@ -26,8 +26,8 @@ The hanging planter came out as a large flat slab, and the TV as a deep solid bl
 ## Running it
 
 ```bash
-bash tools/setup/worldsculpt_env.sh                                    # an overlay on the base env
-hf download AlayaLab/WorldSculpt --local-dir data/models/worldsculpt   # its weights
+bash tools/setup/worldsculpt_env.sh     # an overlay on the base env
+hf download AlayaLab/WorldSculpt --local-dir data/models/worldsculpt
 bash experiments/worldsculpt/run_E08c_worldsculpt.sh
 ```
 
@@ -43,9 +43,9 @@ An object with no usable mask frame is dropped without an error.
 `gs_playground.worldsculpt.ground` builds that directory for a scene with COLMAP poses, a trained 3DGS and label maps associated across views:
 
 ```bash
-python -m gs_playground.worldsculpt.ground propose ...   # boxes, filter, review sheet
-# review outputs/worldsculpt/NCHC/ground/index.html, commit the selection JSON
-bash experiments/worldsculpt/run_E08e_nchc_sofa.sh        # build, run, count every object through each stage
+python -m gs_playground.worldsculpt.ground propose ...   # boxes, filter, review
+# review outputs/worldsculpt/NCHC/ground/index.html, commit the selection
+bash experiments/worldsculpt/run_E08e_nchc_sofa.sh        # build, run, count
 ```
 
 The reviewed selection is `e08e_objects.json`; the runner refuses to reuse an input built from a different selection, because upstream resumes from whatever meshes are on disk.

@@ -46,13 +46,16 @@ Its output is in VGGT's frame (camera 0 at the origin, no metric scale), so comp
 ## Running it
 
 ```bash
-bash tools/setup/surflo_env.sh                        # once: env, CUDA extensions, verify
+# once: the env (CUDA extensions built and verified), then the weights
+bash tools/setup/surflo_env.sh
 hf download AntoineGuedon/Surflo-v0 surflo_v0.pt --local-dir data/models/surflo
-bash experiments/surflo/run_E08h_surflo.sh A          # the authors' garden sample
-bash experiments/surflo/run_E08h_surflo.sh B          # NCHC sofa; runs only if A passed
-bash tools/fetch/fetch_mipnerf360.sh                  # once: official Mip-NeRF 360 into ~/datasets
-bash experiments/surflo/run_E08i_perscene_garden.sh   # 3DGS and 2DGS cost on garden, beside it
-bash experiments/surflo/run_E08j_views_sweep.sh       # 16-161 views: cost and novel-view PSNR
+# E08h: the authors' garden sample (A), then our sofa (B, only if A passed)
+bash experiments/surflo/run_E08h_surflo.sh A
+bash experiments/surflo/run_E08h_surflo.sh B
+# E08i, E08j: Mip-NeRF 360; per-scene 3DGS and 2DGS; SuRFLo at 16-161 views
+bash tools/fetch/fetch_mipnerf360.sh
+bash experiments/surflo/run_E08i_perscene_garden.sh
+bash experiments/surflo/run_E08j_views_sweep.sh
 ```
 
 Each run is upstream's own `scripts/infer.py`, with our patch's `save_guided_state=true`.

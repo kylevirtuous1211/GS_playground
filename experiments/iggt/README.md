@@ -36,10 +36,13 @@ Instances come from clustering those features (its demo: 3D kNN smoothing, then 
 ## Running it
 
 ```bash
-hf download lifuguan/IGGT_official iggt_checkpoint.pth --revision 12aa6fa --local-dir data/models/iggt
-python -m gs_playground.iggt.instances infer --folder <images> --n-images 12 --out <npz>    # surflo env
-python -m gs_playground.iggt.instances render --npz <npz> --out <dir>                       # puffin env
-bash experiments/iggt/run_E08m_view_count.sh                                                # E08m
+hf download lifuguan/IGGT_official iggt_checkpoint.pth --revision 12aa6fa \
+    --local-dir data/models/iggt
+# instance features of a folder of images (surflo env), rendered (puffin env)
+python -m gs_playground.iggt.instances infer --folder <images> --n-images 12 \
+    --out <npz>
+python -m gs_playground.iggt.instances render --npz <npz> --out <dir>
+bash experiments/iggt/run_E08m_view_count.sh            # E08m
 ```
 
 It runs in the SuRFLo env, with no install of its own requirements: `third_party/patches/iggt_inference-shims.patch` replaces the four imports its model only touches trivially (transformers, basicsr, detectron2, apex).
