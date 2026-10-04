@@ -1,0 +1,37 @@
+--- a/iggt/heads/window_sa.py
++++ b/iggt/heads/window_sa.py
+@@ -75,6 +75,13 @@
+         x = self.drop(x)
+         return x
+ 
++def pad_to_window(x, window_size):
++    """GS_playground: reflect-pad (B, C, H, W) on the bottom and right to multiples of the window, as
++    HAT's own check_image_size does; IGGT dropped it, so only an even patch grid (504x336) ran."""
++    pad_h, pad_w = (-x.shape[-2]) % window_size, (-x.shape[-1]) % window_size
++    return torch.nn.functional.pad(x, (0, pad_w, 0, pad_h), mode="reflect") if pad_h or pad_w else x
++
++
+ def window_partition(x, window_size):
+     b, h, w, c = x.shape
+     x = x.view(b, h // window_size, window_size, w // window_size, window_size, c)
+@@ -435,7 +442,8 @@
+     def forward(self, x):
+         # Input: (B, H, W, C), Output: (B, H, W, C)
+         x = x.permute(0, 3, 1, 2) # (B, C, H, W)
+-        x = self.conv_after_body(self.forward_features(x)) + x
++        h, w = x.shape[-2:]   # GS_playground: any size, padded to the window and cropped back
++        x = self.conv_after_body(self.forward_features(pad_to_window(x, self.window_size))[..., :h, :w]) + x
+         x = self.conv_before_upsample(x)
+         x = self.conv_last(x)
+         x = x.permute(0, 2, 3, 1).contiguous()
+@@ -545,7 +553,9 @@
+         x = x.permute(0, 3, 1, 2) # (B, C, H, W)
+         k = k.permute(0, 3, 1, 2) # (B, C, H, W)
+         v = v.permute(0, 3, 1, 2) # (B, C, H, W)
+-        x = self.conv_after_body(self.forward_features(x, k, v)) + x
++        h, w = x.shape[-2:]   # GS_playground: any size, padded to the window and cropped back
++        pad = lambda t: pad_to_window(t, self.window_size)
++        x = self.conv_after_body(self.forward_features(pad(x), pad(k), pad(v))[..., :h, :w]) + x
+         x = self.conv_before_upsample(x)
+         x = self.conv_last(x)
+         x = x.permute(0, 2, 3, 1).contiguous()
