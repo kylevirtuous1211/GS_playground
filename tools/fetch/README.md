@@ -1,18 +1,11 @@
 # fetch/
 
-Data and weight acquisition. Every script writes under `$GS_PLAYGROUND_DATA` (default `data/`) and nowhere else - never into a clone.
+Data and weight acquisition. Every script writes under `$GS_PLAYGROUND_DATA` (default `data/`) or `~/datasets/`, never into a clone, and stages under `.partial` before publishing by rename.
 
-What Puffin-World needs, and where it comes from:
+| script | what |
+|---|---|
+| `fetch_mipnerf360.sh` | the official Mip-NeRF 360 scenes, checksummed, plus `derived/garden_train161_images_4` (garden's 161 training views) |
+| `fetch_scannetpp_surflo_inputs.sh` | per ScanNet++ v2 scene, the undistorted DSLR training frames minus `is_bad`, as SuRFLo input |
+| `viewer_js.sha256` | checksums of the vendored three.js and Spark files the web viewers copy |
 
-| what | source | needed by |
-|---|---|---|
-| `Puffin-World-{Base,Pro,Caption}.pth` | 🤗 `KangLiao/Puffin-World` | inference, eval, checkpoint merging |
-| Puffin-Cam-15M (captioned images + camera params) | 🤗 `KangLiao/Puffin-16M` | stages I, II |
-| Puffin-Traj-1M | 🤗 `KangLiao/Puffin-16M` | stages III, IV |
-| DL3DV, RealEstate10K, HyperSim, MVS-Synth, TartanAir, ScanNet | respective upstreams | stages III, IV |
-| `*-Absolute-Camera` annotations | 🤗 `KangLiao/<DATASET>-Absolute-Camera` | stages III, IV (`physical_propagation='offline'`) |
-
-The absolute-camera sets mirror their source dataset's directory layout; download them alongside the raw data and point each `configs/datasets/multi_view/gen_<dataset>.py`'s `camera_caption_root` at them.
-Producing them yourself is GPU-days (`documents/ANNOTATION_CAMERA.md`) - download them.
-
-Derived datasets encode their parameters in the directory name (`dl3dv_views=8`, not `dl3dv_v2`).
+Derived datasets encode their parameters in the directory name (`garden_train161_images_4`, not `garden_v2`).

@@ -14,5 +14,5 @@ Every run directory carries its own provenance, written by `tools/stamp_provenan
 | `env.txt` | host, UTC date, python, GPU |
 | `metrics.json` | every number the run produced. Printed is not saved. |
 
-`results/collect.py` reads the `metrics.json` files from here and builds `results/tables/`.
+Runners copy the numbers they quote into `results/<method>/`.
 Redirect with `GS_PLAYGROUND_OUTPUTS=/mnt/...`.

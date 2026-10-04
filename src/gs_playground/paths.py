@@ -23,7 +23,7 @@ OUTPUTS = Path(os.environ.get("GS_PLAYGROUND_OUTPUTS", ROOT / "outputs"))
 
 EXPERIMENTS = ROOT / "experiments"
 RESULTS = ROOT / "results"
-TABLES = RESULTS / "tables"
+TABLES = RESULTS / "archive" / "tables"
 FIGURES = RESULTS / "figures"
 THIRD_PARTY = ROOT / "third_party"
 CLONES = THIRD_PARTY / "clones"

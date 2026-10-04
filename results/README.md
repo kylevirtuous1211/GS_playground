@@ -1,14 +1,8 @@
 # results/
 
-**Tracked.** Every number quoted in `LOG.md`, in `README.md`, in a slide or in a paper comes from here.
+**Tracked.** Every number quoted in a method's README, in the top-level `README.md`, in a slide or in a paper comes from here.
 
-```bash
-python results/collect.py          # rebuild tables/ from outputs/{,archive/}*/*/metrics.json
-python results/collect.py --check  # exit 1 if the tables disagree with outputs/
-```
-
-`collect.py` lives next to the CSVs it produces, so a stale table is visible rather than merely wrong.
-
-- `tables/*.csv` - machine-generated. Never hand-edited. An arm that was not run gets a **blank cell**; the row is not dropped and the cell is not filled in.
-- `<method>/` - numbers a method's `LOG.md` entry quotes, copied from its run, e.g. `worldgrow/generation.json` for E08b.
+- `<method>/` - the numbers a method's log entry quotes, written by its runner, e.g. `surflo/e08j_views_sweep.json` for E08j.
+- `DEMOS.md` - the index of every demo and the command that rebuilds it.
+- `archive/` - retired studies' numbers, including the machine-generated `tables/*.csv` and the `collect.py` that builds them; local only.
 - `figures/*.png` - the evidence. A figure is committed only alongside the CSV it was drawn from.
