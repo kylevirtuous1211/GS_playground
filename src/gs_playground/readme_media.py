@@ -216,9 +216,9 @@ def worldsculpt() -> None:
     bg = torch.tensor(BACKGROUND, dtype=torch.float32, device=dev) / 255
     ctx = dr.RasterizeCudaContext()
 
-    # framed on the sofa group: four far objects (a bench and a frame 2 m up,
-    # two others 5 m out) would otherwise shrink it to a fifth of the frame;
-    # they still pass through the shot as it turns
+    # framed on the sofa group: a few far objects (one 2 m up, others 5 m out)
+    # would otherwise shrink it to a fifth of the frame; three of them leave
+    # the shot for most of the turn
     lo, hi = np.percentile(verts, 10, axis=0), np.percentile(verts, 90, axis=0)
     centre = (lo + hi) / 2
     radius = 0.95 * np.linalg.norm(hi - lo)
