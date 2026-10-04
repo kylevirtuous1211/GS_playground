@@ -23,7 +23,8 @@ It runs in the SuRFLo env, with no install of its own requirements: `third_party
 
 - Its demo loads the weights with `strict=False`; ours load strictly.
 - Above 12 frames its point and instance heads break in their frame-chunking path; `iggt_many-frames.patch` runs them on all frames at once, which is the path it already takes for 12 or fewer (E08m checked this bitwise, and that the heads act per frame).
-- The instance head needs an even patch grid: it runs at 504x336 (images stretch-resized), not SuRFLo's 518 wide.
+- The instance head needed an even patch grid (504x336); `iggt_any-grid.patch` restores HAT's padding, so it now runs on SuRFLo's 518-wide grids too (bitwise unchanged at 504x336).
+- On SuRFLo, one encoding serves both: run SuRFLo with `vggt_weights=<IGGT>` and `save_vggt_tokens=true`, then `python -m gs_playground.iggt.on_surflo features` reads those tokens (E08n; equal to IGGT's own forward to cosine 0.9997).
 - Its demo clustering is fragile: without HDBSCAN's `cluster_selection_epsilon` it shatters garden into 290 pieces; with the demo's 0.06 it merges table, pot and ground. On ScanNet++ the features separate ground-truth instances far better (centroid mIoU 0.71-1.00) than the clustering recovers them (T-mIoU 0.24-0.74) (E08m).
 - Its backbone is not a drop-in for VGGT-1B under SuRFLo: SuRFLo's output changes, better on ScanNet++ (IGGT's training data), slightly worse on garden (E08l).
 - All ScanNet++ `nvs_sem_val` scenes are in its released training archive.

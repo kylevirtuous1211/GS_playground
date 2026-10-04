@@ -1,0 +1,29 @@
+--- a/configs/infer.yaml
++++ b/configs/infer.yaml
+@@ -46,6 +46,10 @@
+ 
+ # Checkpoint + device.
+ ckpt: ???
++
++# GS_playground: save VGGT's tokens at aggregator layers 4/11/17/23, the preprocessed images and the
++# patch offset to vggt_tokens.pt, so heads that read those layers (IGGT's) reuse this encoding.
++save_vggt_tokens: false
+ device: cuda
+ seed: 42
+ use_ema: true
+--- a/scripts/infer.py
++++ b/scripts/infer.py
+@@ -663,6 +663,13 @@
+     out_root = Path(str(cfg.output_dir))
+     scene_dir = out_root / scene_id
+     scene_dir.mkdir(parents=True, exist_ok=True)
++    if bool(cfg.get("save_vggt_tokens", False)):   # GS_playground
++        torch.save({
++            "layers": {i: batch["aggregated_tokens_list"][i][scene_idx:scene_idx + 1].cpu() for i in (4, 11, 17, 23)},
++            "patch_start_idx": int(batch["patch_start_idx"]),
++            "images": batch["images"][scene_idx:scene_idx + 1].cpu(),
++            "selected_images": list(selected),
++        }, scene_dir / "vggt_tokens.pt")
+ 
+     info: Dict[str, Any] = {"scene_id": scene_id, "mode": mode}
+     if mode == "plain":
