@@ -8,6 +8,7 @@ code:
     GS_PLAYGROUND_ROOT      repository root
     GS_PLAYGROUND_DATA      datasets and checkpoints (read-mostly, large)
     GS_PLAYGROUND_OUTPUTS   run directories (write-heavy, large)
+    GS_PLAYGROUND_SCANNETPP the ScanNet++ v2 release (its data/ and metadata/), licensed separately
 """
 
 from __future__ import annotations
@@ -20,6 +21,7 @@ ROOT = Path(os.environ.get("GS_PLAYGROUND_ROOT", Path(__file__).resolve().parent
 
 DATA = Path(os.environ.get("GS_PLAYGROUND_DATA", ROOT / "data"))
 OUTPUTS = Path(os.environ.get("GS_PLAYGROUND_OUTPUTS", ROOT / "outputs"))
+SCANNETPP = Path(os.environ.get("GS_PLAYGROUND_SCANNETPP", DATA / "scannetpp"))
 
 EXPERIMENTS = ROOT / "experiments"
 RESULTS = ROOT / "results"

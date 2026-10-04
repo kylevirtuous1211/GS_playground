@@ -50,8 +50,8 @@ pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 \
 #
 # requirements.txt is a pip freeze taken on the authors' internal cluster and
 # pins petrel-oss-sdk, their object-store SDK, which exists on no public index.
-# Drop it here rather than patching upstream; src/aoss_client/ supplies a
-# filesystem-backed stand-in for the import that needs it.
+# Drop it here rather than patching upstream; only Puffin-World's own dataset
+# code imports it, and SuRFLo, IGGT and WorldSculpt never do.
 REQ="$PREFIX/requirements.local.txt"
 grep -vE '^(petrel-oss-sdk|aoss-client)\b' "$UP/requirements.txt" > "$REQ"
 echo "== dropped from requirements.txt:"

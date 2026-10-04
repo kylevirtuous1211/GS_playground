@@ -16,7 +16,7 @@ Recent Gaussian-splatting and feed-forward 3D methods, run end to end on our own
 </table>
 
 Each method here is pinned to its upstream commit, patched only where it had to be, run on data we captured or chose, and given a demo a person can open.
-Numbers on this page come from the tracked files named next to them.
+Numbers on this page come from the tracked `results/` files or method READMEs named next to them.
 
 ## SuRFLo: 16 unposed photos to 3D Gaussians
 
@@ -82,7 +82,7 @@ Two questions were measured with pre-registered metrics:
 [WorldSculpt](https://github.com/AlayaLab/WorldSculpt) ([arXiv 2609.05416](https://arxiv.org/abs/2609.05416)) completes every object in a scene as a whole mesh, from posed frames, a mask per object in each frame, and a 3D box per object.
 Our lounge capture already had COLMAP poses, a trained 3DGS and label maps associated across views from an earlier project.
 From those we built the per-frame object masks and one box per object ([`gs_playground.worldsculpt.ground`](src/gs_playground/worldsculpt/ground.py)), with the objects to keep picked by an automatic filter and then on a review page.
-All 24 objects given to it come out as meshes in one scene ([`e08e_checks.json`](results/worldsculpt/e08e_checks.json)), in about 13 minutes on one GPU from prepared crops.
+All 24 objects given to it come out as meshes in one scene ([`e08e_checks.json`](results/worldsculpt/e08e_checks.json)), in about 13 minutes on one GPU from prepared crops ([method README](experiments/worldsculpt/README.md#our-own-captures-e08e)).
 The turntable at the top shows one flat colour per object, meshes decimated for display, framed on the sofa group, so three far objects leave the shot for most of the turn.
 The still above is WorldSculpt's own render of one input view: the frame, the meshes' normals, one colour per object, and the objects over the frame.
 
@@ -107,8 +107,9 @@ bash tools/setup/worldsculpt_env.sh                   # WorldSculpt, layered on 
 ```
 
 Each method's README in [`experiments/`](experiments/) gives its weights, its runners and the traps we hit.
+Runners read machine-local data roots from an untracked `.env.local`, sourced by the activation scripts (`GS_PLAYGROUND_DATA`, `GS_PLAYGROUND_SCANNETPP`, `MIPNERF360_GARDEN`, ...); a runner names any variable it is missing.
 Our own lounge capture is not part of this repository; Mip-NeRF 360 is fetched by [`tools/fetch/fetch_mipnerf360.sh`](tools/fetch/fetch_mipnerf360.sh), and ScanNet++ needs its own licence.
-Each demo on this page also has a self-contained web viewer (Spark and three.js for Gaussians, three.js for meshes, served with `python -m http.server`), listed in [`results/DEMOS.md`](results/DEMOS.md).
+Each demo on this page also has a self-contained web viewer (Spark and three.js for Gaussians, three.js for meshes, served with `python -m http.server`); the viewers are built locally from runs into the untracked `outputs/` and are not in the repository, and [`results/DEMOS.md`](results/DEMOS.md) lists each one with its builder.
 The clips here are built from those runs by [`tools/build_readme_media.sh`](tools/build_readme_media.sh).
 
 ## How results are kept
@@ -137,4 +138,4 @@ All of it ran on one RTX 6000 Ada (48 GB).
 | WorldSculpt | [AlayaLab/WorldSculpt](https://github.com/AlayaLab/WorldSculpt) | `fac6b83` | own code and LoRA weights Apache 2.0; vendored Pixal3D code and base weights MIT; DINOv3 weights under Meta's DINOv3 License (gated) |
 | gsplat | [nerfstudio-project/gsplat](https://github.com/nerfstudio-project/gsplat) | `937e299` (v1.5.3, its examples; the library comes from the env) | Apache 2.0 |
 
-Nothing upstream is vendored; [`tools/setup/clone_upstream.sh`](tools/setup/clone_upstream.sh) clones every pin, including a few that only feed the env builds, and applies our patches.
+Nothing upstream is vendored; [`tools/setup/clone_upstream.sh`](tools/setup/clone_upstream.sh) clones every pin (a few belong to retired studies or only feed the env builds) and applies our patches.

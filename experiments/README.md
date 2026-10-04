@@ -2,10 +2,10 @@
 
 A **method** is a directory named after its paper, in lower case: `surflo/`, `worldsculpt/`.
 A **log entry** is a runner: `run_E##_<slug>.sh` inside a method directory.
-The `E##` numbering is immutable and lives on the runners and in `LOG.md`, never in directory names.
+The `E##` numbering is immutable and lives on the runners, the pre-registrations and `results/`, never in directory names.
 Retired studies live in `archive/`, which stays local and is not part of the public mirror.
 
-Each method is a **reproduction arm first**: per `.claude/rules/research-discipline.md`, the first run of a borrowed method reports whether it reproduces on the authors' own setting before anything of ours is compared to it.
+Each method is a **reproduction arm first**: the first run of a borrowed method reports whether it reproduces on the authors' own setting before anything of ours is compared to it.
 
 Reusable code belongs in `src/gs_playground/`, not here.
 A runner is allowed to be a shell script that sets up a run directory, stamps provenance, calls one entry point, and parses the result to disk.
@@ -25,7 +25,7 @@ It is not allowed to be the place a model or a dataset is defined.
 | E08k | `surflo` | all 161 garden training views, on an emptied card (post-hoc E08j arm) | 24.92 dB refined, 45.6 GiB; still 6.9 dB under 3DGS |
 | E08l | `surflo` | does SuRFLo still work on IGGT's fine-tuned VGGT backbone? | **not compatible** by the pre-registered rule: every guided metric moved on every scene (garden -0.23 dB; ScanNet++ geometry better, but those scenes are in IGGT's training data) |
 | E08m | `iggt` | do VGGT's cameras (to 128 frames) and IGGT's instances (to 32) degrade past their training range? | **no decline** on either |
-| E08n | `iggt` | instance and class labels on SuRFLo's Gaussians from one encoding | exploratory: instances clean on sofa and garden; class names partly right |
+| E08n | `iggt` | instance and class labels on SuRFLo's Gaussians from one encoding | exploratory: instances mostly separate distinct objects on the sofa; class names right for some objects, wrong for most surfaces |
 
 ## Methods
 

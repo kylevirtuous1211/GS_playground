@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-# Fetch the official Mip-NeRF 360 scenes into the machine-local dataset root,
-# following the fleet storage policy (~/datasets/AGENTS.md): stage under a
-# .partial directory, verify, write a manifest, publish by one rename.
+# Fetch the official Mip-NeRF 360 scenes into ~/datasets/mipnerf360: stage under
+# a .partial directory, verify, write a manifest, publish by one rename.
 #
 #   bash tools/fetch/fetch_mipnerf360.sh
 #
-# Then the repository links the whole dataset directory, relatively:
-#   data/mipnerf360 -> ../../../datasets/mipnerf360/360_v2
+# Then link the whole dataset directory into the repository:
+#   ln -s ~/datasets/mipnerf360/360_v2 data/mipnerf360
 #
 # Also builds one derived view of garden for E08j: its standard training split
 # (every image but every 8th, sorted by name) at images_4, as hardlinks, since

@@ -25,9 +25,10 @@ from statistics import median
 
 import numpy as np
 
+from ..paths import SCANNETPP
+
 ROOT = Path(__file__).resolve().parents[3]
 MIPNERF360 = Path.home() / "datasets/mipnerf360/360_v2"
-SCANNETPP = Path("/mnt/nchc-2603056/datasets/ScanNet++")
 MIP_SCENES = ("bicycle", "bonsai", "counter", "garden", "kitchen", "room", "stump")
 SPP_SCENES = ("825d228aec", "6115eddb86", "13c3e046d7", "09c1414f1b", "1ada7a0617")
 #: pre-registered
@@ -116,7 +117,9 @@ def spp_image(scene: str, name: str) -> Path:
 # -------------------------------------------------------------------- VGGT
 def aggregator_last_layer(agg, images):
     """VGGT's Aggregator.forward, operation for operation, returning only the last layer's tokens: the
-    camera head reads nothing else, and holding all 24 layers is what ran out of memory (Amendment 3)."""
+    camera head reads nothing else, and holding all 24 layers is what ran out of memory (Amendment 3).
+
+    Adapted from facebookresearch/vggt (vggt/models/aggregator.py, VGGT License), as vendored in SuRFLo."""
     import torch
     from surflo.nn.vggt.models.aggregator import slice_expand_and_flatten
     B, S, C_in, H, W = images.shape

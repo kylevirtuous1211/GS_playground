@@ -22,7 +22,8 @@ fi
 CLONE="$ROOT/third_party/clones/surflo"
 CKPT="$ROOT/data/models/surflo/surflo_v0.pt"
 IGGT="$ROOT/data/models/iggt/iggt_checkpoint.pth"
-SCANNETPP=/mnt/nchc-2603056/datasets/ScanNet++/data
+[ -f .env.local ] && . ./.env.local   # machine-local data roots
+SCANNETPP="${GS_PLAYGROUND_SCANNETPP:?set GS_PLAYGROUND_SCANNETPP (e.g. in .env.local) to the ScanNet++ v2 root}/data"
 GARDEN="$ROOT/data/mipnerf360/garden"
 GT="$ROOT/outputs/surflo/views_sweep/gt.npz"   # E08j: garden's frames as SuRFLo preprocesses them
 OUT="$ROOT/outputs/surflo/iggt_backbone"

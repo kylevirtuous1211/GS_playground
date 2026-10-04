@@ -3,7 +3,7 @@
 Pre-registered in experiments/surflo/PREREG_E08l.md.
 
     python -m gs_playground.surflo.swap score --root outputs/surflo/iggt_backbone \\
-        --scannetpp /mnt/nchc-2603056/datasets/ScanNet++/data \\
+        --scannetpp "$GS_PLAYGROUND_SCANNETPP/data" \\
         --out results/surflo/e08l_iggt_backbone.json
 
 Layout read under --root: <scene>/<backbone>/n16/seed{42,0,1} (guided) and
@@ -25,7 +25,7 @@ import numpy as np
 
 from gs_playground.surflo.evaluate import VOXEL_FRAC, aligned_cloud, camera_centres
 
-#: ScanNet++'s nerfstudio world -> its mesh (and DSLR COLMAP) world (PairGS_ours/pairgs/scannetpp.py)
+#: ScanNet++'s nerfstudio world -> its mesh (and DSLR COLMAP) world (ScanNet++'s nerfstudio export swaps x and y and flips z)
 MESH_FROM_NERFSTUDIO = np.array([[0, 1, 0, 0], [1, 0, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]], dtype=float)
 #: pre-registered
 TAU_M = 0.05

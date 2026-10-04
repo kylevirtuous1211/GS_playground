@@ -11,7 +11,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
-source .env.local
+[ -f .env.local ] && . ./.env.local   # machine-local data roots (NCHC_SOFA_RUN for our capture)
 CLONE="$ROOT/third_party/clones/surflo"
 CKPT="$ROOT/data/models/surflo/surflo_v0.pt"
 IGGT="$ROOT/data/models/iggt/iggt_checkpoint.pth"

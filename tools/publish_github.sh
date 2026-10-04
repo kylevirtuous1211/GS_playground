@@ -62,8 +62,11 @@ git remote remove origin
 before=$(git rev-list --count HEAD)
 
 printf -v drop_args '%q ' "${DROP[@]}"
+# Messages lose any agent co-author trailer (the owner's rule: none), so the
+# published authorship is the owner's alone.
 FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --prune-empty \
-    --index-filter "git rm -r -q --cached --ignore-unmatch -- $drop_args" -- "$SOURCE" > /dev/null
+    --index-filter "git rm -r -q --cached --ignore-unmatch -- $drop_args" \
+    --msg-filter "sed '/^Co-Authored-By: Claude/d'" -- "$SOURCE" > /dev/null
 git for-each-ref --format='%(refname)' refs/original | xargs -r -n1 git update-ref -d
 git reflog expire --expire=now --all
 git gc -q --prune=now
@@ -72,6 +75,9 @@ echo "== filtered $SOURCE: $before commits -> $(git rev-list --count HEAD), $(gi
 du -sh .git | sed 's/^/   .git /'
 
 fail=0
+if git log --format=%B HEAD | grep '^Co-Authored-By: Claude' > /dev/null; then   # no -q: under pipefail an early exit would SIGPIPE git log
+    echo "!! an agent co-author trailer survived the message filter"; fail=1
+fi
 leaked_paths=$(git log --name-only --format= HEAD | sort -u | grep -iE "$BAD_PATH" | grep -vE "$ALLOWED_PATH" || true)
 if [ -n "$leaked_paths" ]; then
     echo "!! paths in the filtered history that should have been dropped:"; echo "$leaked_paths" | sed 's/^/   /'

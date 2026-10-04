@@ -2,14 +2,16 @@
 # Copy the DSLR training frames (official train list minus frames flagged
 # is_bad) of the ScanNet++ v2 scenes E08l feeds SuRFLo into a local derived
 # directory, one folder per scene, since SuRFLo takes a folder and samples it.
-# Fleet storage policy (~/datasets/AGENTS.md): canonical ScanNet++ stays on N:;
-# this is a small derived copy, staged under .partial, verified, published by
-# rename, with a manifest.
+# The ScanNet++ release stays where it is (GS_PLAYGROUND_SCANNETPP); this is a
+# small derived copy, staged under .partial, verified, published by rename,
+# with a manifest.
 #
 #   bash tools/fetch/fetch_scannetpp_surflo_inputs.sh [scene ...]
 set -euo pipefail
 
-SRC=/mnt/nchc-2603056/datasets/ScanNet++/data
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+[ -f "$REPO/.env.local" ] && . "$REPO/.env.local"   # machine-local data roots
+SRC="${GS_PLAYGROUND_SCANNETPP:?set GS_PLAYGROUND_SCANNETPP (e.g. in .env.local) to the ScanNet++ v2 root}/data"
 ROOT="$HOME/datasets/scannetpp"
 DEST="$ROOT/derived/surflo_inputs"
 SCENES=("$@")
@@ -43,13 +45,13 @@ done
 cat > "$ROOT/README.md" <<EOF
 # scannetpp (local derived copies)
 
-Canonical ScanNet++ v2 lives on N: at $SRC (licensed; not copied here in bulk).
+The ScanNet++ v2 release lives at $SRC (licensed; not copied here in bulk).
 This root holds only small derived selections, owned by GS_playground.
 
 - derived/surflo_inputs/<scene>/: the DSLR resized_undistorted_images of the scene's official training
   frames (dslr/nerfstudio/transforms_undistorted.json "frames"), minus frames flagged is_bad; byte copies,
   SHA-256 per file in derived/surflo_inputs/<scene>.SHA256SUMS, each checked against the source.
   Built by GS_playground's tools/fetch/fetch_scannetpp_surflo_inputs.sh for E08l (SuRFLo takes a folder).
-- Licence: ScanNet++ terms of use (research only). Retention: working copy, rebuildable from N:.
+- Licence: ScanNet++ terms of use (research only). Retention: working copy, rebuildable from that release.
 EOF
 echo "published $DEST: $(ls "$DEST" | grep -v SHA256SUMS | tr '\n' ' ')"

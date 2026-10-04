@@ -27,6 +27,7 @@ bash experiments/worldsculpt/run_E08e_nchc_sofa.sh        # build, run, count ev
 ```
 
 The reviewed selection is `e08e_objects.json`; the runner refuses to reuse an input built from a different selection, because upstream resumes from whatever meshes are on disk.
+On our lounge capture (24 objects) the run takes about 13 minutes on one RTX 6000 Ada from prepared crops (log entry E08g).
 
 ## Traps
 

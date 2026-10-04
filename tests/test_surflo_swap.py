@@ -12,12 +12,14 @@ from pathlib import Path
 
 import numpy as np
 
+from gs_playground.paths import SCANNETPP
+
 try:
     import pytest
 except ImportError:   # the surflo env
     pytest = None
 
-SCENE = Path("/mnt/nchc-2603056/datasets/ScanNet++/data/825d228aec")
+SCENE = SCANNETPP / "data/825d228aec"
 
 
 def needs(module: str):

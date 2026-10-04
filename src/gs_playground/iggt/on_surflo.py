@@ -21,6 +21,8 @@ from pathlib import Path
 
 import numpy as np
 
+from ..paths import SCANNETPP
+
 #: the lift: a Gaussian centre counts as seen by a view when it is in front of the rendered surface
 #: by no more than this fraction of the depth, where the render is opaque
 DEPTH_SLACK, MIN_ALPHA = 0.05, 0.5   # 0.02 left 37% of opaque Gaussians unseen on the sofa
@@ -34,7 +36,7 @@ DEMO_PIXELS, DEMO_MIN_CLUSTER, DEMO_MIN_SAMPLES = 12 * 504 * 336, 500, 100
 MIN_GROUP_FRACTION = 0.002  # groups smaller than this share of the Gaussians are not named
 TOP_VIEWS = 3               # views per group whose crops CLIP averages (OpenMask3D's top-k)
 SURROUND_FRACTION = 0.1     # a group whose mask has holes worth this share of it surrounds other things
-SCANNETPP_TOP100 = Path("/mnt/nchc-2603056/datasets/ScanNet++/metadata/semantic_benchmark/top100.txt")
+SCANNETPP_TOP100 = SCANNETPP / "metadata/semantic_benchmark/top100.txt"
 #: outdoor words added to ScanNet++'s indoor list; "garden table" was dropped after CLIP gave it to any patio
 #: crop, the ground included (ScanNet++'s "table" names the table)
 OUTDOOR = ("grass", "tree", "bush", "hedge", "flower", "potted plant", "paving stone", "brick wall", "house",
