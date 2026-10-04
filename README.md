@@ -139,3 +139,5 @@ All of it ran on one RTX 6000 Ada (48 GB).
 | gsplat | [nerfstudio-project/gsplat](https://github.com/nerfstudio-project/gsplat) | `937e299` (v1.5.3, its examples; the library comes from the env) | Apache 2.0 |
 
 Nothing upstream is vendored; [`tools/setup/clone_upstream.sh`](tools/setup/clone_upstream.sh) clones every pin (a few belong to retired studies or only feed the env builds) and applies our patches.
+
+This repository's own code is under the [Apache License 2.0](LICENSE); upstream code and weights keep the licences above, including the non-commercial terms on SuRFLo's and IGGT's weights.
