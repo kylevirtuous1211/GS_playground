@@ -69,6 +69,7 @@ Outputs per run: `mesh.ply`, `mesh_textured.ply`, `point_cloud_{normals,rgb}.ply
 - Depth-Anything-3, which every guided preset but `no_expert` uses, imports `addict`, and nothing upstream installs it.
 - Guided mode is not bitwise reproducible at a fixed seed; plain mode is.
 - Its renderer draws Gaussians without the 0.3 px low-pass most viewers add; render the export with gsplat `eps2d=0` to match it exactly.
-- Guided mode refines a focal length per input view (about 2% spread). A novel-view evaluation that fixes the median focal and refines only the pose loses up to 1.2 dB on SuRFLo's own input views; refine a focal scale too (E08j).
+- Its cameras carry one focal length per input view, as VGGT predicted it (about 2% spread); guided mode keeps these intrinsics fixed and refines only rotation and translation (`surflo/inference/guided.py:833-847`).
+  A novel-view evaluation that fixes the median focal and refines only the pose loses up to 1.2 dB on SuRFLo's own input views; refine a focal scale too (E08j).
 - Memory grows with the view count (22 GiB reserved in the ODE stage at 64 views), and the Depth-Anything-3 guidance before the ODE peaks higher still: 161 views need 45.6 GiB, so they fit a 48 GB card only when nothing else is on it (E08j, E08k).
 - To compare against a 3DGS trained at full resolution, do not render it at SuRFLo's 518 width: zoom-out dilation costs it about 8.6 dB. Render at its training resolution and downscale like the ground truth (E08j, Amendment 1).
