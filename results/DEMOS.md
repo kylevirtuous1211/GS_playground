@@ -23,3 +23,7 @@ Nothing in a viewer directory is hand-edited, so a stale demo is regenerated rat
 The exact command for each is in its builder's docstring or its runner.
 
 Anything done to an asset to make it loadable, such as subsampling a large splat, is stated on the page itself.
+
+## README media
+
+The clips and stills in the top-level `README.md` live in `docs/media/` and are built from the runs above by `bash tools/build_readme_media.sh` (`gs_playground.readme_media`), never by hand.

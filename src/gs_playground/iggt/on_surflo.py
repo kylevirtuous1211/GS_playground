@@ -292,41 +292,53 @@ def legend(entries: list[tuple[str, np.ndarray, str]], target: Path) -> Path:
     return target
 
 
+def colourings(root: Path, scene: str) -> dict:
+    """SuRFLo's Gaussians for `scene`, the same Gaussians coloured by instance
+    group and by class, and the class legend's entries."""
+    from gs_playground.gs.ply import load_ply
+    scene_dir = next((root / scene / "surflo").glob("*/guided_state.pt")).parent
+    cloud = load_ply(scene_dir / "point_cloud.ply")
+    labels = np.load(root / scene / "groups.npz")["labels"]
+    named = json.loads((root / scene / "labels.json").read_text())["groups"]
+    n_groups = int(labels.max()) + 1
+    group_rgb = palette(n_groups)
+    grey = np.array([0.55, 0.55, 0.55], dtype=np.float32)
+    rgb = np.where(labels[:, None] >= 0, group_rgb[np.clip(labels, 0, None)], grey)
+    counts = {}
+    for r in named.values():
+        counts[r["class"]] = counts.get(r["class"], 0) + r["gaussians"]
+    classes = sorted(counts, key=lambda c: -counts[c])
+    shown = classes[:len(QUALITATIVE) - 1] if len(classes) > len(QUALITATIVE) else classes
+    class_rgb = {c: (QUALITATIVE[i] if c in shown else OTHER) for i, c in enumerate(classes)}
+    rgb_cls = np.tile(grey, (len(labels), 1))
+    for g, r in named.items():
+        rgb_cls[labels == int(g)] = class_rgb[r["class"]]
+    entries = [(c, class_rgb[c], f"{counts[c]:,} Gaussians") for c in shown]
+    rest = [c for c in classes if c not in shown]
+    if rest:
+        entries.append(("other: " + ", ".join(rest[:8]) + ("..." if len(rest) > 8 else ""), OTHER,
+                        f"{sum(counts[c] for c in rest):,} Gaussians"))
+    return {"scene_dir": scene_dir, "cloud": cloud,
+            "instances": coloured(cloud, rgb), "classes": coloured(cloud, rgb_cls),
+            "legend": entries + [("unnamed (groups under 0.2% of the Gaussians)", grey, "")],
+            "n_groups": n_groups, "n_named": len(named), "n_classes": len(classes)}
+
+
 def demo(root: Path, scenes: list[str], out: Path) -> None:
     import tempfile
-    from gs_playground.gs.ply import load_ply, save_ply
+    from gs_playground.gs.ply import save_ply
     from gs_playground.surflo.demo import rotation_from_cameras, surflo_c2w
     from gs_playground.viewer import build
     tmp = Path(tempfile.mkdtemp(prefix="e08n_demo_"))
     panels = []
     for scene in scenes:
-        scene_dir = next((root / scene / "surflo").glob("*/guided_state.pt")).parent
+        c = colourings(root, scene)
+        scene_dir, n_groups = c["scene_dir"], c["n_groups"]
         title = TITLES.get(scene, scene)
         rotation = rotation_from_cameras(surflo_c2w(scene_dir / "cameras.json"))
-        cloud = load_ply(scene_dir / "point_cloud.ply")
-        labels = np.load(root / scene / "groups.npz")["labels"]
-        named = json.loads((root / scene / "labels.json").read_text())["groups"]
-        n_groups = int(labels.max()) + 1
-        group_rgb = palette(n_groups)
-        grey = np.array([0.55, 0.55, 0.55], dtype=np.float32)
-        rgb = np.where(labels[:, None] >= 0, group_rgb[np.clip(labels, 0, None)], grey)
-        save_ply(coloured(cloud, rgb), tmp / f"{scene}_instances.ply")
-        counts = {}
-        for r in named.values():
-            counts[r["class"]] = counts.get(r["class"], 0) + r["gaussians"]
-        classes = sorted(counts, key=lambda c: -counts[c])
-        shown = classes[:len(QUALITATIVE) - 1] if len(classes) > len(QUALITATIVE) else classes
-        class_rgb = {c: (QUALITATIVE[i] if c in shown else OTHER) for i, c in enumerate(classes)}
-        rgb_cls = np.tile(grey, (len(labels), 1))
-        for g, r in named.items():
-            rgb_cls[labels == int(g)] = class_rgb[r["class"]]
-        save_ply(coloured(cloud, rgb_cls), tmp / f"{scene}_classes.ply")
-        entries = [(c, class_rgb[c], f"{counts[c]:,} Gaussians") for c in shown]
-        rest = [c for c in classes if c not in shown]
-        if rest:
-            entries.append(("other: " + ", ".join(rest[:8]) + ("..." if len(rest) > 8 else ""), OTHER,
-                            f"{sum(counts[c] for c in rest):,} Gaussians"))
-        legend(entries + [("unnamed (groups under 0.2% of the Gaussians)", grey, "")], tmp / f"{scene}_legend.png")
+        save_ply(c["instances"], tmp / f"{scene}_instances.ply")
+        save_ply(c["classes"], tmp / f"{scene}_classes.ply")
+        legend(c["legend"], tmp / f"{scene}_legend.png")
         panels += [
             {"label": f"{title}: SuRFLo 3DGS (IGGT backbone)", "ply": str(scene_dir / "point_cloud.ply"),
              "sh": True, "rotation": rotation,
@@ -341,7 +353,7 @@ def demo(root: Path, scenes: list[str], out: Path) -> None:
              "caption": "Each group named by CLIP ViT-L/14 from the mean embedding of its masked and its plain crop "
                         "in the three views that see most of it; a group that surrounds others (the ground around a "
                         "table) is shown to CLIP with those holes inpainted instead.",
-             "meta": {"named groups": f"{len(named)}", "classes": f"{len(classes)}"}},
+             "meta": {"named groups": f"{c['n_named']}", "classes": f"{c['n_classes']}"}},
             {"label": f"{title}: class legend", "image": str(tmp / f"{scene}_legend.png"),
              "caption": "Colour key for the classes panel, by Gaussian count."},
         ]
