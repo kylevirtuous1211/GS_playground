@@ -15,6 +15,17 @@ Import upstream and override it.
 A patch in `patches/` is only for edits to *upstream lines* - a bug we had to fix in their code, a hard-coded path we had to unhard-code.
 Each patch is one commit with a one-line reason, and it appears in the table below or it does not exist.
 
+## Licences of what we run
+
+| upstream | repository | pinned | licence |
+|---|---|---|---|
+| SuRFLo | [Anttwo/Surflo](https://github.com/Anttwo/Surflo) | `bf14c63` | code under the Gaussian-Splatting licence (Inria, MPII), non-commercial research use, with VGGT-derived files under Meta's VGGT License; weights CC BY-NC 4.0 |
+| IGGT | [lifuguan/IGGT_official](https://github.com/lifuguan/IGGT_official) | `bec6604` | code MIT per its README; weights derived from VGGT-1B (CC BY-NC) |
+| WorldSculpt | [AlayaLab/WorldSculpt](https://github.com/AlayaLab/WorldSculpt) | `fac6b83` | own code and LoRA weights Apache 2.0; vendored Pixal3D code and base weights MIT; DINOv3 weights under Meta's DINOv3 License (gated) |
+| gsplat | [nerfstudio-project/gsplat](https://github.com/nerfstudio-project/gsplat) | `937e299` (v1.5.3, its examples; the library comes from the env) | Apache 2.0 |
+
+This repository's own code is under the [Apache License 2.0](../LICENSE).
+
 ## Patches
 
 | patch | applies to | why |
