@@ -2,26 +2,15 @@
 
 WorldSculpt, arXiv 2609.05416: a LoRA over the Pixal3D base that completes every object in a scene as a whole mesh, from posed frames, a mask per object in each frame, and a 3D box per object.
 Code [`AlayaLab/WorldSculpt`](https://github.com/AlayaLab/WorldSculpt), pinned in `third_party/PINS.tsv`; weights HF `AlayaLab/WorldSculpt`.
-Run first on the authors' Marble scene (E08c, the reproduction arm), then on our own capture (E08e, E08g).
+Run here on the authors' Marble scene (E08c, the reproduction arm), and rerun after the fault below (E08g).
 
-## Results: our lounge, taken apart (E08e, E08g)
+## Results: the authors' Marble scene (E08c, E08g)
 
-<img src="../../docs/media/worldsculpt_sofa_turntable.webp" width="100%" alt="WorldSculpt's 24 object meshes of our lounge, turning">
-
-<img src="../../docs/media/worldsculpt_sofa_view.jpg" width="100%" alt="One input frame, the meshes' normals, one colour per object, and the objects over the frame">
-
-Our lounge capture already had COLMAP poses, a trained 3DGS and label maps associated across views from an earlier project.
-From those we built the per-frame object masks and one box per object ([`gs_playground.worldsculpt.ground`](../../src/gs_playground/worldsculpt/ground.py)), with the objects to keep picked by an automatic filter and then on a review page.
-All 24 objects given to it come out as meshes in one scene ([`e08e_checks.json`](../../results/worldsculpt/e08e_checks.json)), in about 13 minutes on one RTX 6000 Ada from prepared crops.
-The turntable shows one flat colour per object, meshes decimated for display, framed on the sofa group, so three far objects leave the shot for most of the turn.
-The still is WorldSculpt's own render of one input view: the frame, the meshes' normals, one colour per object, and the objects over the frame.
+On one scene of the authors' released Marble data, a living room with 24 posed frames and 13 objects (masks predicted by SAM3 tracking and boxes estimated from them, not annotated), every object comes out as its own mesh, placed against the frame it came from: the couches with their cushions, the armchair, lamps, the coffee table with plates and flowers, the sideboard and the bench.
+The room's walls, floor, ceiling and windows are absent, because nothing in the method makes them: it completes the objects it is given, and a room's shell is not one of them.
+This is one scene at one seed, geometry only, and no mesh was scored against anything.
 
 **A silent failure, found and fixed:** our base environment's sparse-convolution backend left the shape decoder's convolutions at random weights without a warning, and every mesh came out as plausible-looking dust; see [Traps](#traps).
-
-**Limits.**
-Walls, floor and ceiling were not given to it, so the room's shell is absent by construction.
-The potted plant is missing: the label maps gave it the walls' id, so it was never handed over as an object.
-The hanging planter came out as a large flat slab, and the TV as a deep solid block instead of a thin panel.
 
 ## Running it
 
@@ -38,17 +27,14 @@ Upstream reads, per `prepare_crops_scene.py`: one global intrinsics (`fl_x`, `fl
 Masks are found by convention at `masks/objNN/NNNN.png` (NN the pass index, NNNN the frame's position in `frames`), grayscale, thresholded at >127; depth is never read.
 An object with no usable mask frame is dropped without an error.
 
-## Our own captures (E08e)
+## Building its inputs
 
-`gs_playground.worldsculpt.ground` builds that directory for a scene with COLMAP poses, a trained 3DGS and label maps associated across views:
+Upstream leaves recovering the masks and boxes out of scope.
+`gs_playground.worldsculpt.ground` builds that directory for a scene that already has COLMAP poses, a trained 3DGS and instance label maps associated across views:
 
-```bash
-python -m gs_playground.worldsculpt.ground propose ...   # boxes, filter, review
-# review outputs/worldsculpt/NCHC/ground/index.html, commit the selection
-bash experiments/worldsculpt/run_E08e_nchc_sofa.sh        # build, run, count
-```
-
-The reviewed selection is `e08e_objects.json`; the runner refuses to reuse an input built from a different selection, because upstream resumes from whatever meshes are on disk.
+- `propose` back-projects every label through depth rendered from the 3DGS into a 3D box, filters the candidates with a reason for every rejection, and writes a review page for picking the objects to keep;
+- `build` writes the WorldSculpt scene directory from the reviewed selection;
+- `check` counts how many of the declared objects survive each upstream stage.
 
 ## Traps
 
@@ -58,7 +44,7 @@ Under spconv the sparse convs in the vendored `pixal3d` name their parameters `c
 So the shape decoder loads with 80 of its 292 parameter tensors (the weights and biases of all 40 sparse convs) left at random initialisation, without a warning.
 The output is plausible-looking dust: on the authors' scene, a table decoded into 165,250 faces whose largest connected piece held under 0.1% of them (about 15,000 closed blobs), against 4,444,904 faces and 96% under flex_gemm, from the same crops and seed.
 The sparse-structure stage is unaffected, so boxes and placement look right while every mesh is wrong.
-Both runners now export `SPARSE_CONV_BACKEND=flex_gemm` after the base activation, and the preflight fails if it is missing.
+The runners now export `SPARSE_CONV_BACKEND=flex_gemm` after the base activation, and the preflight fails if it is missing.
 With it, two runs at one seed give bitwise-identical vertices for all 13 objects of the authors' scene.
 
-**Upstream resumes from whatever meshes are on disk**, so a changed selection or backend needs a fresh output directory; the E08e runner refuses to reuse an input built from a different selection.
+**Upstream resumes from whatever meshes are on disk**, so a changed selection or backend needs a fresh output directory.

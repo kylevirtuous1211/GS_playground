@@ -1,21 +1,14 @@
 <h1 align="center">GS_playground</h1>
 
 <p align="center">
-Recent Gaussian-splatting and feed-forward 3D methods, run end to end on our own captures and on public benchmark scenes, each with something to look at.
+Recent Gaussian-splatting and feed-forward 3D methods, run end to end on public data, each with something to look at.
 </p>
 
-<table>
-<tr>
-<td width="50%"><img src="docs/media/surflo_sofa.webp" alt="SuRFLo's 3D Gaussians of our lounge, flown between two of its input cameras"></td>
-<td width="50%"><img src="docs/media/worldsculpt_sofa_turntable.webp" alt="WorldSculpt's 24 object meshes of the same lounge, turning"></td>
-</tr>
-<tr>
-<td align="center"><a href="experiments/surflo/README.md"><b>SuRFLo</b></a>: 16 unposed photos of our lounge in, 3D Gaussians out</td>
-<td align="center"><a href="experiments/worldsculpt/README.md"><b>WorldSculpt</b></a>: the same capture, 24 objects we picked and boxed, each completed as a mesh</td>
-</tr>
-</table>
+<p align="center"><a href="experiments/surflo/README.md"><img src="docs/media/surflo_garden.webp" width="100%" alt="SuRFLo's 3D Gaussians of Mip-NeRF 360 garden, flown between two of its input cameras"></a><br><sub><a href="experiments/surflo/README.md"><b>SuRFLo</b></a>: 16 unposed photos of Mip-NeRF 360 garden in, 3D Gaussians out, flown between two of its input cameras</sub></p>
 
-Each method here is pinned to its upstream commit, patched only where it had to be, run on data we captured or chose, and given a demo a person can open.
+<p align="center"><a href="experiments/iggt/README.md"><img src="docs/media/iggt_semantics_garden.webp" width="100%" alt="SuRFLo's Gaussians of garden beside the same Gaussians coloured by IGGT instance group and by CLIP class"></a><br><sub><a href="experiments/iggt/README.md"><b>IGGT on SuRFLo</b></a>: the 3D Gaussians, their instance groups, and CLIP's class names (exploratory; the ground is named "table", see its README)</sub></p>
+
+Each method here is pinned to its upstream commit, patched only where it had to be, run on public benchmark scenes or the authors' own data, and given a demo a person can open.
 Each project's README has the details: what it does, what we added, the numbers with their source files, and where it falls short.
 
 ## Projects
@@ -24,9 +17,7 @@ Each project's README has the details: what it does, what we added, the numbers 
 |---|---|
 | [**SuRFLo**](experiments/surflo/README.md) (NeurIPS 2026) | unposed photos to a mesh and 3D Gaussians, 16 of them in about two minutes on one GPU; our 3DGS export, and its cost and novel-view quality against a per-scene 3DGS on Mip-NeRF 360 garden |
 | [**IGGT on SuRFLo**](experiments/iggt/README.md) (ICLR 2026) | instance groups and class names on SuRFLo's Gaussians from one shared encoding (exploratory), and whether VGGT and IGGT degrade with more frames than they were trained on |
-| [**WorldSculpt**](experiments/worldsculpt/README.md) | our lounge taken apart into 24 object meshes, and a silent sparse-convolution failure we found and fixed |
-
-<p align="center"><a href="experiments/iggt/README.md"><img src="docs/media/iggt_semantics_sofa.webp" width="100%" alt="SuRFLo's Gaussians beside the same Gaussians coloured by IGGT instance group and by CLIP class"></a><br><sub>IGGT on SuRFLo: the 3D Gaussians, their instance groups, and CLIP's class names (exploratory; several names are wrong, see its README)</sub></p>
+| [**WorldSculpt**](experiments/worldsculpt/README.md) | every object in a scene completed as its own mesh from posed frames, per-object masks and 3D boxes, on the authors' scene; and a silent sparse-convolution failure we found and fixed |
 
 ## Running it
 
@@ -39,7 +30,7 @@ bash tools/setup/worldsculpt_env.sh     # WorldSculpt, on the base env
 
 - Each method's README in [`experiments/`](experiments/) gives its weights, its runners and the traps we hit.
 - Runners read machine-local data roots (`GS_PLAYGROUND_DATA`, `GS_PLAYGROUND_SCANNETPP`, `MIPNERF360_GARDEN`, ...) from an untracked `.env.local`, which the activation scripts source.
-- Mip-NeRF 360 comes from [`tools/fetch/fetch_mipnerf360.sh`](tools/fetch/fetch_mipnerf360.sh); ScanNet++ needs its own licence; our lounge capture is not in the repository.
+- Mip-NeRF 360 comes from [`tools/fetch/fetch_mipnerf360.sh`](tools/fetch/fetch_mipnerf360.sh); ScanNet++ needs its own licence.
 - The web viewers (Spark and three.js) and the clips are built locally from runs; [`results/DEMOS.md`](results/DEMOS.md) lists each with its builder, and [`tools/build_readme_media.sh`](tools/build_readme_media.sh) makes the clips.
 
 ## How results are kept

@@ -3,19 +3,20 @@
 Guédon et al., "Surflo: Consistent 3D Surface Flow Model with Global State", NeurIPS 2026, arXiv 2606.13644.
 Code [`Anttwo/Surflo`](https://github.com/Anttwo/Surflo), pinned in `third_party/PINS.tsv`; weights `AntoineGuedon/Surflo-v0` (CC BY-NC 4.0, research only).
 
-## Results: our lounge and Mip-NeRF 360 garden
+## Results: Mip-NeRF 360 garden
 
-<img src="../../docs/media/surflo_sofa.webp" alt="SuRFLo's 3D Gaussians of our lounge, flown between two of its input cameras">
-<img src="../../docs/media/surflo_sofa_inputs.jpg" width="100%" alt="The 16 input photos">
+<img src="../../docs/media/surflo_garden.webp" width="100%" alt="SuRFLo's 3D Gaussians of Mip-NeRF 360 garden, flown between two of its input cameras">
+<img src="../../docs/media/surflo_garden_inputs.jpg" width="100%" alt="The 16 input photos">
 
 SuRFLo builds a mesh, and in guided mode a 3D Gaussian scene, from 2 to 32 unposed photos, on top of a frozen VGGT.
-The clip is SuRFLo's 3D Gaussians of our own handheld capture of a lounge: it was given the 16 frames under it, picked from the video, with no poses and no depth.
+The clip is SuRFLo's 3D Gaussians of Mip-NeRF 360 garden: it was given the 16 frames under it, 16 of garden's 161 training views (factor 4) drawn by SuRFLo's own uniform sampling, with no poses and no depth.
+It is the 16-view, seed-42 run of the view-count sweep below (E08j), with SuRFLo's default guided preset.
 The clip flies between two of those input cameras, so most of what it shows lies between the views SuRFLo was given.
-It is rendered at 1.5 times the resolution SuRFLo fitted, with gsplat's usual 0.3-pixel dilation, and the two cameras were picked so the path does not fly through a pillar.
+It is rendered at 1.5 times the resolution SuRFLo fitted, with gsplat's usual 0.3-pixel dilation.
 
 What we added:
 
-- **The 3DGS export.** Guided mode fits Gaussians to the photos but never writes them; [`gs_playground.surflo.export`](../../src/gs_playground/surflo/export.py) saves them as a standard 3DGS PLY, which matches SuRFLo's own renders at a per-run median of 59 to 63 dB PSNR, though a few single cameras fall to 12 to 21 dB, not yet explained ([`e08h_export_check.json`](../../results/surflo/e08h_export_check.json)).
+- **The 3DGS export.** Guided mode fits Gaussians to the photos but never writes them; [`gs_playground.surflo.export`](../../src/gs_playground/surflo/export.py) saves them as a standard 3DGS PLY, which matches SuRFLo's own renders of the authors' garden sample at a per-run median of 59.1 to 59.2 dB PSNR over three runs, though the worst camera of one run falls to 12.3 dB, not yet explained ([`e08h_export_check.json`](../../results/surflo/e08h_export_check.json)).
 - **Cost and novel-view quality against a per-scene 3DGS**, on Mip-NeRF 360 garden, from 16 input views to all 161 training views (table below).
 - **A backbone swap**: SuRFLo on IGGT's fine-tuned VGGT, the basis of [semantics on SuRFLo](../iggt/README.md#semantics-on-surflo-e08n).
 
@@ -35,7 +36,6 @@ What we added:
 
 SuRFLo is 11 to 18 times faster than training a 3DGS here and needs no poses, but its novel views sit 7 to 9 dB below the per-scene 3DGS, and going from 16 to 161 input views closes about 2 dB of that gap.
 Two things this does not separate: the default preset keeps SuRFLo at about 0.19M Gaussians whatever the view count (a larger preset was not tried), and SuRFLo leaves out the far background, which a full-image PSNR counts against it.
-On our lounge (exploratory, one capture, default preset), guided mode's geometry agrees with a reference built from our own dense 3DGS less than unguided mode's does (F1 0.58 against 0.87, [`e08h_stage_b.json`](../../results/surflo/e08h_stage_b.json)); the cause is untested.
 
 ## What it needs
 
@@ -49,9 +49,8 @@ Its output is in VGGT's frame (camera 0 at the origin, no metric scale), so comp
 # once: the env (CUDA extensions built and verified), then the weights
 bash tools/setup/surflo_env.sh
 hf download AntoineGuedon/Surflo-v0 surflo_v0.pt --local-dir data/models/surflo
-# E08h: the authors' garden sample (A), then our sofa (B, only if A passed)
+# E08h: the authors' garden sample
 bash experiments/surflo/run_E08h_surflo.sh A
-bash experiments/surflo/run_E08h_surflo.sh B
 # E08i, E08j: Mip-NeRF 360; per-scene 3DGS and 2DGS; SuRFLo at 16-161 views
 bash tools/fetch/fetch_mipnerf360.sh
 bash experiments/surflo/run_E08i_perscene_garden.sh

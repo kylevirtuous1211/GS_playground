@@ -6,20 +6,24 @@
 #
 #   bash tools/publish_github.sh            # dry run: filter, check, report
 #   bash tools/publish_github.sh --push     # the same, then push to GitHub main
+#   bash tools/publish_github.sh --force    # push a rewritten history (after DROP grew)
 #   PUBLISH_SOURCE=docs/x bash tools/publish_github.sh   # dry run another branch
 #
 # It publishes the committed ref, never the working tree.
 #
 # git filter-branch keeps authors, dates and messages, so the same local
 # history always filters to the same commits and a later publish is a
-# fast-forward; the push is never forced.
+# fast-forward. Only a change to DROP rewrites published history; that one
+# push needs --force, and nothing else ever forces.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REMOTE="https://github.com/kylevirtuous1211/GS_playground.git"
 SOURCE="${PUBLISH_SOURCE:-main}"
 PUSH=0
+FORCE=0
 [ "${1:-}" = "--push" ] && PUSH=1
+[ "${1:-}" = "--force" ] && PUSH=1 && FORCE=1
 
 # Every path that must never be published, at its current place and at every
 # place it lived before (LOG E00c and E00d moved the archived studies).
@@ -46,8 +50,16 @@ ALLOWED_PATH='^tools/setup/(puffin_world_env|activate_puffin_world)\.sh$'
 # Contents that must not appear in any published version of any file (logins,
 # hosts): one extended regex per line in an untracked file, so this script
 # does not publish them itself.
-BLOCKLIST="$ROOT/.git/info/publish_blocklist"
+INFO="$(git -C "$ROOT" rev-parse --path-format=absolute --git-common-dir)/info"   # also from a worktree
+BLOCKLIST="$INFO/publish_blocklist"
 [ -s "$BLOCKLIST" ] || { echo "missing $BLOCKLIST (one regex per line of what must never be published)" >&2; exit 1; }
+# Paths of private material (a capture we may not show), one git pathspec per
+# line, in an untracked file for the same reason: dropped from every commit,
+# then checked to be gone.
+PRIVATE="$INFO/publish_private_paths"
+[ -s "$PRIVATE" ] || { echo "missing $PRIVATE (one pathspec per line of private material)" >&2; exit 1; }
+mapfile -t PRIVATE_PATHS < <(sed '/^#/d; /^$/d' "$PRIVATE")
+DROP+=("${PRIVATE_PATHS[@]}")
 
 if [ "$PUSH" = 1 ] && [ "$SOURCE" != main ]; then
     echo "only main is pushed; PUBLISH_SOURCE is for dry runs" >&2
@@ -83,6 +95,11 @@ if [ -n "$leaked_paths" ]; then
     echo "!! paths in the filtered history that should have been dropped:"; echo "$leaked_paths" | sed 's/^/   /'
     fail=1
 fi
+leaked_private=$(git log --name-only --format= HEAD -- "${PRIVATE_PATHS[@]}" | sort -u)
+if [ -n "$leaked_private" ]; then
+    echo "!! private paths in the filtered history:"; echo "$leaked_private" | sed 's/^/   /'
+    fail=1
+fi
 leaked_content=$(git grep -I -l -E -f "$BLOCKLIST" $(git rev-list HEAD) -- . 2>/dev/null | sort -u || true)
 if [ -n "$leaked_content" ]; then
     echo "!! files in the filtered history matching $BLOCKLIST:"; echo "$leaked_content" | sed 's/^/   /'
@@ -110,5 +127,9 @@ if [ "$PUSH" = 0 ]; then
     echo "dry run: nothing pushed. The filtered clone is at $WORK/repo"
     exit 0
 fi
-git push "$REMOTE" "HEAD:refs/heads/main"
+if [ "$FORCE" = 1 ]; then
+    git push --force "$REMOTE" "HEAD:refs/heads/main"
+else
+    git push "$REMOTE" "HEAD:refs/heads/main"
+fi
 echo "pushed $(git rev-parse --short HEAD) to $REMOTE main"

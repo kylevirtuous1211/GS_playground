@@ -1,9 +1,10 @@
 """Build the clips and stills the top-level README shows, from runs already on disk.
 
-    bash tools/build_readme_media.sh                     # all of them, each in its env
+    bash tools/build_readme_media.sh                     # both, in the puffin env
     python -m gs_playground.readme_media surflo          # puffin env (gsplat)
     python -m gs_playground.readme_media semantics       # puffin env (gsplat)
-    python -m gs_playground.readme_media worldsculpt     # surflo env (nvdiffrast)
+
+Both show Mip-NeRF 360 garden: our own captures are not public.
 
 Everything lands in docs/media/ (tracked). Nothing here is hand-assembled:
 rerun the subcommand after its run changes.
@@ -14,7 +15,6 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import shutil
 import subprocess
 from pathlib import Path
 
@@ -25,15 +25,16 @@ from .paths import OUTPUTS as OUT, ROOT
 
 MEDIA = ROOT / "docs" / "media"
 
-SURFLO_RUN = OUT / "surflo/nchc_sofa/guided_default_16/seed42/images"
+#: E08j's garden run at N = 16, seed 42 (VGGT-1B backbone)
+SURFLO_RUN = OUT / "surflo/views_sweep/n16/seed42/garden_train161_images_4"
 E08N = OUT / "iggt/semantics_on_surflo"
-WORLDSCULPT_VIEWER = OUT / "worldsculpt/viewer3d"
-WORLDSCULPT_RUN = OUT / "worldsculpt/NCHC/nchc_sofa_20260727_143647/_scene"
 
-#: Two of SuRFLo's 16 sofa cameras (indices into cameras.json), 55 degrees
-#: apart: the wide view of the sofa and the stools close up. A longer path
-#: through more of the inputs flew through the pillar between cameras 8 and 10.
-SOFA_PATH = [6, 8]
+#: Two of SuRFLo's 16 garden cameras (indices into cameras.json), 51 degrees
+#: apart: DSC07957, low and wide with the table legs and the house behind, to
+#: DSC08030, higher and to the side, looking down on the table top. The table
+#: and the pot stay in frame the whole way. E08n's garden run has the same 16
+#: inputs in the same order, so the indices hold there too.
+GARDEN_PATH = [0, 6]
 DEG_PER_FRAME = 1.25    # camera turn per frame along the path
 STEP_PER_FRAME = 0.012  # camera travel per frame, in SuRFLo's (unit-free) scale
 RENDER_SCALE = 1.5      # SuRFLo's cameras are 518 px wide; rendered at 777
@@ -46,8 +47,8 @@ def write_clip(frames: list[np.ndarray], target: Path, fps: int = FPS,
                width: int = CLIP_WIDTH) -> Path:
     """Frames (H, W, 3 uint8) -> a looping animated WebP.
 
-    WebP, not GIF: GitHub shows both inline, and the sofa clip as a GIF was
-    4.5 MB at 480 px wide (128 colours, dithered) against 0.75 MB as WebP at 640.
+    WebP, not GIF: GitHub shows both inline, and the first README clip as a GIF
+    was 4.5 MB at 480 px wide (128 colours, dithered) against 0.75 MB as WebP at 640.
     """
     import imageio_ffmpeg
 
@@ -95,14 +96,14 @@ def path_through(c2ws: np.ndarray) -> list[np.ndarray]:
     return out
 
 
-def sofa_flythrough(clouds: list, cameras: Path) -> list[np.ndarray]:
-    """Render each GaussianCloud along SOFA_PATH; frames hold them side by side."""
+def flythrough(clouds: list, cameras: Path) -> list[np.ndarray]:
+    """Render each GaussianCloud along GARDEN_PATH; frames hold them side by side."""
     import torch
 
     from .gs.render import Camera, load_cameras, render
 
     cams = load_cameras(cameras)
-    c2ws = np.stack([torch.linalg.inv(cams[i].viewmat).numpy() for i in SOFA_PATH])
+    c2ws = np.stack([torch.linalg.inv(cams[i].viewmat).numpy() for i in GARDEN_PATH])
     w, h = round(cams[0].width * RENDER_SCALE), round(cams[0].height * RENDER_SCALE)
     K = cams[0].K.clone()
     K[:2] *= RENDER_SCALE
@@ -116,13 +117,15 @@ def sofa_flythrough(clouds: list, cameras: Path) -> list[np.ndarray]:
 
 
 def surflo() -> None:
-    """SuRFLo's exported 3DGS of our sofa capture, flown along its own input cameras."""
+    """SuRFLo's exported 3DGS of garden from 16 unposed views, flown between two of its input cameras."""
     from .gs.ply import load_ply
+    from .surflo.demo import contact_sheet
 
-    frames = sofa_flythrough([load_ply(SURFLO_RUN / "point_cloud.ply")], SURFLO_RUN / "cameras.json")
-    write_clip(ping_pong(frames), MEDIA / "surflo_sofa.webp")
-    shutil.copyfile(OUT / "surflo/viewer/images/sofa_inputs.jpg", MEDIA / "surflo_sofa_inputs.jpg")
-    print("docs/media/surflo_sofa_inputs.jpg: copied from the E08h viewer")
+    frames = flythrough([load_ply(SURFLO_RUN / "point_cloud.ply")], SURFLO_RUN / "cameras.json")
+    write_clip(ping_pong(frames), MEDIA / "surflo_garden.webp")
+    inputs = json.loads((SURFLO_RUN / "_infer_summary.json").read_text())["selected_images"]
+    contact_sheet([Path(p) for p in inputs], MEDIA / "surflo_garden_inputs.jpg")
+    print(f"docs/media/surflo_garden_inputs.jpg: the run's {len(inputs)} input photos")
 
 
 def titled(frame: np.ndarray, titles: list[str]) -> np.ndarray:
@@ -141,121 +144,22 @@ def titled(frame: np.ndarray, titles: list[str]) -> np.ndarray:
 
 
 def semantics() -> None:
-    """E08n on the sofa: SuRFLo's Gaussians (IGGT backbone) beside the same
+    """E08n on garden: SuRFLo's Gaussians (IGGT backbone) beside the same
     Gaussians coloured by IGGT instance group and by CLIP class."""
     from .iggt.on_surflo import colourings, legend
 
-    sofa = colourings(E08N, "nchc_sofa")
-    frames = sofa_flythrough([sofa["cloud"], sofa["instances"], sofa["classes"]],
-                             sofa["scene_dir"] / "cameras.json")
+    garden = colourings(E08N, "garden")
+    frames = flythrough([garden["cloud"], garden["instances"], garden["classes"]],
+                        garden["scene_dir"] / "cameras.json")
     frames = [titled(f, ["SuRFLo 3DGS", "IGGT instances", "CLIP classes"]) for f in frames]
-    write_clip(ping_pong(frames), MEDIA / "iggt_semantics_sofa.webp", width=3 * 518)
-    legend(sofa["legend"], MEDIA / "iggt_semantics_sofa_legend.png")
-    print("docs/media/iggt_semantics_sofa_legend.png: the E08n viewer's class legend")
-
-
-def look_at_gl(eye: np.ndarray, target: np.ndarray, up=(0.0, 1.0, 0.0)) -> np.ndarray:
-    """World-to-camera, OpenGL axes (camera looks down -z), Y up."""
-    forward = (target - eye) / np.linalg.norm(target - eye)
-    right = np.cross(forward, up)
-    right /= np.linalg.norm(right)
-    true_up = np.cross(right, forward)
-    view = np.eye(4)
-    view[0, :3], view[1, :3], view[2, :3] = right, true_up, -forward
-    view[:3, 3] = -view[:3, :3] @ eye
-    return view
-
-
-def perspective(fov_deg: float, aspect: float, near: float = 0.05, far: float = 100.0) -> np.ndarray:
-    f = 1.0 / math.tan(math.radians(fov_deg) / 2)
-    return np.array([[f / aspect, 0, 0, 0], [0, f, 0, 0],
-                     [0, 0, (far + near) / (near - far), 2 * far * near / (near - far)],
-                     [0, 0, -1, 0]])
-
-
-TURNTABLE_FRAMES = 120   # one full turn; 8 s at FPS
-TURNTABLE_SIZE = (1280, 720)
-TURNTABLE_ELEVATION = 28.0
-BACKGROUND = (246, 246, 244)
-
-
-def worldsculpt() -> None:
-    """WorldSculpt's 24 object meshes of our sofa capture, turned once.
-
-    The meshes are the E08g scene viewer's (decimated, Y up, floor at y = 0),
-    one flat colour per object as on that page, Lambert-shaded from a light that
-    follows the camera. No floor or walls are drawn: WorldSculpt was given
-    objects only.
-    """
-    import nvdiffrast.torch as dr
-    import torch
-
-    manifest = json.loads((WORLDSCULPT_VIEWER / "manifest.json").read_text())
-    scene = next(s for s in manifest["scenes"] if s["key"] == "nchc")
-    blob = (WORLDSCULPT_VIEWER / scene["bin"]).read_bytes()
-    verts, faces, face_rgb = [], [], []
-    base = 0
-    for obj in scene["objects"]:
-        v = np.frombuffer(blob, "<f4", obj["pos"][1], obj["pos"][0]).reshape(-1, 3)
-        f = np.frombuffer(blob, "<u4", obj["idx"][1], obj["idx"][0]).reshape(-1, 3)
-        rgb = [int(obj["color"][k:k + 2], 16) / 255 for k in (1, 3, 5)]
-        verts.append(v)
-        faces.append(f + base)
-        face_rgb.append(np.tile(rgb, (len(f), 1)))
-        base += len(v)
-    verts, faces, face_rgb = np.concatenate(verts), np.concatenate(faces), np.concatenate(face_rgb)
-    tri = verts[faces]
-    normals = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
-    normals /= np.linalg.norm(normals, axis=1, keepdims=True) + 1e-12
-
-    dev = "cuda"
-    pos = torch.tensor(np.c_[verts, np.ones(len(verts))], dtype=torch.float32, device=dev)
-    tri_t = torch.tensor(faces.astype(np.int32), device=dev)
-    normals_t = torch.tensor(normals, dtype=torch.float32, device=dev)
-    rgb_t = torch.tensor(face_rgb, dtype=torch.float32, device=dev)
-    bg = torch.tensor(BACKGROUND, dtype=torch.float32, device=dev) / 255
-    ctx = dr.RasterizeCudaContext()
-
-    # framed on the sofa group: a few far objects (one 2 m up, others 5 m out)
-    # would otherwise shrink it to a fifth of the frame; three of them leave
-    # the shot for most of the turn
-    lo, hi = np.percentile(verts, 10, axis=0), np.percentile(verts, 90, axis=0)
-    centre = (lo + hi) / 2
-    radius = 0.95 * np.linalg.norm(hi - lo)
-    w, h = TURNTABLE_SIZE
-    proj = perspective(40.0, w / h)
-    elevation = math.radians(TURNTABLE_ELEVATION)
-    frames = []
-    for k in range(TURNTABLE_FRAMES):
-        azimuth = 2 * math.pi * k / TURNTABLE_FRAMES
-        eye = centre + radius * np.array([math.cos(elevation) * math.sin(azimuth), math.sin(elevation),
-                                          math.cos(elevation) * math.cos(azimuth)])
-        view = look_at_gl(eye, centre)
-        clip = pos @ torch.tensor((proj @ view).T, dtype=torch.float32, device=dev)
-        rast, _ = dr.rasterize(ctx, clip[None], tri_t, resolution=[h, w])
-        face = rast[0, ..., 3].long() - 1
-        hit = face >= 0
-        light = torch.tensor(view[:3, :3].T @ np.array([-0.35, 0.55, 1.0]) / np.linalg.norm([-0.35, 0.55, 1.0]),
-                             dtype=torch.float32, device=dev)
-        shade = 0.35 + 0.65 * (normals_t[face.clamp(min=0)] @ light).abs()
-        img = torch.where(hit[..., None], rgb_t[face.clamp(min=0)] * shade[..., None], bg)
-        img = dr.antialias(img[None].contiguous(), rast, clip[None], tri_t)[0].flip(0)
-        frames.append((img.clamp(0, 1).cpu().numpy() * 255).astype(np.uint8))
-    write_clip(frames, MEDIA / "worldsculpt_sofa_turntable.webp", width=960)
-
-    strip = Image.open(WORLDSCULPT_RUN / "renders/view02.jpg")
-    q = strip.width // 4
-    panels = [strip.crop((i * q, 0, (i + 1) * q, strip.height)) for i in range(4)]
-    grid = Image.new("RGB", (2 * q, 2 * strip.height))
-    for i, p in enumerate(panels):
-        grid.paste(p, ((i % 2) * q, (i // 2) * strip.height))
-    grid.resize((q, strip.height), Image.LANCZOS).save(MEDIA / "worldsculpt_sofa_view.jpg", quality=88)
-    print("docs/media/worldsculpt_sofa_view.jpg: WorldSculpt's own render of view 2, its four panels 2x2")
+    write_clip(ping_pong(frames), MEDIA / "iggt_semantics_garden.webp", width=3 * 518)
+    legend(garden["legend"], MEDIA / "iggt_semantics_garden_legend.png")
+    print("docs/media/iggt_semantics_garden_legend.png: the E08n viewer's class legend")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("what", choices=["surflo", "semantics", "worldsculpt"])
+    parser.add_argument("what", choices=["surflo", "semantics"])
     args = parser.parse_args()
     MEDIA.mkdir(parents=True, exist_ok=True)
     globals()[args.what]()
