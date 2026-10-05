@@ -4,7 +4,16 @@
 Recent Gaussian-splatting and feed-forward 3D methods, run end to end on public data, each with something to look at.
 </p>
 
-<p align="center"><a href="experiments/surflo/README.md"><img src="docs/media/surflo_garden.webp" width="100%" alt="SuRFLo's 3D Gaussians of Mip-NeRF 360 garden, flown between two of its input cameras"></a><br><sub><a href="experiments/surflo/README.md"><b>SuRFLo</b></a>: 16 unposed photos of Mip-NeRF 360 garden in, 3D Gaussians out, flown between two of its input cameras</sub></p>
+<table>
+<tr>
+<td width="50%"><a href="experiments/surflo/README.md"><img src="docs/media/surflo_garden.webp" alt="SuRFLo's 3D Gaussians of Mip-NeRF 360 garden, flown between two of its input cameras"></a></td>
+<td width="50%"><a href="experiments/worldsculpt/README.md"><img src="docs/media/worldsculpt_marble_turntable.webp" alt="WorldSculpt's 13 object meshes of the authors' released Marble living room, turning"></a></td>
+</tr>
+<tr>
+<td align="center"><sub><a href="experiments/surflo/README.md"><b>SuRFLo</b></a>: 16 unposed photos of Mip-NeRF 360 garden in, 3D Gaussians out, flown between two of its input cameras</sub></td>
+<td align="center"><sub><a href="experiments/worldsculpt/README.md"><b>WorldSculpt</b></a>: the authors' released Marble living room, 13 objects each completed as a mesh from posed frames, per-object masks and 3D boxes (the release's own, predicted by SAM3 tracking, not annotated)</sub></td>
+</tr>
+</table>
 
 <p align="center"><a href="experiments/iggt/README.md"><img src="docs/media/iggt_semantics_garden.webp" width="100%" alt="SuRFLo's Gaussians of garden beside the same Gaussians coloured by IGGT instance group and by CLIP class"></a><br><sub><a href="experiments/iggt/README.md"><b>IGGT on SuRFLo</b></a>: the 3D Gaussians, their instance groups, and CLIP's class names (exploratory; the ground is named "table", see its README)</sub></p>
 
@@ -17,7 +26,7 @@ Each project's README has the details: what it does, what we added, the numbers 
 |---|---|
 | [**SuRFLo**](experiments/surflo/README.md) (NeurIPS 2026) | unposed photos to a mesh and 3D Gaussians, 16 of them in about two minutes on one GPU; our 3DGS export, and its cost and novel-view quality against a per-scene 3DGS on Mip-NeRF 360 garden |
 | [**IGGT on SuRFLo**](experiments/iggt/README.md) (ICLR 2026) | instance groups and class names on SuRFLo's Gaussians from one shared encoding (exploratory), and whether VGGT and IGGT degrade with more frames than they were trained on |
-| [**WorldSculpt**](experiments/worldsculpt/README.md) | every object in a scene completed as its own mesh from posed frames, per-object masks and 3D boxes, on the authors' scene; and a silent sparse-convolution failure we found and fixed |
+| [**WorldSculpt**](experiments/worldsculpt/README.md) | every object in a scene completed as its own mesh from posed frames, per-object masks and 3D boxes, on the authors' released Marble living room (13 objects); and a silent sparse-convolution failure we found and fixed |
 
 ## Running it
 
